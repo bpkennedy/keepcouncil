@@ -1,19 +1,15 @@
 FROM node:14.16.0-alpine
 
-WORKDIR /usr/src/app
+WORKDIR /sb3-client
 
 COPY . ./
+
+ENV HOST=0.0.0.0 PORT=8080
 
 RUN apk update &&\
     apk add bash &&\
     chmod 755 wait-for-it.sh &&\
-    yarn install
+    yarn install &&\
+    yarn build
 
-EXPOSE 8080
-
-ENV HOST=0.0.0.0
-ENV PORT=8080
-
-RUN yarn build
-
-CMD ["./wait-for-it.sh" , "api:3001" , "--strict" , "--timeout=300" , "--" , "yarn", "start"]
+CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=300", "--", "yarn", "start"]

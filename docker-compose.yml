@@ -1,59 +1,40 @@
-version: '3.4'
-networks:
-  ui-proxy:
-  api-proxy:
-  database-proxy:
+version: '3.9'
 services:
   client:
     image: sb3-client:latest
     container_name: sb3-client
     build: ./client
     restart: always
-    depends_on:
-      - api
-    ports:
+    expose:
       - '8080'
-    networks:
-      - ui-proxy
-      - api-proxy
   api:
     image: sb3-api:latest
     container_name: sb3-api
     build: ./api
-    restart: always
     environment:
       - DATABASE_URL=postgresql://postgres:password@0.0.0.0:5432/sb3?schema=public
-    depends_on:
-      - db
-    ports:
+    restart: always
+    expose:
       - '3001'
-    networks:
-      - api-proxy
-      - database-proxy
   db:
-    container_name: sb3-db
     image: sb3-db:latest
+    container_name: sb3-db
     build: ./database
     shm_size: '1g'
-    restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
+    restart: always
     volumes:
       - ./db-data:/var/lib/postgresql/data
-    ports:
+    expose:
       - '5432'
-    networks:
-      - database-proxy
   proxy:
+    image: sb3-proxy:latest
     container_name: sb3-proxy
     build: ./proxy
     restart: always
-    ports:
-      - 80:80
     volumes:
       - ./proxy:/etc/nginx/conf.d
-    networks:
-      - database-proxy
-      - ui-proxy
-      - api-proxy
+    ports:
+      - '80:80'

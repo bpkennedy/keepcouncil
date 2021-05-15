@@ -1,6 +1,6 @@
 FROM node:14.16.0-alpine
 
-WORKDIR /app
+WORKDIR /sb3-api
 
 COPY prisma/ wait-for-it.sh package.json ./
 
@@ -12,9 +12,6 @@ RUN apk update &&\
 
 COPY . ./
 
-EXPOSE 3001
+ENV HOST=0.0.0.0 PORT=3001
 
-ENV HOST=0.0.0.0
-ENV PORT=3001
-
-CMD ["./wait-for-it.sh" , "db:5432" , "--strict" , "--timeout=300" , "--" , "pnpm", "start"]
+CMD ["./wait-for-it.sh", "db:5432", "--strict", "--timeout=300", "--", "pnpm", "start"]

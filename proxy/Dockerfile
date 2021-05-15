@@ -1,13 +1,12 @@
-FROM nginx:1.18.0-alpine
+FROM nginx:1.20.0-alpine
 
-RUN apk add python3 python3-dev py3-pip build-base libressl-dev musl-dev libffi-dev certbot certbot-nginx
-
-# Set working directory
 WORKDIR /etc/nginx/conf.d
 
-# Copy backend source into working directory
-COPY . /etc/nginx/conf.d
+COPY . ./
 
-# For documentation to developers - EXPOSE command doesn't actually do anything, but tells what should be made open
-EXPOSE 80
-EXPOSE 443
+RUN apk update &&\
+    # apk add bash python3 python3-dev py3-pip build-base libressl-dev musl-dev libffi-dev certbot certbot-nginx &&\
+    apk add bash &&\
+    chmod 755 wait-for-it.sh
+
+CMD ["./wait-for-it.sh", "client:8080", "--strict", "--timeout=300", "--", "nginx", "-g", "daemon off;"]
