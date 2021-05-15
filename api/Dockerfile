@@ -1,0 +1,20 @@
+FROM node:14.16.0-alpine
+
+WORKDIR /app
+
+COPY prisma/ wait-for-it.sh package.json ./
+
+RUN apk update &&\
+    apk add bash &&\
+    chmod 755 wait-for-it.sh &&\
+    npm install -g pnpm &&\
+    pnpm install
+
+COPY . ./
+
+EXPOSE 3001
+
+ENV HOST=0.0.0.0
+ENV PORT=3001
+
+CMD ["./wait-for-it.sh" , "db:5432" , "--strict" , "--timeout=300" , "--" , "pnpm", "start"]
