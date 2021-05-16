@@ -10,7 +10,7 @@ import { routes } from './routes'
 
 let httpTerminator: any
 
-export async function start(appPort: number = 3001, options: any = { debug: false }) {
+export async function start(appPort = 3001, options: any = { debug: false }) {
     if (options.debug) {
         process.env.NODE_ENV = 'development'
     }

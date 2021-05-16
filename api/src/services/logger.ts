@@ -8,7 +8,7 @@ function formatLogString(...args: any) {
     return log
 }
 
-function logMessage(level: string, title: string = '', errorObject: ApiError) {
+function logMessage(level: string, title = '', errorObject: ApiError) {
     console.log(formatLogString(level, title, errorObject))
 }
 

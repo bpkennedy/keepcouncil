@@ -4,7 +4,7 @@
   "private": true,
   "main": "dist/index.js",
   "scripts": {
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "prebuild": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "build": "tsc",
     "prestart": "pnpm build",
     "start": "pnpm build && pnpm migrate && cross-env NODE_ENV=production ts-node dist/index.js",
@@ -33,14 +33,16 @@
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.0.23",
     "@types/sinon": "^9.0.4",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
+    "eslint": "^7.26.0",
     "mocha": "^8.0.1",
     "prisma": "^2.22.1",
     "sinon": "^9.0.2",
     "ts-node": "^8.10.2",
     "ts-node-dev": "^1.0.0-pre.51",
-    "tslint": "^6.1.2",
     "typescript": "^3.9.6"
   }
 }
