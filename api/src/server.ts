@@ -1,4 +1,3 @@
-require('dotenv').config()
 import { apiLogger } from './services/logger'
 import express from 'express'
 import http from 'http'

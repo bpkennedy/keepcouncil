@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/bash -e
 
-docker exec -it sb3-db psql -U postgres -W sb3
+docker exec -it sb3-db psql -U postgres
