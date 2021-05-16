@@ -7,8 +7,9 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "prestart": "pnpm build",
-    "start": "pnpm build && cross-env NODE_ENV=production ts-node dist/index.js",
+    "start": "pnpm build && pnpm migrate && cross-env NODE_ENV=production ts-node dist/index.js",
     "postinstall": "prisma generate --schema=./prisma/schema.prisma",
+    "migrate": "prisma migrate dev",
     "dev": "cross-env NODE_ENV=development ts-node-dev index.ts",
     "test": "cross-env NODE_ENV=development tslint -c tslint.json -p tsconfig.json ; mocha -r ts-node/register --recursive 'test/**/*.spec.ts'"
   },

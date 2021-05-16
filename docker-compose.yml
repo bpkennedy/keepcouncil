@@ -12,7 +12,7 @@ services:
     container_name: sb3-api
     build: ./api
     environment:
-      - DATABASE_URL=postgresql://postgres:password@0.0.0.0:5432/sb3?schema=public
+      - DATABASE_URL=postgresql://postgres:password@db:5432/sb3
     restart: always
     expose:
       - '3001'
