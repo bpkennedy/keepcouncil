@@ -11,7 +11,85 @@ generator client {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id        Int      @id @default(autoincrement())
+  player    Player?
+  email     String   @db.VarChar(255)
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Player {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  teamId    Int?
+  team      Team?    @relation(fields: [teamId], references: [id])
+  aspects   Aspect[]
+  stats     Stat[]
+  firstName String   @db.VarChar(255)
+  lastName  String   @db.VarChar(255)
+  image     String?  @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum AspectType {
+  SKILL
+  ATTRIBUTE
+}
+
+model Aspect {
+  id         Int        @id @default(autoincrement())
+  playerId   Int
+  player     Player    @relation(fields: [playerId], references: [id])
+  name       String     @db.VarChar(255)
+  value      Decimal    @default(0)
+  aspectType AspectType
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Team {
+  id          Int      @id @default(autoincrement())
+  homeGames   Game[]   @relation("HomeTeamGames")
+  awayGames   Game[]   @relation("AwayTeamGames")
+  stats       Stat[]
+  players     Player[]
+  name        String   @db.VarChar(255)
+  image       String  @db.VarChar(255)
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Game {
+  id         Int      @id @default(autoincrement())
+  homeTeamId Int
+  homeTeam   Team     @relation("HomeTeamGames", fields: [homeTeamId], references: [id])
+  awayTeamId Int
+  awayTeam   Team     @relation("AwayTeamGames", fields: [awayTeamId], references: [id])
+  Stat       Stat[]
+  season     Int
+  matchDate  DateTime
+  played     Boolean  @default(false)
+  homeScore  Int?
+  awayScore  Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Stat {
+  id        Int      @id @default(autoincrement())
+  gameId    Int
+  game      Game     @relation(fields: [gameId], references: [id])
+  teamId    Int
+  team      Team     @relation(fields: [teamId], references: [id])
+  playerId  Int
+  player    Player   @relation(fields: [playerId], references: [id])
+  name      String   @db.VarChar(255)
+  value     Decimal  @default(0)
+  season    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  reverse-proxy:
+    image: sb3-proxy:latest
+    build: ./proxy
+  api:
+    image: sb3-api:latest
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+  client:
+    image: sb3-client:latest
+    build: ./client
+  db:
+    image: sb3-db:latest
+    build: ./database

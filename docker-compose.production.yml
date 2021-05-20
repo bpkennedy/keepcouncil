@@ -3,16 +3,12 @@ services:
   client:
     image: sb3-client:latest
     container_name: sb3-client
-    build: ./client
     restart: always
     expose:
       - '8080'
   api:
     image: sb3-api:latest
     container_name: sb3-api
-    build:
-      context: ./api
-      dockerfile: Dockerfile.dev
     environment:
       - DATABASE_URL=postgresql://postgres:password@db:5432/sb3
     restart: always
@@ -21,19 +17,17 @@ services:
   db:
     image: sb3-db:latest
     container_name: sb3-db
-    build: ./database
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     restart: always
     volumes:
       - ./db-data:/var/lib/postgresql/data
-    ports:
-      - '5432:5432'
+    expose:
+      - '5432'
   proxy:
     image: sb3-proxy:latest
     container_name: sb3-proxy
-    build: ./proxy
     restart: always
     volumes:
       - ./proxy:/etc/nginx/conf.d
