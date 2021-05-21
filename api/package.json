@@ -10,7 +10,7 @@
     "migrate:dev": "prisma migrate dev",
     "seed": "prisma db seed --preview-feature",
     "start": "pnpm build && pnpm migrate && ts-node dist/index.js",
-    "start:dev": "pnpm build && pnpm migrate:dev && pnpm seed && ts-node-dev index.ts",
+    "start:dev": "pnpm build && pnpm migrate:dev && pnpm seed && nodemon index.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "test": "pnpm lint && mocha -r ts-node/register --recursive 'test/**/*.spec.ts'"
   },
@@ -39,10 +39,10 @@
     "chai": "^4.2.0",
     "eslint": "^7.26.0",
     "mocha": "^8.0.1",
+    "nodemon": "^2.0.7",
     "prisma": "^2.23.0",
     "sinon": "^9.0.2",
     "ts-node": "^8.10.2",
-    "ts-node-dev": "^1.1.6",
     "typescript": "^4.2.4"
   }
 }

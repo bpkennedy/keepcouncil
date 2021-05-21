@@ -1,0 +1,19 @@
+{
+  "verbose": true,
+  "ignore": [
+    "node_modules"
+  ],
+  "watch": [
+    "index.ts",
+    "src/*.ts",
+    "src/**/*.ts",
+    "src/*.js",
+    "src/**/*.js",
+    "test/*.ts",
+    "prisma/*.js",
+    "prisma/schema.prisma"
+  ],
+  "execMap": {
+    "ts": "node --inspect=0.0.0.0:9229 --nolazy -r ts-node/register"
+  }
+}
