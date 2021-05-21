@@ -1,30 +1,70 @@
 <template>
-  <div class="container">
+  <div>
     <CThemeProvider>
       <CColorModeProvider>
-        <CBox font-family="body" as="main">
-          <CReset />
-          <Nuxt />
-        </CBox>
+        <c-box
+          font-family="body"
+          as="main"
+        >
+          <c-reset />
+          <loader />
+          <c-box
+            d="flex"
+            w="100vw"
+            flex-dir="column"
+            justify-content="flex-start"
+            align-items="center"
+          >
+            <c-box
+              flex="1"
+              d="flex"
+              w="100vw"
+              max-w="74rem"
+              flex-dir="column"
+            >
+              <CPseudoBox
+                :display="[
+                  'none',
+                  'none',
+                  'block',
+                  'block',
+                  'block',
+                ]"
+                flex="1"
+              >
+                <nav-bar />
+              </CPseudoBox>
+              <Nuxt />
+              <CPseudoBox
+                :display="[
+                  'block',
+                  'block',
+                  'none',
+                  'none',
+                  'none',
+                ]"
+                flex="1"
+                mt="12"
+              >
+                <nav-bar :bottom="true" />
+              </CPseudoBox>
+            </c-box>
+          </c-box>
+        </c-box>
       </CColorModeProvider>
     </CThemeProvider>
   </div>
 </template>
-<script>
-import {
-  CThemeProvider,
-  CColorModeProvider,
-  CReset,
-  CBox
-} from '@chakra-ui/vue'
+
+<script lang="js">
+import Loader from '../components/Loader.vue'
+import NavBar from '../components/NavBar.vue'
 
 export default {
   name: 'App',
   components: {
-    CThemeProvider,
-    CColorModeProvider,
-    CReset,
-    CBox
-  }
+    NavBar,
+    Loader,
+  },
 }
 </script>
