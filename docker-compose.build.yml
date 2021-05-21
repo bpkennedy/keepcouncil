@@ -8,9 +8,13 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
   client:
     image: sb3-client:latest
     build: ./client
+    environment:
+      - NODE_ENV=production
   db:
     image: sb3-db:latest
     build: ./database

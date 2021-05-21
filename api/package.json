@@ -9,10 +9,10 @@
     "migrate": "prisma migrate deploy --preview-feature",
     "migrate:dev": "prisma migrate dev",
     "seed": "prisma db seed --preview-feature",
-    "start": "pnpm build && pnpm migrate && cross-env NODE_ENV=production ts-node dist/index.js",
-    "start:dev": "pnpm build && pnpm migrate:dev && pnpm seed && cross-env NODE_ENV=development ts-node-dev index.ts",
+    "start": "pnpm build && pnpm migrate && ts-node dist/index.js",
+    "start:dev": "pnpm build && pnpm migrate:dev && pnpm seed && ts-node-dev index.ts",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "test": "cross-env NODE_ENV=development pnpm lint && mocha -r ts-node/register --recursive 'test/**/*.spec.ts'"
+    "test": "pnpm lint && mocha -r ts-node/register --recursive 'test/**/*.spec.ts'"
   },
   "dependencies": {
     "@prisma/client": "^2.23.0",
@@ -34,16 +34,15 @@
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.0.23",
     "@types/sinon": "^9.0.4",
-    "@typescript-eslint/eslint-plugin": "^4.23.0",
-    "@typescript-eslint/parser": "^4.23.0",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "eslint": "^7.26.0",
     "mocha": "^8.0.1",
     "prisma": "^2.23.0",
     "sinon": "^9.0.2",
     "ts-node": "^8.10.2",
-    "ts-node-dev": "^1.0.0-pre.51",
-    "typescript": "^3.9.6"
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4"
   }
 }

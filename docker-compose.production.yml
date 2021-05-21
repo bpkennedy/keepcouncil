@@ -3,6 +3,8 @@ services:
   client:
     image: sb3-client:latest
     container_name: sb3-client
+    environment:
+      - NODE_ENV=production
     restart: always
     expose:
       - '8080'
@@ -11,6 +13,7 @@ services:
     container_name: sb3-api
     environment:
       - DATABASE_URL=postgresql://postgres:password@db:5432/sb3
+      - NODE_ENV=production
     restart: always
     expose:
       - '3001'

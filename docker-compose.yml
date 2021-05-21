@@ -5,6 +5,8 @@ services:
     container_name: sb3-client
     build: ./client
     restart: always
+    environment:
+      - NODE_ENV=development
     expose:
       - '8080'
   api:
@@ -15,9 +17,12 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - DATABASE_URL=postgresql://postgres:password@db:5432/sb3
+      - NODE_ENV=development
     restart: always
-    expose:
-      - '3001'
+    volumes:
+      - ./api:/sb3-api
+    ports:
+      - '3001:3001'
   db:
     image: sb3-db:latest
     container_name: sb3-db
