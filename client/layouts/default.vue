@@ -4,6 +4,7 @@
       <CColorModeProvider>
         <c-box
           font-family="body"
+          color="gray.800"
           as="main"
         >
           <c-reset />

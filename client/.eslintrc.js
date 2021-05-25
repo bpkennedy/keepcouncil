@@ -16,6 +16,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
+    'import/no-mutable-exports': 'off',
     'vue/html-self-closing': ['error', {
       html: {
         void: 'always',
