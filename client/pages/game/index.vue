@@ -21,8 +21,8 @@
 </template>
 
 <script lang="js">
-import { GAME_VIEW_NAME } from '@/constants'
-import { initGame } from '../simulation'
+import { initGame } from '../../simulation'
+import { GAME_VIEW_NAME } from '~/constants'
 import { VIEW_LOADED_ACTION } from '~/store'
 import ViewTitle from '~/components/ViewTitle.vue'
 import Card from '~/components/Card.vue'

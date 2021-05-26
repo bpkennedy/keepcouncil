@@ -1,14 +1,16 @@
-import { init, Sprite, GameLoop } from 'kontra'
+import { init, GameLoop } from 'kontra'
 import { drawMap, fieldMap, offsetCanvasHeight, responsiveTileSize } from './map'
+import { Player } from '~/simulation/Player'
 
 export const initGame = (sceneId) => {
   const { canvas, context } = init(sceneId)
   offsetCanvasHeight(context)
 
-  const sprites = []
+  const players = []
   const spriteTileSize = responsiveTileSize(canvas)
   for (let i = 0; i < 20; i++) {
-    sprites.push(Sprite({
+    players.push(new Player({
+      canvas,
       width: spriteTileSize,
       height: spriteTileSize,
       x: Math.random() * (canvas.width - spriteTileSize),
@@ -22,29 +24,29 @@ export const initGame = (sceneId) => {
   const loop = GameLoop({
     fps: 60,
     update () {
-      sprites.forEach((sprite) => {
-        sprite.update()
+      players.forEach((player) => {
+        player.update()
 
-        if (sprite.x < 0) {
-          sprite.dx *= -1
-          sprite.x = 0
-        } else if (sprite.x + sprite.width >= canvas.width) {
-          sprite.dx *= -1
-          sprite.x = canvas.width - sprite.width
+        if (player.x < 0) {
+          player.dx *= -1
+          player.x = 0
+        } else if (player.x + player.width >= canvas.width) {
+          player.dx *= -1
+          player.x = canvas.width - player.width
         }
 
-        if (sprite.y < 0) {
-          sprite.dy *= -1
-          sprite.y = 0
-        } else if (sprite.y + sprite.height >= canvas.height) {
-          sprite.dy *= -1
-          sprite.y = canvas.height - sprite.height
+        if (player.y < 0) {
+          player.dy *= -1
+          player.y = 0
+        } else if (player.y + player.height >= canvas.height) {
+          player.dy *= -1
+          player.y = canvas.height - player.height
         }
       })
     },
     render () {
       drawMap(fieldMap, responsiveTileSize(canvas), context)
-      sprites.forEach(sprite => sprite.render())
+      players.forEach(sprite => sprite.render())
     },
   })
 
