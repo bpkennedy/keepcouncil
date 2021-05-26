@@ -1,16 +1,18 @@
 import { init, Sprite, GameLoop } from 'kontra'
-import { drawMap, fieldMap } from './map'
+import { drawMap, fieldMap, offsetCanvasHeight, responsiveTileSize } from './map'
 
 export const initGame = (sceneId) => {
   const { canvas, context } = init(sceneId)
+  offsetCanvasHeight(context)
 
   const sprites = []
+  const spriteTileSize = responsiveTileSize(canvas)
   for (let i = 0; i < 20; i++) {
     sprites.push(Sprite({
-      width: 10,
-      height: 10,
-      x: Math.random() * (canvas.width - 10),
-      y: Math.random() * (canvas.height - 10),
+      width: spriteTileSize,
+      height: spriteTileSize,
+      x: Math.random() * (canvas.width - spriteTileSize),
+      y: Math.random() * (canvas.height - spriteTileSize),
       dx: Math.random() * 4 - 2,
       dy: Math.random() * 4 - 2,
       color: 'red',
@@ -41,7 +43,7 @@ export const initGame = (sceneId) => {
       })
     },
     render () {
-      drawMap(fieldMap, canvas, context)
+      drawMap(fieldMap, responsiveTileSize(canvas), context)
       sprites.forEach(sprite => sprite.render())
     },
   })

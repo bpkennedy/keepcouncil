@@ -30,16 +30,17 @@ export const laneMap = [
   [R, R, R, R, R, R, R, R, R, R, R, R, R, R, R, R, R, R, R],
 ]
 
-const COLUMNS = 19
-const ROWS = 9
+const MAP_COLUMNS = 19
+const MAP_ROWS = 9
 
-const flipY = y => Math.abs(y - ROWS + 1)
+const flipY = y => Math.abs(y - MAP_ROWS + 1)
 export const getTile = (tilemap, x, y) => tilemap[flipY(y)][x]
+export const responsiveTileSize = canvas => Math.ceil(canvas.width / MAP_COLUMNS)
+export const offsetCanvasHeight = context => (context.canvas.height -= 6)
 
-export const drawMap = (gameMap, canvas, context) => {
-  const tileSize = Math.floor(canvas.width / COLUMNS)
-  for (let y = 0; y < ROWS; y++) {
-    for (let x = 0; x < COLUMNS; x++) {
+export const drawMap = (gameMap, tileSize, context) => {
+  for (let y = 0; y < MAP_ROWS; y++) {
+    for (let x = 0; x < MAP_COLUMNS; x++) {
       switch (getTile(gameMap, x, y)) {
         case 0:
           context.fillStyle = '#000000'
