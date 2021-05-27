@@ -21,7 +21,6 @@
 </template>
 
 <script lang="js">
-import { initGame } from '../../simulation'
 import { GAME_VIEW_NAME } from '~/constants'
 import { VIEW_LOADED_ACTION } from '~/store'
 import ViewTitle from '~/components/ViewTitle.vue'
@@ -37,7 +36,15 @@ export default {
   }),
   mounted () {
     this.$store.dispatch(VIEW_LOADED_ACTION, { viewName: GAME_VIEW_NAME })
-    initGame(this.canvasId)
+    this.$nextTick(() => {
+      this.delayedSimulationStart()
+    })
+  },
+  methods: {
+    delayedSimulationStart () {
+      const { initGame } = require('../../simulation')
+      initGame(this.canvasId)
+    },
   },
 }
 </script>
