@@ -1,3 +1,5 @@
+import { globalCanvas, globalContext } from './index'
+
 const W = 1// Wall/unwalkable
 const O = 0// Open/walkable
 const H = 2// Home goal/unwalkable
@@ -35,8 +37,11 @@ const MAP_ROWS = 9
 
 const flipY = y => Math.abs(y - MAP_ROWS + 1)
 export const getTile = (tilemap, x, y) => tilemap[flipY(y)][x]
-export const responsiveTileSize = canvas => Math.ceil(canvas.width / MAP_COLUMNS)
-export const offsetCanvasHeight = context => (context.canvas.height -= 6)
+export const responsiveTileSize = () => Math.ceil(globalCanvas.width / MAP_COLUMNS)
+export const adjustCanvasSize = () => {
+  globalContext.canvas.height -= 6
+  globalContext.canvas.width += 4
+}
 
 export const drawMap = (gameMap, tileSize, context) => {
   for (let y = 0; y < MAP_ROWS; y++) {
