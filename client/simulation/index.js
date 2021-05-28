@@ -4,26 +4,39 @@ import { Player } from '~/simulation/Player'
 
 export let globalCanvas = null
 export let globalContext = null
+let globalSceneId = null
+let loop = null
+let fps = 60
 
 export const initGame = (sceneId) => {
-  const { canvas, context } = init(sceneId)
+  globalSceneId = sceneId
+  const { canvas, context } = init(globalSceneId)
   globalCanvas = canvas
   globalContext = context
   adjustCanvasSize()
 
-  const fps = 60
   const homePlayers = createPlayers({ count: 10, color: 'red' })
   const awayPlayers = createPlayers({ count: 10, color: 'blue' })
 
-  const loop = GameLoop(loopConfiguration({
-    fps,
+  loop = GameLoop(loopConfiguration({
     sprites: [...homePlayers, ...awayPlayers],
   }))
 
-  loop.start()
+  start()
 }
 
-const loopConfiguration = ({ fps, sprites }) => ({
+export const stop = () => loop.stop()
+export const start = () => loop.start()
+export const setFps = (num) => {
+  fps = num
+  stop()
+  globalContext.clearRect(0, 0, globalCanvas.width, globalCanvas.height)
+  globalCanvas = null
+  globalContext = null
+  initGame(globalSceneId)
+}
+
+const loopConfiguration = ({ sprites }) => ({
   fps,
   update () {
     for (let i = sprites.length; i > 0; i--) {

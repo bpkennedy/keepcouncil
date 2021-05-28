@@ -39,8 +39,8 @@ const flipY = y => Math.abs(y - MAP_ROWS + 1)
 export const getTile = (tilemap, x, y) => tilemap[flipY(y)][x]
 export const responsiveTileSize = () => Math.ceil(globalCanvas.width / MAP_COLUMNS)
 export const adjustCanvasSize = () => {
-  globalContext.canvas.height -= 6
-  globalContext.canvas.width += 4
+  globalContext.canvas.height = responsiveTileSize() * MAP_ROWS
+  globalContext.canvas.width = responsiveTileSize() * MAP_COLUMNS
 }
 
 export const drawMap = (gameMap, tileSize, context) => {

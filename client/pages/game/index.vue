@@ -16,6 +16,25 @@
         />
       </c-box>
     </card>
+    <card>
+      <c-box slot="passed">
+        <c-text as="h3">
+          Debug Tools
+        </c-text>
+        <c-box
+          d="flex"
+          flex-direction="row"
+        >
+          <c-button variant-color="green" @click="start">
+            Start
+          </c-button>
+          <c-button variant-color="red" @click="stop">
+            Stop
+          </c-button>
+          <c-input placeholder="FPS" :value="60" @input="setFps($event)" />
+        </c-box>
+      </c-box>
+    </card>
     <card />
   </c-box>
 </template>
@@ -41,6 +60,20 @@ export default {
     })
   },
   methods: {
+    start () {
+      const { start } = require('../../simulation')
+      start()
+    },
+    stop () {
+      const { stop } = require('../../simulation')
+      stop()
+    },
+    setFps (event) {
+      const { setFps } = require('../../simulation')
+      const minNum = event < 0 ? 0 : event
+      const maxNum = minNum > 60 ? 60 : minNum
+      setFps(maxNum)
+    },
     delayedSimulationStart () {
       const { initGame } = require('../../simulation')
       initGame(this.canvasId)
