@@ -1,25 +1,18 @@
 import { Sprite } from 'kontra'
-import { responsiveTileSize, getTilePos } from './map'
+import { responsiveTileSize } from './map'
 import { globalCanvas } from './index'
 
-export class Player extends Sprite.class {
+export class Ball extends Sprite.class {
   constructor (props) {
     super(props)
-    this.id = props.id || 0
-    this.x = props.x || 0
-    this.y = props.y || 0
-    this.color = props.color || 'red'
-    this.width = props.width || responsiveTileSize()
-    this.height = props.height || responsiveTileSize()
-    this.dx = props.dx || 0
-    this.dy = props.dy || 0
-    this.placeAtTile({ x: 0, y: 0 })
-  }
-
-  placeAtTile ({ x, y }) {
-    const { realX, realY } = getTilePos(x, y)
-    this.x = realX
-    this.y = realY
+    this.anchor = { x: 0.5, y: 0.5 }
+    this.x = (globalCanvas.width / 2)
+    this.y = (globalCanvas.height / 2)
+    this.color = 'white'
+    this.width = responsiveTileSize()
+    this.height = responsiveTileSize()
+    this.dx = 0
+    this.dy = 0
   }
 
   update () {

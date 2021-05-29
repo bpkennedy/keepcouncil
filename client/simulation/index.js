@@ -1,11 +1,13 @@
 import { init, GameLoop } from 'kontra'
 import { drawMap, fieldMap, adjustCanvasSize, responsiveTileSize } from './map'
 import { Player } from '~/simulation/Player'
+import { Ball } from '~/simulation/Ball'
 
 export let globalCanvas = null
 export let globalContext = null
 let globalSceneId = null
 let loop = null
+let sprites = null
 let fps = 60
 
 export const initGame = (sceneId) => {
@@ -15,11 +17,13 @@ export const initGame = (sceneId) => {
   globalContext = context
   adjustCanvasSize()
 
-  const homePlayers = createPlayers({ count: 10, color: 'red' })
-  const awayPlayers = createPlayers({ count: 10, color: 'blue' })
+  const homePlayers = [createTestPlayer({ color: 'red' })]
+  const awayPlayers = []
+  const ball = createBall()
+  sprites = [...homePlayers, ...awayPlayers, ball]
 
   loop = GameLoop(loopConfiguration({
-    sprites: [...homePlayers, ...awayPlayers],
+    sprites,
   }))
 
   start()
@@ -29,10 +33,20 @@ export const stop = () => loop.stop()
 export const start = () => loop.start()
 export const setFps = (num) => {
   fps = num
+  resetGame()
+}
+export const setPlayerTo = (playerId, coord) => {
+  const player = sprites.find(p => p.id === playerId)
+  player.placeAtTile(coord)
+}
+
+const resetGame = () => {
   stop()
   globalContext.clearRect(0, 0, globalCanvas.width, globalCanvas.height)
   globalCanvas = null
   globalContext = null
+  loop = null
+  sprites = null
   initGame(globalSceneId)
 }
 
@@ -51,13 +65,21 @@ const loopConfiguration = ({ sprites }) => ({
   },
 })
 
-const createPlayers = ({ count, color }) => {
-  const spriteTileSize = responsiveTileSize(globalCanvas)
-  return new Array(count).fill().map(() => new Player({
-    x: Math.random() * (globalCanvas.width - spriteTileSize),
-    y: Math.random() * (globalCanvas.height - spriteTileSize),
-    dx: Math.random() * 4 - 2,
-    dy: Math.random() * 4 - 2,
-    color,
-  }))
+// const createRandomPlayers = ({ count, color }) => {
+//   const spriteTileSize = responsiveTileSize(globalCanvas)
+//   return new Array(count).fill().map(() => new Player({
+//     x: Math.random() * (globalCanvas.width - spriteTileSize),
+//     y: Math.random() * (globalCanvas.height - spriteTileSize),
+//     dx: Math.random() * 4 - 2,
+//     dy: Math.random() * 4 - 2,
+//     color,
+//   }))
+// }
+
+const createTestPlayer = ({ color }) => {
+  return new Player({ color })
+}
+
+const createBall = () => {
+  return new Ball()
 }

@@ -37,6 +37,14 @@ const MAP_ROWS = 9
 
 const flipY = y => Math.abs(y - MAP_ROWS + 1)
 export const getTile = (tilemap, x, y) => tilemap[flipY(y)][x]
+export const getTilePos = (x, y) => {
+  const flippedY = flipY(y)
+  return {
+    realX: (responsiveTileSize() * x),
+    realY: (responsiveTileSize() * flippedY),
+  }
+}
+
 export const responsiveTileSize = () => Math.ceil(globalCanvas.width / MAP_COLUMNS)
 export const adjustCanvasSize = () => {
   globalContext.canvas.height = responsiveTileSize() * MAP_ROWS

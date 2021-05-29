@@ -18,21 +18,29 @@
     </card>
     <card>
       <c-box slot="passed">
-        <c-text as="h3">
-          Debug Tools
-        </c-text>
-        <c-box
-          d="flex"
-          flex-direction="row"
-        >
+        <c-flex direction="column">
+          <c-text as="h3">
+            Gameloop
+          </c-text>
           <c-button variant-color="green" @click="start">
             Start
           </c-button>
           <c-button variant-color="red" @click="stop">
             Stop
           </c-button>
-          <c-input placeholder="FPS" :value="60" @input="setFps($event)" />
-        </c-box>
+          <c-box>
+            <c-text as="h5">
+              FPS
+            </c-text>
+            <c-input placeholder="FPS" :value="60" @input="setFps($event)" />
+          </c-box>
+          <c-box>
+            <c-text as="h5">
+              Set Player To Tile (bottom-left is 0,0)
+            </c-text>
+            <c-input placeholder="x,y" value="0,0" @input="setPlayerToTile($event)" />
+          </c-box>
+        </c-flex>
       </c-box>
     </card>
     <card />
@@ -67,6 +75,14 @@ export default {
     stop () {
       const { stop } = require('../../simulation')
       stop()
+    },
+    setPlayerToTile (coordString) {
+      if (coordString.includes(',')) {
+        const { setPlayerTo } = require('../../simulation')
+        const x = parseInt(coordString.split(',')[0]) || 0
+        const y = parseInt(coordString.split(',')[1]) || 0
+        setPlayerTo(0, { x, y })
+      }
     },
     setFps (event) {
       const { setFps } = require('../../simulation')
