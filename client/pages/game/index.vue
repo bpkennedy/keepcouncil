@@ -28,6 +28,9 @@
           <c-button variant-color="red" @click="stop">
             Stop
           </c-button>
+          <c-button variant-color="blue" @click="sendTestPlayerToBall">
+            Send Player To Ball
+          </c-button>
           <c-box>
             <c-text as="h5">
               FPS
@@ -76,9 +79,13 @@ export default {
       const { stop } = require('../../simulation')
       stop()
     },
+    sendTestPlayerToBall () {
+      const { sendPlayerToBall } = require('../../simulation/debugCommands')
+      sendPlayerToBall(0)
+    },
     setPlayerToTile (coordString) {
       if (coordString.includes(',')) {
-        const { setPlayerTo } = require('../../simulation')
+        const { setPlayerTo } = require('../../simulation/debugCommands')
         const x = parseInt(coordString.split(',')[0]) || 0
         const y = parseInt(coordString.split(',')[1]) || 0
         setPlayerTo(0, { x, y })

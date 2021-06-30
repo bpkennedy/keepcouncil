@@ -1,6 +1,6 @@
 import { Sprite } from 'kontra'
-import { responsiveTileSize, getTilePos } from './map'
-import { globalCanvas } from './index'
+import { responsiveTileSize, placeAtTile } from './map'
+import { boundMovementToWalls } from './movement'
 
 export class Player extends Sprite.class {
   constructor (props) {
@@ -13,33 +13,12 @@ export class Player extends Sprite.class {
     this.height = props.height || responsiveTileSize()
     this.dx = props.dx || 0
     this.dy = props.dy || 0
-    this.placeAtTile({ x: 0, y: 0 })
+    placeAtTile(this, { x: 0, y: 0 })
   }
 
-  placeAtTile ({ x, y }) {
-    const { realX, realY } = getTilePos(x, y)
-    this.x = realX
-    this.y = realY
-  }
-
-  update () {
+  update (ctx) {
     super.update()
-
-    if (this.x < 0) {
-      this.dx *= -1
-      this.x = 0
-    } else if (this.x + this.width >= globalCanvas.width) {
-      this.dx *= -1
-      this.x = globalCanvas.width - this.width
-    }
-
-    if (this.y < 0) {
-      this.dy *= -1
-      this.y = 0
-    } else if (this.y + this.height >= globalCanvas.height) {
-      this.dy *= -1
-      this.y = globalCanvas.height - this.height
-    }
+    boundMovementToWalls(this)
   }
 
   draw () {

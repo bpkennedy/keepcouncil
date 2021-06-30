@@ -1,13 +1,13 @@
 import { init, GameLoop } from 'kontra'
 import { drawMap, fieldMap, adjustCanvasSize, responsiveTileSize } from './map'
-import { Player } from '~/simulation/Player'
-import { Ball } from '~/simulation/Ball'
+import { Player } from './Player'
+import { Ball } from './Ball'
 
 export let globalCanvas = null
 export let globalContext = null
+export let sprites = null
 let globalSceneId = null
 let loop = null
-let sprites = null
 let fps = 60
 
 export const initGame = (sceneId) => {
@@ -17,9 +17,9 @@ export const initGame = (sceneId) => {
   globalContext = context
   adjustCanvasSize()
 
-  const homePlayers = [createTestPlayer({ color: 'red' })]
+  const homePlayers = [new Player({ color: 'red' })]
   const awayPlayers = []
-  const ball = createBall()
+  const ball = new Ball()
   sprites = [...homePlayers, ...awayPlayers, ball]
 
   loop = GameLoop(loopConfiguration({
@@ -34,10 +34,6 @@ export const start = () => loop.start()
 export const setFps = (num) => {
   fps = num
   resetGame()
-}
-export const setPlayerTo = (playerId, coord) => {
-  const player = sprites.find(p => p.id === playerId)
-  player.placeAtTile(coord)
 }
 
 const resetGame = () => {
@@ -75,11 +71,3 @@ const loopConfiguration = ({ sprites }) => ({
 //     color,
 //   }))
 // }
-
-const createTestPlayer = ({ color }) => {
-  return new Player({ color })
-}
-
-const createBall = () => {
-  return new Ball()
-}

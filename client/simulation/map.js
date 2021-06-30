@@ -44,6 +44,11 @@ export const getTilePos = (x, y) => {
     realY: (responsiveTileSize() * flippedY),
   }
 }
+export const placeAtTile = (gameObject, { x, y }) => {
+  const { realX, realY } = getTilePos(x, y)
+  gameObject.x = realX
+  gameObject.y = realY
+}
 
 export const responsiveTileSize = () => Math.ceil(globalCanvas.width / MAP_COLUMNS)
 export const adjustCanvasSize = () => {
