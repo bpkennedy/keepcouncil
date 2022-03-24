@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-docker exec -it sb3-api pnpm migrate
+docker exec -it kc-api pnpm migrate

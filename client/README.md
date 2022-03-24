@@ -1,4 +1,4 @@
-# sb3-client
+# kc-client
 
 ## Build Setup
 

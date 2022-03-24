@@ -1,3 +1,3 @@
-Shockball 3
+Keep Council
 =============
-Let's get it going .... (waves hand like a film Director)
+Helping meeting minute takers more easily organize information into structured data.

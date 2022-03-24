@@ -1,6 +1,6 @@
 FROM node:14.16.0-alpine
 
-WORKDIR /sb3-api
+WORKDIR /kc-api
 
 COPY prisma/ wait-for-it.sh package.json ./
 

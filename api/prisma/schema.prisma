@@ -10,6 +10,73 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model PersonType {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+}
+
+model Action {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+}
+
+model Person {
+  id            Int         @id @default(autoincrement())
+  personTypeId  Int
+  personType    PersonType  @relation(fields: [userId], references: [id])
+  full_name     String      @db.VarChar(255)
+}
+
+model Meeting {
+  id                        Int                     @id @default(autoincrement())
+  attendees                 Person[]
+  motions                   Motion[]
+  hearingFromCitizens       HearingFromCitizens[]
+  proclamations             Proclamation[]
+  resolutions               Resolution[]
+  communications            Communication[]
+  publicHearings            PublicHearing[]
+  bills                     Bill[]
+  boardAppointments         BoardAppointment[]
+  requests                  Request[]
+  announcements             Announcement[]
+  date                      DateTime
+}
+
+model Motion {
+  id                        Int                      @id @default(autoincrement())
+  initiatorId               Int
+  initiator                 Person                   @relation(fields: [initiatorId], references: [id])
+  actionId                  Int
+  action                    Action                   @relation(fields: [actionId], references: [id])
+  seconderId                Int?
+  seconder                  Person?                  @relation(fields: [seconderId], references: [id])
+  date                      DateTime
+  carried                   Boolean                  @default(false)
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  motionId                  Int?
+  motion                    Motion?                  @relation(fields: [motionId], references: [id])
+  hearingFromCitizenId      Int?
+  hearingFromCitizen        HearingFromCitizens?     @relation(fields: [hearingFromCitizenId], references: [id])
+  proclamationId            Int?
+  proclamation              Proclamation?            @relation(fields: [proclamationId], references: [id])
+  resolutionId              Int?
+  resolution                Resolution?              @relation(fields: [resolutionId], references: [id])
+  communicationId           Int?
+  communication             Communication?           @relation(fields: [communicationId], references: [id])
+  publicHearingId           Int?
+  publicHearing             PublicHearing?           @relation(fields: [publicHearingId], references: [id])
+  billId                    Int?
+  bill                      Bill?                    @relation(fields: [billId], references: [id])
+  boardAppointmentId        Int?
+  boardAppointment          BoardAppointment?        @relation(fields: [boardAppointmentId], references: [id])
+  requestId                 Int?
+  request                   Request?                 @relation(fields: [requestId], references: [id])
+  announcementId            Int?
+  announcement              Announcement?            @relation(fields: [announcementId], references: [id])
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   player    Player?

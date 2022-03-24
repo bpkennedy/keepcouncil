@@ -1,20 +1,20 @@
 version: '3.9'
 services:
   reverse-proxy:
-    image: sb3-proxy:latest
+    image: kc-proxy:latest
     build: ./proxy
   api:
-    image: sb3-api:latest
+    image: kc-api:latest
     build:
       context: ./api
       dockerfile: Dockerfile
     environment:
       - NODE_ENV=production
   client:
-    image: sb3-client:latest
+    image: kc-client:latest
     build: ./client
     environment:
       - NODE_ENV=production
   db:
-    image: sb3-db:latest
+    image: kc-db:latest
     build: ./database

@@ -1,6 +1,6 @@
 FROM node:14.16.0-alpine
 
-WORKDIR /sb3-client
+WORKDIR /kc-client
 
 COPY . ./
 

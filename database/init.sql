@@ -1,6 +1,6 @@
-create database sb3 owner postgres;
+create database kc owner postgres;
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO postgres;
 GRANT USAGE ON schema public TO postgres;
 ALTER ROLE postgres SET statement_timeout='300000';
-\c sb3;
+\c kc;

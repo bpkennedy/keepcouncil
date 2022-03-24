@@ -1,25 +1,25 @@
 version: '3.9'
 services:
   client:
-    image: sb3-client:latest
-    container_name: sb3-client
+    image: kc-client:latest
+    container_name: kc-client
     environment:
       - NODE_ENV=production
     restart: always
     expose:
       - '8080'
   api:
-    image: sb3-api:latest
-    container_name: sb3-api
+    image: kc-api:latest
+    container_name: kc-api
     environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/sb3
+      - DATABASE_URL=postgresql://postgres:password@db:5432/kc
       - NODE_ENV=production
     restart: always
     expose:
       - '3001'
   db:
-    image: sb3-db:latest
-    container_name: sb3-db
+    image: kc-db:latest
+    container_name: kc-db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
@@ -29,8 +29,8 @@ services:
     expose:
       - '5432'
   proxy:
-    image: sb3-proxy:latest
-    container_name: sb3-proxy
+    image: kc-proxy:latest
+    container_name: kc-proxy
     restart: always
     volumes:
       - ./proxy:/etc/nginx/conf.d

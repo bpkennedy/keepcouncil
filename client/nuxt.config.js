@@ -4,13 +4,13 @@ import { faMeteor, faGamepad } from '@fortawesome/free-solid-svg-icons'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Shockball',
+    title: 'KeepCouncil',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, viewport-fit=cover, initial-scale=1' },
       { name: 'apple-mobile-web-app-capable', content: 'yes' },
       { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
-      { hid: 'description', name: 'description', content: 'Star Wars fantasy sports - shockball!' },
+      { hid: 'description', name: 'description', content: 'Helping meeting minute takers more easily organize information into structured data.' },
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },

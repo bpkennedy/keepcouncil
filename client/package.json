@@ -1,5 +1,6 @@
 {
-  "name": "sb3-client",
+  "name": "kc-client",
+  "description": "Helping meeting minute takers more easily organize information into structured data.",
   "version": "1.0.0",
   "private": true,
   "scripts": {
