@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { celebrate, Joi, Segments } from 'celebrate'
-import prisma from '../prisma'
+// import prisma from '../prisma'
 
 export const debugMatchValidation = celebrate({
     [Segments.QUERY]: {
@@ -9,6 +9,6 @@ export const debugMatchValidation = celebrate({
 })
 
 export const debugMatchHandler = async (req: express.Request, res: express.Response) => {
-    const allGames = await prisma.game.findMany()
-    return res.send(JSON.stringify(allGames, null, 2))
+    // const allGames = await prisma.game.findMany()
+    return res.send(JSON.stringify([], null, 2))
 }

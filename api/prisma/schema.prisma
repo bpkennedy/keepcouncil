@@ -10,28 +10,45 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model PersonType {
-  id        Int      @id @default(autoincrement())
-  title     String   @db.VarChar(255)
-}
-
-model Action {
-  id        Int      @id @default(autoincrement())
-  title     String   @db.VarChar(255)
+enum PersonType {
+  COUNCIL_MEMBER
+  MAYOR
+  CITY_CLERK
+  CITY_ATTORNEY
 }
 
 model Person {
-  id            Int         @id @default(autoincrement())
-  personTypeId  Int
-  personType    PersonType  @relation(fields: [userId], references: [id])
-  full_name     String      @db.VarChar(255)
+  id                        Int                 @id @default(autoincrement())
+  createdAt                 DateTime            @default(now())
+  updatedAt                 DateTime            @updatedAt
+  fullName                  String              @unique @db.VarChar(255)
+  email                     String              @unique @db.VarChar(255)
+  phoneNumber               Int?
+  ward                      Int?
+  personType                PersonType
+  meetingsAttended          Meeting[]
+  initiatedMotions          Motion[]            @relation("Motion_Initiator")
+  secondedMotions           Motion[]            @relation("Motion_Seconder")
+  introducedResolutions     Resolution[]        @relation("Resolution_IntroducedBy")
+  resolutionAyeVotes        Resolution[]        @relation("Resolution_Aye")
+  resolutionNayVotes        Resolution[]        @relation("Resolution_Nay")
+  introducedBills           Bill[]              @relation("Bill_IntroducedBy")
+  billAyeVotes              Bill[]              @relation("Bill_Aye")
+  billNayVotes              Bill[]              @relation("Bill_Nay")
+  referredBoardAppointments BoardAppointment[]  @relation("BoardAppointment_Referrer")
+  acceptedRequests          Request[]           @relation("Request_Acceptor")
+  secondedRequests          Request[]           @relation("Request_SecondedBy")
+  announcedAnnouncements    Announcement[]      @relation("Announcement_Announcer")
 }
 
 model Meeting {
   id                        Int                     @id @default(autoincrement())
+  createdAt                 DateTime                @default(now())
+  updatedAt                 DateTime                @updatedAt
+  date                      DateTime?
   attendees                 Person[]
   motions                   Motion[]
-  hearingFromCitizens       HearingFromCitizens[]
+  hearingFromCitizens       HearingFromCitizen[]
   proclamations             Proclamation[]
   resolutions               Resolution[]
   communications            Communication[]
@@ -40,25 +57,37 @@ model Meeting {
   boardAppointments         BoardAppointment[]
   requests                  Request[]
   announcements             Announcement[]
-  date                      DateTime
+}
+
+enum Action {
+  APPROVE_MINUTES
+  ADJOURN
+  FIRST_READ
+  SECOND_READ
+  THIRD_READ
+  REPORT
+  PRESENT
+  ADD_BILL
+  ANNOUNCE
+  APPOINT
+  REAPPOINT
+  ACCEPT
+  SUSPEND
+  POSTPONE
 }
 
 model Motion {
   id                        Int                      @id @default(autoincrement())
-  initiatorId               Int
-  initiator                 Person                   @relation(fields: [initiatorId], references: [id])
-  actionId                  Int
-  action                    Action                   @relation(fields: [actionId], references: [id])
-  seconderId                Int?
-  seconder                  Person?                  @relation(fields: [seconderId], references: [id])
-  date                      DateTime
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
   carried                   Boolean                  @default(false)
-  meetingId                 Int
-  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
-  motionId                  Int?
-  motion                    Motion?                  @relation(fields: [motionId], references: [id])
+  action                    Action
+  initiatorId               Int
+  initiator                 Person                   @relation("Motion_Initiator", fields: [initiatorId], references: [id])
+  seconderId                Int?
+  seconder                  Person?                  @relation("Motion_Seconder", fields: [seconderId], references: [id])
   hearingFromCitizenId      Int?
-  hearingFromCitizen        HearingFromCitizens?     @relation(fields: [hearingFromCitizenId], references: [id])
+  hearingFromCitizen        HearingFromCitizen?      @relation(fields: [hearingFromCitizenId], references: [id])
   proclamationId            Int?
   proclamation              Proclamation?            @relation(fields: [proclamationId], references: [id])
   resolutionId              Int?
@@ -75,88 +104,139 @@ model Motion {
   request                   Request?                 @relation(fields: [requestId], references: [id])
   announcementId            Int?
   announcement              Announcement?            @relation(fields: [announcementId], references: [id])
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  player    Player?
-  email     String   @db.VarChar(255)
-  name      String   @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model HearingFromCitizen {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  from                      String?                  @db.VarChar(255)
+  content                   String?                  @db.Text
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
 }
 
-model Player {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  teamId    Int?
-  team      Team?    @relation(fields: [teamId], references: [id])
-  aspects   Aspect[]
-  stats     Stat[]
-  firstName String   @db.VarChar(255)
-  lastName  String   @db.VarChar(255)
-  image     String?  @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Proclamation {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  presentedTo               String?                  @db.VarChar(255)
+  content                   String?                  @db.Text
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
 }
 
-enum AspectType {
-  SKILL
-  ATTRIBUTE
+
+model Resolution {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  introducedDate            DateTime?
+  passDate                  DateTime?
+  resolutionNumber          Int                      @unique
+  resolutionTitle           String                   @db.VarChar(255)
+  content                   String                   @db.Text
+  introducedById            Int
+  introducedBy              Person                   @relation("Resolution_IntroducedBy", fields: [introducedById], references: [id])
+  ayeVote                   Person[]                 @relation("Resolution_Aye")
+  nayVote                   Person[]                 @relation("Resolution_Nay")
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
 }
 
-model Aspect {
-  id         Int        @id @default(autoincrement())
-  playerId   Int
-  player     Player    @relation(fields: [playerId], references: [id])
-  name       String     @db.VarChar(255)
-  value      Decimal    @default(0)
-  aspectType AspectType
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+enum CommunicationType {
+  EMAIL
+  MAIL
 }
 
-model Team {
-  id          Int      @id @default(autoincrement())
-  homeGames   Game[]   @relation("HomeTeamGames")
-  awayGames   Game[]   @relation("AwayTeamGames")
-  stats       Stat[]
-  players     Player[]
-  name        String   @db.VarChar(255)
-  image       String  @db.VarChar(255)
-  description String?  @db.Text
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model Communication {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  dateReceived              DateTime?
+  from                      String                   @db.VarChar(255)
+  content                   String?                  @db.Text
+  communicationType         CommunicationType
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
 }
 
-model Game {
-  id         Int      @id @default(autoincrement())
-  homeTeamId Int
-  homeTeam   Team     @relation("HomeTeamGames", fields: [homeTeamId], references: [id])
-  awayTeamId Int
-  awayTeam   Team     @relation("AwayTeamGames", fields: [awayTeamId], references: [id])
-  Stat       Stat[]
-  season     Int
-  matchDate  DateTime
-  played     Boolean  @default(false)
-  homeScore  Int?
-  awayScore  Int?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model PublicHearing {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  title                     String                   @unique @db.VarChar(255)
+  topic                     String?                  @db.VarChar(255)
+  content                   String?                  @db.Text
+  from                      String                   @db.VarChar(255)
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
 }
 
-model Stat {
-  id        Int      @id @default(autoincrement())
-  gameId    Int
-  game      Game     @relation(fields: [gameId], references: [id])
-  teamId    Int
-  team      Team     @relation(fields: [teamId], references: [id])
-  playerId  Int
-  player    Player   @relation(fields: [playerId], references: [id])
-  name      String   @db.VarChar(255)
-  value     Decimal  @default(0)
-  season    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Bill {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  introducedDate            DateTime?
+  passDate                  DateTime?
+  billNumber                Int
+  ordinance                 String?                  @db.VarChar(255)
+  content                   String?                  @db.Text
+  ayeVote                   Person[]                 @relation("Bill_Aye")
+  nayVote                   Person[]                 @relation("Bill_Nay")
+  introducedById            Int
+  introducedBy              Person                   @relation("Bill_IntroducedBy", fields: [introducedById], references: [id])
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
+}
+
+model BoardAppointment {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  expiration                DateTime?
+  appointee                 String                   @db.VarChar(255)
+  appointedTo               String?                  @db.VarChar(255)
+  referredById              Int?
+  referredBy                Person?                  @relation("BoardAppointment_Referrer", fields: [referredById], references: [id])
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
+}
+
+model Request {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  petitioner                String                   @db.VarChar(255)
+  title                     String                   @unique @db.VarChar(255)
+  content                   String?                  @db.Text
+  accepted                  Boolean                  @default(false)
+  acceptorId                Int?
+  acceptor                  Person?                  @relation("Request_Acceptor", fields: [acceptorId], references: [id])
+  secondedById              Int?
+  secondedBy                Person?                  @relation("Request_SecondedBy", fields: [secondedById], references: [id])
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
+}
+
+model Announcement {
+  id                        Int                      @id @default(autoincrement())
+  createdAt                 DateTime                 @default(now())
+  updatedAt                 DateTime                 @updatedAt
+  content                   String                   @db.Text
+  announcerId               Int
+  announcer                 Person                   @relation("Announcement_Announcer", fields: [announcerId], references: [id])
+  meetingId                 Int
+  meeting                   Meeting                  @relation(fields: [meetingId], references: [id])
+  fromMotion                Motion?
 }
