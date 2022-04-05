@@ -1,10 +1,12 @@
 <template>
-  <c-box
-    d="flex"
-    flex-direction="column"
-  >
-    <view-title title="Dashboard View" />
-  </c-box>
+  <c-dark-mode>
+    <c-box
+      d="flex"
+      flex-direction="column"
+    >
+      <view-title title="Dashboard View" />
+    </c-box>
+  </c-dark-mode>
 </template>
 
 <script lang="js">

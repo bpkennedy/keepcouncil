@@ -12,10 +12,7 @@
       flex="1"
     >
       <c-stack>
-        <view-title title="Galactic" />
-        <c-text font-family="EuropaLightItalic" color="purple">
-          Shockball
-        </c-text>
+        <view-title title="KeepCouncil" />
       </c-stack>
     </c-box>
     <nav-links :bottom="bottom" />

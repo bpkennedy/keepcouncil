@@ -1,5 +1,5 @@
 import zlib from 'zlib'
-import { faMeteor, faGamepad } from '@fortawesome/free-solid-svg-icons'
+import { faMeteor } from '@fortawesome/free-solid-svg-icons'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -93,7 +93,6 @@ export default {
       iconPack: 'fa',
       iconSet: {
         faMeteor,
-        faGamepad,
       },
     },
   },

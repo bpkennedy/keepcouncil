@@ -14,11 +14,6 @@
       route-name="index"
       icon-name="meteor"
     />
-    <nav-link
-      route="/game"
-      route-name="game"
-      icon-name="gamepad"
-    />
   </c-box>
 </template>
 

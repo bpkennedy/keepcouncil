@@ -2,56 +2,58 @@
   <div>
     <CThemeProvider>
       <CColorModeProvider>
-        <c-box
-          font-family="body"
-          color="gray.800"
-          as="main"
-        >
-          <c-reset />
-          <loader />
+        <c-dark-mode>
           <c-box
-            d="flex"
-            w="100vw"
-            flex-dir="column"
-            justify-content="flex-start"
-            align-items="center"
+            font-family="body"
+            color="gray.50"
+            as="main"
           >
+            <c-reset />
+            <loader />
             <c-box
-              flex="1"
               d="flex"
               w="100vw"
-              max-w="74rem"
               flex-dir="column"
+              justify-content="flex-start"
+              align-items="center"
             >
-              <CPseudoBox
-                :display="[
-                  'none',
-                  'none',
-                  'block',
-                  'block',
-                  'block',
-                ]"
+              <c-box
                 flex="1"
+                d="flex"
+                w="100vw"
+                max-w="74rem"
+                flex-dir="column"
               >
-                <nav-bar />
-              </CPseudoBox>
-              <Nuxt />
-              <CPseudoBox
-                :display="[
-                  'block',
-                  'block',
-                  'none',
-                  'none',
-                  'none',
-                ]"
-                flex="1"
-                mt="12"
-              >
-                <nav-bar :bottom="true" />
-              </CPseudoBox>
+                <CPseudoBox
+                  :display="[
+                    'none',
+                    'none',
+                    'block',
+                    'block',
+                    'block',
+                  ]"
+                  flex="1"
+                >
+                  <nav-bar />
+                </CPseudoBox>
+                <Nuxt />
+                <CPseudoBox
+                  :display="[
+                    'block',
+                    'block',
+                    'none',
+                    'none',
+                    'none',
+                  ]"
+                  flex="1"
+                  mt="12"
+                >
+                  <nav-bar :bottom="true" />
+                </CPseudoBox>
+              </c-box>
             </c-box>
           </c-box>
-        </c-box>
+        </c-dark-mode>
       </CColorModeProvider>
     </CThemeProvider>
   </div>
