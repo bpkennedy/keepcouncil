@@ -1,58 +1,40 @@
 <template>
-  <c-box
-    :h="{ base: '5rem' }"
-    :max-height="{ base: '5rem' }"
-    w="100%"
-    d="flex"
-    align-items="center"
-    :class="{'bottom-nav': bottom }"
+  <c-stack
+    align="center"
+    direction="row"
+    h="5rem"
   >
-    <c-box
-      v-if="!bottom"
-      flex="1"
+    <c-image
+      :src="require('@/assets/keepCouncilLogoVector.svg')"
+      h="3rem"
+      w="3rem"
+    />
+    <c-text
+      as="h1"
+      font-size="2xl"
+      font-family="EuropaBold"
+      size="lg"
+      class="no-space h1-line-height"
     >
-      <c-stack>
-        <view-title title="KeepCouncil" />
-      </c-stack>
-    </c-box>
-    <nav-links :bottom="bottom" />
-  </c-box>
+      KeepCouncil
+    </c-text>
+    <spacer />
+    <nav-link
+      display="Home"
+      route="/"
+      route-name="index"
+    />
+  </c-stack>
 </template>
 
 <script lang="js">
-import ViewTitle from './ViewTitle.vue'
-import NavLinks from './NavLinks.vue'
+import NavLink from './NavLink.vue'
+import Spacer from './Spacer.vue'
 
 export default {
   components: {
-    NavLinks,
-    ViewTitle,
-  },
-  props: {
-    bottom: {
-      type: Boolean,
-      default: false,
-    },
+    NavLink,
+    Spacer,
   },
 }
 </script>
-
-<style lang="scss">
-.h1-line-height {
-  line-height: 1.5rem;
-}
-
-.no-space {
-  margin: 0;
-  padding: 0;
-}
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: white;
-  border-top: 1px solid #cbd5e0;
-}
-</style>

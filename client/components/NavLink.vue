@@ -1,29 +1,20 @@
 <template>
-  <c-link
-    d="flex"
-    align-items="center"
-    justify-content="center"
-    flex-direction="column"
-    height="100%"
-    width="100%"
-    as="nuxt-link"
-    :to="route"
-    rounded="md"
-    :class="{'active': $nuxt.$route.name === routeName }"
-  >
-    <c-icon
-      :name="iconName"
-      :class="{'active': $nuxt.$route.name === routeName }"
-      style="text-transform: capitalize;"
+  <c-box>
+    <hyper-link
+      :display="display"
+      :to="route"
+      :route-name="routeName"
     />
-    {{ routeName !== 'index' ? routeName : 'home' }}
-  </c-link>
+  </c-box>
 </template>
 
 <script lang="js">
+import HyperLink from './HyperLink.vue'
+
 export default {
+  components: { HyperLink },
   props: {
-    routeName: {
+    display: {
       type: String,
       required: true,
     },
@@ -31,7 +22,7 @@ export default {
       type: String,
       required: true,
     },
-    iconName: {
+    routeName: {
       type: String,
       required: true,
     },

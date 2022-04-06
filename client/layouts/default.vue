@@ -48,7 +48,7 @@
                   flex="1"
                   mt="12"
                 >
-                  <nav-bar :bottom="true" />
+                  <nav-bar />
                 </CPseudoBox>
               </c-box>
             </c-box>

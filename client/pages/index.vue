@@ -4,17 +4,15 @@
       d="flex"
       flex-direction="column"
     >
-      <view-title title="Dashboard View" />
+      <c-text
+        as="h1"
+        font-size="2xl"
+        font-family="EuropaBold"
+        size="lg"
+        class="no-space h1-line-height"
+      >
+        Dashboard
+      </c-text>
     </c-box>
   </c-dark-mode>
 </template>
-
-<script lang="js">
-import ViewTitle from '~/components/ViewTitle.vue'
-
-export default {
-  components: {
-    ViewTitle,
-  },
-}
-</script>
