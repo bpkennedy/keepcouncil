@@ -4,54 +4,28 @@
       <CColorModeProvider>
         <c-dark-mode>
           <c-box
+            as="main"
             font-family="body"
             color="gray.50"
-            as="main"
           >
             <c-reset />
             <loader />
-            <c-box
-              d="flex"
+            <c-flex
               w="100vw"
-              flex-dir="column"
-              justify-content="flex-start"
-              align-items="center"
+              direction="column"
+              justify="flex-start"
+              align="center"
             >
-              <c-box
+              <c-flex
                 flex="1"
-                d="flex"
                 w="100vw"
                 max-w="74rem"
-                flex-dir="column"
+                direction="column"
               >
-                <CPseudoBox
-                  :display="[
-                    'none',
-                    'none',
-                    'block',
-                    'block',
-                    'block',
-                  ]"
-                  flex="1"
-                >
-                  <nav-bar />
-                </CPseudoBox>
+                <nav-bar />
                 <Nuxt />
-                <CPseudoBox
-                  :display="[
-                    'block',
-                    'block',
-                    'none',
-                    'none',
-                    'none',
-                  ]"
-                  flex="1"
-                  mt="12"
-                >
-                  <nav-bar />
-                </CPseudoBox>
-              </c-box>
-            </c-box>
+              </c-flex>
+            </c-flex>
           </c-box>
         </c-dark-mode>
       </CColorModeProvider>

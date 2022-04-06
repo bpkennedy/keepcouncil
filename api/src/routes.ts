@@ -10,6 +10,8 @@ export const routes = () => {
         res.send('Working!')
     }))
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     router.get('/debugmatch', debugMatchValidation, asyncHandler(debugMatchHandler))
 
     router.use(errorHandler)

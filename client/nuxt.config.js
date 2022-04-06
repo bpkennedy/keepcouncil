@@ -1,5 +1,4 @@
 import zlib from 'zlib'
-import { faMeteor } from '@fortawesome/free-solid-svg-icons'
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -85,15 +84,6 @@ export default {
   chakra: {
     config: {
       autoImport: true,
-    },
-    icons: {
-      // Here we state that we use `fa`
-      // icons library for Chakra's
-      // internal icon parser
-      iconPack: 'fa',
-      iconSet: {
-        faMeteor,
-      },
     },
   },
 

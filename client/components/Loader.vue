@@ -13,8 +13,9 @@
       position="absolute"
       left="50%"
       top="50%"
-      color="blue.500"
+      color="white"
       size="xl"
+      thickness="4px"
       z-index="9"
     />
   </c-box>
