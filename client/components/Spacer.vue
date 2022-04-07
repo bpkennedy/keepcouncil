@@ -2,7 +2,7 @@
   <div class="spacer" />
 </template>
 
-<script lang="js">
+<script>
 export default {}
 </script>
 

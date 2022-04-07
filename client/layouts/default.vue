@@ -11,16 +11,17 @@
             <c-reset />
             <loader />
             <c-flex
-              w="100vw"
               direction="column"
               justify="flex-start"
               align="center"
+              class="full-width"
+              :padding-left="['4']"
+              :padding-right="['4']"
             >
               <c-flex
                 flex="1"
-                w="100vw"
-                max-w="74rem"
                 direction="column"
+                class="full-width maximum-content-width"
               >
                 <nav-bar />
                 <Nuxt />
@@ -33,7 +34,7 @@
   </div>
 </template>
 
-<script lang="js">
+<script>
 import Loader from '../components/Loader.vue'
 import NavBar from '../components/NavBar.vue'
 

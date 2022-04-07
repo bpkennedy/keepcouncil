@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { HOME_VIEW_NAME, VIEW_NAMES } from '../constants'
+import { HOME_VIEW_NAME, CREATE_VIEW_NAME, VIEW_NAMES } from '../constants'
 
 export const VIEW_LOADED_ACTION = 'VIEW_LOADED_ACTION'
 export const DATA_IS_LOADING_ACTION = 'DATA_IS_LOADING_ACTION'
@@ -25,9 +25,9 @@ export const actions = {
     if (viewName === HOME_VIEW_NAME) {
       // get data for index page
     }
-    // if (viewName === GAME_VIEW_NAME) {
-    //   // get data for Game stream view
-    // }
+    if (viewName === CREATE_VIEW_NAME) {
+      // get data for Game stream view
+    }
   },
 }
 

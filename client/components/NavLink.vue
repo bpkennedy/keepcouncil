@@ -8,7 +8,7 @@
   </c-box>
 </template>
 
-<script lang="js">
+<script>
 import HyperLink from './HyperLink.vue'
 
 export default {

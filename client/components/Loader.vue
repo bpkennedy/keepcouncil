@@ -3,10 +3,9 @@
     position="absolute"
     top="-4rem"
     left="-2rem"
-    height="100vh"
-    width="100vw"
     user-select="none"
     pointer-events="none"
+    class="full-width full-height"
   >
     <c-spinner
       v-show="loading"
