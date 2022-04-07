@@ -31,6 +31,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '@/plugins/veevalidate.js' },
     { src: '@/plugins/pdf.js', mode: 'client' },
   ],
 
@@ -105,5 +106,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // analyze: true,  // enable this to show webpack build analyzer
+    transpile: [
+      'vee-validate/dist/rules',
+    ],
   },
 }
