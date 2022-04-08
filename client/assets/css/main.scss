@@ -31,7 +31,36 @@ $content-width: calc(#{$safe-area-width} - #{$maximum-content-width});
 .half-content-width { width: calc(#{$content-width} / 2) !important; }
 .maximum-content-width { max-width: $maximum-content-width !important; }
 
+$dark-background-color: #1a1f2c;
+.dark-background { background-color: $dark-background-color; }
+.stack-gap { gap: 1rem; }
+.position-relative { position: relative; }
+.position-absolute { position: absolute; }
+.position-sticky { position: sticky; }
+.bottom { bottom: 0; }
+.bottom-1 { bottom: 0.5rem; }
+.scroll-over-zindex { z-index: 3; }
+
+.default-border {
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.border-none { border: 0; }
+.border-right-none { border-right: 0; }
+
 #__nuxt {
+  $dark-background-active-color: #25354e;
+
+  .dark-background-active {
+    background-color: $dark-background-active-color;
+
+    &:hover {
+      background-color: $dark-background-active-color;
+    }
+  }
+
   .undecorative-link {
     text-decoration: none;
     color: inherit;

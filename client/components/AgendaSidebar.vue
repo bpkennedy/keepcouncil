@@ -1,25 +1,40 @@
 <template>
   <c-flex
     direction="column"
-    w="20rem"
+    w="16rem"
+    min-w="16rem"
   >
-    <c-text
-      as="h1"
-      font-size="xl"
-      font-family="EuropaBold"
-      size="md"
-    >
-      Agenda Item Types
-    </c-text>
-    <c-stack>
-      <c-text
+    <c-accordion>
+      <c-accordion-item
+        class="border-none"
+        is-disabled
+      >
+        <c-accordion-header>
+          <c-text
+            as="h1"
+            font-size="2xl"
+            font-family="EuropaBold"
+            size="md"
+            text-align="center"
+            color="gray.400"
+          >
+            Agenda Item Types
+          </c-text>
+        </c-accordion-header>
+      </c-accordion-item>
+      <c-accordion-item
         v-for="itemType in AGENDA_ITEM_TYPES"
+        v-slot="{ isExpanded }"
         :key="itemType.value"
         @click.native="clickItemType(itemType)"
       >
-        {{ itemType.display }}
-      </c-text>
-    </c-stack>
+        <c-accordion-header :class="{ 'dark-background-active': isExpanded }">
+          <c-box flex="1" text-align="left">
+            {{ itemType.display }}
+          </c-box>
+        </c-accordion-header>
+      </c-accordion-item>
+    </c-accordion>
   </c-flex>
 </template>
 

@@ -31,12 +31,9 @@ export default {
 </script>
 
 <style lang="scss">
-  #buttons {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .content {
-    padding: 16px;
+  #sidebarToggle {
+    &::after {
+      display: none;
+    }
   }
 </style>

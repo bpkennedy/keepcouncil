@@ -5,7 +5,7 @@
       @submit.prevent="onSubmit"
       @reset.prevent="onReset(reset)"
     >
-      <c-stack class="fill-height">
+      <c-stack class="fill-height stack-gap">
         <validation-provider
           v-slot="{ errors }"
           rules="required|alpha_spaces"
@@ -24,9 +24,6 @@
             <c-form-helper-text id="full-name-helper-text">
               <c-text v-if="!!errors[0]" color="red.300">
                 {{ errors[0] }}
-              </c-text>
-              <c-text v-else>
-                First and Last name.
               </c-text>
             </c-form-helper-text>
           </c-form-control>
@@ -57,9 +54,6 @@
               <c-text v-if="!!errors[0]" color="red.300">
                 {{ errors[0] }}
               </c-text>
-              <c-text v-else>
-                Person's role or position.
-              </c-text>
             </c-form-helper-text>
           </c-form-control>
         </validation-provider>
@@ -81,9 +75,6 @@
             <c-form-helper-text id="email-helper-text">
               <c-text v-if="!!errors[0]" color="red.300">
                 {{ errors[0] }}
-              </c-text>
-              <c-text v-else>
-                We'll never share your email.
               </c-text>
             </c-form-helper-text>
           </c-form-control>
@@ -136,16 +127,13 @@
               <c-text v-if="!!errors[0]" color="red.300">
                 {{ errors[0] }}
               </c-text>
-              <c-text v-else>
-                Ward of the person.
-              </c-text>
             </c-form-helper-text>
           </c-form-control>
         </validation-provider>
-        <!--        <spacer />-->
+        <spacer />
         <button-bar
-          width="100%"
           :invalid-form="invalid"
+          class="position-sticky bottom"
           @cancel="onCancel"
         />
       </c-stack>

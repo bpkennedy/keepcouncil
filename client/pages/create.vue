@@ -13,13 +13,22 @@
       </c-flex>
       <agenda-sidebar
         :item-type="selectedAgendaItemType"
+        class="default-border border-right-none"
         @item-type-clicked="selectAgendaItemType"
       />
-      <component
-        :is="selectedAgendaItemType.formComponentName"
-        v-if="selectedAgendaItemType"
-        class="half-full-width"
-      />
+      <c-box
+        :padding-top="4"
+        :padding-left="4"
+        :padding-right="4"
+        :padding-bottom="0"
+        overflow="auto"
+        class="half-full-width default-border"
+      >
+        <component
+          :is="selectedAgendaItemType.formComponentName"
+          v-if="selectedAgendaItemType"
+        />
+      </c-box>
     </c-flex>
   </c-dark-mode>
 </template>
@@ -27,14 +36,14 @@
 <script>
 import AgendaSidebar from '~/components/AgendaSidebar.vue'
 import PersonForm from '~/components/PersonForm.vue'
-// import PreviewPanel from '~/components/PreviewPanel.vue'
+import PreviewPanel from '~/components/PreviewPanel.vue'
 import { AGENDA_ITEM_TYPES } from '~/constants'
 
 export default {
   components: {
     AgendaSidebar,
     PersonForm,
-    // PreviewPanel,
+    PreviewPanel,
   },
   data () {
     return {

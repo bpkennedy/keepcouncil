@@ -2,37 +2,38 @@
   <c-flex
     align="center"
     justify="space-between"
-    class="fill-width"
-    :padding="['4']"
+    class="fill-width dark-background scroll-over-zindex"
+    :padding-top="['4']"
+    :padding-bottom="['4']"
   >
+    <c-button
+      variant="outline"
+      variant-color="gray"
+      :margin-right="['2']"
+      type="reset"
+    >
+      Reset
+    </c-button>
     <c-flex>
       <c-button
         left-icon="close"
+        variant="ghost"
         variant-color="gray"
-        variant="solid"
-        @click="$emit('cancel')"
         :margin-right="['2']"
+        @click="$emit('cancel')"
       >
         Cancel
       </c-button>
       <c-button
-        variant-color="gray"
+        left-icon="check"
+        variant-color="green"
         variant="solid"
-        :margin-right="['2']"
-        type="reset"
+        type="submit"
+        :disabled="invalidForm"
       >
-        Reset
+        Save
       </c-button>
     </c-flex>
-    <c-button
-      left-icon="check"
-      variant-color="green"
-      variant="solid"
-      type="submit"
-      :disabled="invalidForm"
-    >
-      Save
-    </c-button>
   </c-flex>
 </template>
 
