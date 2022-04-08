@@ -2,7 +2,6 @@
   <c-stack
     align="center"
     direction="row"
-    class="navbar-height"
   >
     <c-link
       as="nuxt-link"

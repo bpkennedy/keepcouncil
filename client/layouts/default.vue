@@ -23,8 +23,8 @@
                 direction="column"
                 class="full-width maximum-content-width"
               >
-                <nav-bar />
-                <Nuxt />
+                <nav-bar class="navbar-height" />
+                <Nuxt class="content-height" />
               </c-flex>
             </c-flex>
           </c-box>
