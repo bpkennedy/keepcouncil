@@ -7,6 +7,7 @@
     :padding-bottom="['4']"
   >
     <c-button
+      v-if="showResetButton"
       variant="outline"
       variant-color="gray"
       :margin-right="['2']"
@@ -16,6 +17,7 @@
     </c-button>
     <c-flex>
       <c-button
+        v-if="showCancelButton"
         left-icon="close"
         variant="ghost"
         variant-color="gray"
@@ -43,6 +45,14 @@ export default {
     invalidForm: {
       type: Boolean,
       default: false,
+    },
+    showCancelButton: {
+      type: Boolean,
+      default: true,
+    },
+    showResetButton: {
+      type: Boolean,
+      default: true,
     },
   },
 }

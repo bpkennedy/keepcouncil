@@ -38,8 +38,12 @@ $dark-background-color: #1a1f2c;
 .position-absolute { position: absolute; }
 .position-sticky { position: sticky; }
 .bottom { bottom: 0; }
+.top { top: 0; }
 .bottom-1 { bottom: 0.5rem; }
 .scroll-over-zindex { z-index: 3; }
+.flex { display: flex; }
+.flex-1 { flex: 1; }
+.overflow-auto { overflow: auto; }
 
 .default-border {
   border-width: 1px;

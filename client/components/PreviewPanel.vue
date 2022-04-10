@@ -1,15 +1,26 @@
 <template>
-  <c-box>
-    <c-box v-if="url">
+  <c-flex class="flex-1">
+    <c-flex
+      v-if="url"
+      direction="column"
+      justify="center"
+      align="center"
+      class="fill-height fill-width"
+    >
       <vue-pdf-app
-        class="content-height"
+        class="fill-height fill-width"
         :pdf="`${API_PATH}/preview?pdfUrl=${url}`"
       />
-    </c-box>
-    <c-box v-else>
+    </c-flex>
+    <c-box
+      v-else
+      direction="column"
+      justify="center"
+      align="center"
+    >
       Please specify a remote file url to load ...
     </c-box>
-  </c-box>
+  </c-flex>
 </template>
 
 <script>

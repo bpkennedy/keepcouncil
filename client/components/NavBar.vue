@@ -35,17 +35,32 @@
         route-name="create"
       />
     </c-button>
+    <c-button
+      @click="$store.dispatch(TOGGLE_PREVIEW_PANE_ACTION)"
+    >
+      {{ showPreviewPane ? 'Unload PDF' : 'Preview PDF' }}
+    </c-button>
   </c-stack>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import NavLink from './NavLink.vue'
 import Spacer from './Spacer.vue'
+import { TOGGLE_PREVIEW_PANE_ACTION } from '~/store'
 
 export default {
   components: {
     NavLink,
     Spacer,
+  },
+  data () {
+    return {
+      TOGGLE_PREVIEW_PANE_ACTION,
+    }
+  },
+  computed: {
+    ...mapState(['showPreviewPane']),
   },
 }
 </script>

@@ -2,6 +2,13 @@ import { extend } from 'vee-validate'
 // eslint-disable-next-line camelcase
 import { required, email, alpha_spaces } from 'vee-validate/dist/rules'
 
+extend('url', {
+  validate: (value) => {
+    return value && typeof value === 'string' && value.trim().length > 0
+  },
+  message: 'Must be a url address',
+})
+
 extend('required', {
   ...required,
   message: 'This field is required',
