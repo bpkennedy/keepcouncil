@@ -8,12 +8,8 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint:js": "eslint --ext \".js,.vue\" .",
-    "lint:js:fix": "eslint --ext \".js,.vue\" --fix .",
-    "lint:style": "stylelint \"**/*.{vue,css}\"",
-    "lint:style:fix": "stylelint \"**/*.{vue,css}\" --fix",
-    "lint": "yarn lint:js && yarn lint:style",
-    "lint:fix": "yarn lint:js:fix && yarn lint:style:fix"
+    "lint": "eslint --ext \".js,.vue\" . && stylelint \"**/*.{vue,css}\"",
+    "lint:fix": "eslint --ext \".js,.vue\" --fix . && stylelint \"**/*.{vue,css}\" --fix"
   },
   "dependencies": {
     "@chakra-ui/nuxt": "^0.3.0",
