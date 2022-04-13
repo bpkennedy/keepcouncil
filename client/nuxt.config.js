@@ -33,6 +33,7 @@ export default {
   plugins: [
     { src: '@/plugins/veevalidate.js' },
     { src: '@/plugins/pdf.js', mode: 'client' },
+    { src: '@/plugins/splitpanes.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

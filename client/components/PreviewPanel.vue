@@ -9,6 +9,7 @@
     >
       <vue-pdf-app
         class="fill-height fill-width"
+        :config="config"
         :pdf="`${API_PATH}/preview?pdfUrl=${url}`"
       />
     </c-flex>
@@ -36,6 +37,9 @@ export default {
   data () {
     return {
       API_PATH,
+      config: {
+        toolbar: false,
+      },
     }
   },
 }
