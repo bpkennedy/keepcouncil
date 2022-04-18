@@ -35,9 +35,12 @@ $content-width: calc(#{$safe-area-width} - #{$maximum-content-width});
 .minimum-content-width { min-width: $minimum-content-width !important; }
 
 $dark-background-color: #1a1f2c;
+$light-background-color: rgba(45, 55, 72, 1);
 $logo-blue-color: #403ffc;
 .dark-background { background-color: $dark-background-color; }
+.light-background { background-color: $light-background-color; }
 .stack-gap { gap: 1rem; }
+.justify-right { justify-content: flex-end; }
 .position-relative { position: relative; }
 .position-absolute { position: absolute; }
 .position-sticky { position: sticky; }
@@ -69,6 +72,11 @@ $logo-blue-color: #403ffc;
     &:hover {
       background-color: $dark-background-active-color;
     }
+  }
+
+  .__nuxt-error-page {
+    background-color: $dark-background-color;
+    color: white;
   }
 
   .undecorative-link {

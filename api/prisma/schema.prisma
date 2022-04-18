@@ -46,6 +46,7 @@ model Meeting {
   createdAt                 DateTime                @default(now())
   updatedAt                 DateTime                @updatedAt
   date                      DateTime?
+  name                      String                  @db.VarChar(255)
   attendees                 Person[]
   motions                   Motion[]
   hearingFromCitizens       HearingFromCitizen[]

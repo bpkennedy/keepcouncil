@@ -3,6 +3,7 @@
     align="center"
     justify="space-between"
     class="fill-width dark-background scroll-over-zindex"
+    :class="{ 'justify-right': !showResetButton }"
     :padding-top="['4']"
     :padding-bottom="['4']"
   >

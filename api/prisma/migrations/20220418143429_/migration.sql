@@ -14,7 +14,7 @@ CREATE TABLE "Person" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "fullName" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
-    "phoneNumber" INTEGER NOT NULL,
+    "phoneNumber" INTEGER,
     "ward" INTEGER,
     "personType" "PersonType" NOT NULL,
 
@@ -27,6 +27,7 @@ CREATE TABLE "Meeting" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "date" TIMESTAMP(3),
+    "name" VARCHAR(255) NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -250,9 +251,6 @@ CREATE UNIQUE INDEX "Resolution.resolutionNumber_unique" ON "Resolution"("resolu
 CREATE UNIQUE INDEX "PublicHearing.title_unique" ON "PublicHearing"("title");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Bill.billNumber_unique" ON "Bill"("billNumber");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Request.title_unique" ON "Request"("title");
 
 -- CreateIndex
@@ -284,30 +282,6 @@ CREATE UNIQUE INDEX "_Bill_Nay_AB_unique" ON "_Bill_Nay"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_Bill_Nay_B_index" ON "_Bill_Nay"("B");
-
--- AddForeignKey
-ALTER TABLE "Bill" ADD FOREIGN KEY ("introducedById") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Bill" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "PublicHearing" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Proclamation" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "BoardAppointment" ADD FOREIGN KEY ("referredById") REFERENCES "Person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "BoardAppointment" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_Resolution_Aye" ADD FOREIGN KEY ("A") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_Resolution_Aye" ADD FOREIGN KEY ("B") REFERENCES "Resolution"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Motion" ADD FOREIGN KEY ("initiatorId") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -346,13 +320,34 @@ ALTER TABLE "Motion" ADD FOREIGN KEY ("announcementId") REFERENCES "Announcement
 ALTER TABLE "Motion" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_Bill_Aye" ADD FOREIGN KEY ("A") REFERENCES "Bill"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "HearingFromCitizen" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_Bill_Aye" ADD FOREIGN KEY ("B") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Proclamation" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Resolution" ADD FOREIGN KEY ("introducedById") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Resolution" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Communication" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PublicHearing" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Bill" ADD FOREIGN KEY ("introducedById") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Bill" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "BoardAppointment" ADD FOREIGN KEY ("referredById") REFERENCES "Person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "BoardAppointment" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Request" ADD FOREIGN KEY ("acceptorId") REFERENCES "Person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -364,25 +359,22 @@ ALTER TABLE "Request" ADD FOREIGN KEY ("secondedById") REFERENCES "Person"("id")
 ALTER TABLE "Request" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Announcement" ADD FOREIGN KEY ("announcerId") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Announcement" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "_MeetingToPerson" ADD FOREIGN KEY ("A") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_MeetingToPerson" ADD FOREIGN KEY ("B") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "HearingFromCitizen" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_Resolution_Aye" ADD FOREIGN KEY ("A") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_Bill_Nay" ADD FOREIGN KEY ("A") REFERENCES "Bill"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_Bill_Nay" ADD FOREIGN KEY ("B") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Announcement" ADD FOREIGN KEY ("announcerId") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Announcement" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_Resolution_Aye" ADD FOREIGN KEY ("B") REFERENCES "Resolution"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_Resolution_Nay" ADD FOREIGN KEY ("A") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -391,7 +383,13 @@ ALTER TABLE "_Resolution_Nay" ADD FOREIGN KEY ("A") REFERENCES "Person"("id") ON
 ALTER TABLE "_Resolution_Nay" ADD FOREIGN KEY ("B") REFERENCES "Resolution"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Resolution" ADD FOREIGN KEY ("introducedById") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_Bill_Aye" ADD FOREIGN KEY ("A") REFERENCES "Bill"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Resolution" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_Bill_Aye" ADD FOREIGN KEY ("B") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_Bill_Nay" ADD FOREIGN KEY ("A") REFERENCES "Bill"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_Bill_Nay" ADD FOREIGN KEY ("B") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;

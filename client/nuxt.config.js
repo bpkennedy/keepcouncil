@@ -34,6 +34,7 @@ export default {
     { src: '@/plugins/veevalidate.js' },
     { src: '@/plugins/pdf.js', mode: 'client' },
     { src: '@/plugins/splitpanes.js', mode: 'client' },
+    { src: '@/plugins/datepicker.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -59,6 +60,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/axios',
   ],
 
   // nuxt-compress for optimal file compression
@@ -92,7 +94,9 @@ export default {
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:3001/api/v1/',
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
