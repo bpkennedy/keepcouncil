@@ -36,10 +36,16 @@ export default {
     close () {
       this.$emit('close')
     },
-    newMeeting (payload) {
+    async newMeeting (payload) {
       this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new meeting...')
-      this.$store.dispatch(NEW_MEETING_CREATION_ACTION, payload)
+      await this.$store.dispatch(NEW_MEETING_CREATION_ACTION, payload)
       this.$store.dispatch(DATA_DONE_LOADING_ACTION)
+      this.$toast({
+        title: 'Success.',
+        description: `We've created a new meeting for you.`,
+        status: 'success',
+        duration: 4000,
+      })
     },
   },
 }

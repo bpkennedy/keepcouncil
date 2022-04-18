@@ -50,6 +50,29 @@
             </c-form-helper-text>
           </c-form-control>
         </validation-provider>
+
+        <validation-provider
+          v-slot="{ errors }"
+          rules="url"
+        >
+          <c-form-control :is-invalid="!!errors[0]">
+            <c-form-label for="meetingPreviewUrl">
+              Meeting Notes PDF url
+            </c-form-label>
+            <c-input
+              id="meetingPreviewUrl"
+              v-model="meetingPreviewUrl"
+              name="meetingPreviewUrl"
+              type="text"
+              aria-describedby="meeting-preview-url-helper-text"
+            />
+            <c-form-helper-text id="meeting-preview-url-helper-text">
+              <c-text v-if="!!errors[0]" color="red.300">
+                {{ errors[0] }}
+              </c-text>
+            </c-form-helper-text>
+          </c-form-control>
+        </validation-provider>
         <spacer />
         <button-bar
           :invalid-form="invalid"
@@ -76,6 +99,7 @@ export default {
     return {
       meetingName: null,
       meetingDate: null,
+      meetingPreviewUrl: null,
     }
   },
   methods: {
@@ -83,6 +107,7 @@ export default {
       this.$emit('submit', {
         meetingName: this.meetingName,
         meetingDate: this.meetingDate,
+        meetingPreviewUrl: this.meetingPreviewUrl,
       })
       this.$emit('close')
     },
@@ -92,6 +117,7 @@ export default {
     onCancel () {
       this.meetingName = null
       this.meetingDate = null
+      this.meetingPreviewUrl = null
       this.$emit('cancel')
     },
   },

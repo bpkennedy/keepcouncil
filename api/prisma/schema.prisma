@@ -47,6 +47,7 @@ model Meeting {
   updatedAt                 DateTime                @updatedAt
   date                      DateTime?
   name                      String                  @db.VarChar(255)
+  previewUrl                String                  @db.VarChar(255)
   attendees                 Person[]
   motions                   Motion[]
   hearingFromCitizens       HearingFromCitizen[]

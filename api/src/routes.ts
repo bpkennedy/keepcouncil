@@ -3,7 +3,13 @@ import asyncHandler from 'express-async-handler'
 import { debugMatchHandler, debugMatchValidation } from './controllers/simulation'
 import { errorHandler } from './services/errors'
 import { pdfPreviewHandler, pdfValidation } from './controllers/pdfPreviewHandler'
-import { newMeetingHandler, meetingValidation } from './controllers/newMeetingHandler'
+import {
+    meetingHandler,
+    meetingValidation,
+    getMeetingsHandler,
+    getOneMeetingHandler,
+    oneMeetingValidation
+} from './controllers/meetingHandler'
 
 export const routes = () => {
     const router = express.Router()
@@ -18,7 +24,11 @@ export const routes = () => {
     router.get('/preview', pdfValidation, asyncHandler(pdfPreviewHandler))
 
     // @ts-ignore
-    router.post('/meetings', meetingValidation, asyncHandler(newMeetingHandler))
+    router.post('/meetings', meetingValidation, asyncHandler(meetingHandler))
+    // @ts-ignore
+    router.get('/meetings', asyncHandler(getMeetingsHandler))
+    // @ts-ignore
+    router.get('/meeting/:meetingId', oneMeetingValidation, asyncHandler(getOneMeetingHandler))
 
     router.use(errorHandler)
     return router

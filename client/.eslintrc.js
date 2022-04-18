@@ -17,6 +17,8 @@ module.exports = {
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
     'import/no-mutable-exports': 'off',
+    quotes: ['error', 'single', { allowTemplateLiterals: true }],
+    'no-console': 'off',
     'vue/html-self-closing': ['error', {
       html: {
         void: 'always',

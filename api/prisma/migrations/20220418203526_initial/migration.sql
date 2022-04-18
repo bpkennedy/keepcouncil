@@ -28,6 +28,7 @@ CREATE TABLE "Meeting" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "date" TIMESTAMP(3),
     "name" VARCHAR(255) NOT NULL,
+    "previewUrl" VARCHAR(255) NOT NULL,
 
     PRIMARY KEY ("id")
 );

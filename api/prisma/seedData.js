@@ -56,5 +56,6 @@ module.exports.motions = [
 
 module.exports.meetings = [{
   name: 'Test Meeting',
+  previewUrl: 'https://www.florissantmo.com/egov/documents/1646328757_74811.pdf',
   date: new Date(),
 }]

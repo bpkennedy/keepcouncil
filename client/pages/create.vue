@@ -26,7 +26,8 @@
 <script>
 import AgendaSidebar from '~/components/AgendaSidebar.vue'
 import PersonForm from '~/components/PersonForm.vue'
-import { AGENDA_ITEM_TYPES } from '~/constants'
+import { AGENDA_ITEM_TYPES, CREATE_VIEW_NAME } from '~/constants'
+import { VIEW_LOADED_ACTION } from '~/store'
 
 export default {
   components: {
@@ -38,6 +39,9 @@ export default {
       AGENDA_ITEM_TYPES,
       selectedAgendaItemType: null,
     }
+  },
+  created () {
+    this.$store.dispatch(VIEW_LOADED_ACTION, { viewName: CREATE_VIEW_NAME })
   },
   methods: {
     selectAgendaItemType (itemType) {
