@@ -10,6 +10,8 @@ export const TOGGLE_PREVIEW_PANE_ACTION = 'TOGGLE_PREVIEW_PANE_ACTION'
 export const SUBMIT_PREVIEW_FILE_URL_ACTION = 'SUBMIT_PREVIEW_FILE_URL_ACTION'
 export const MEETINGS_VIEW_LOADED_ACTION = 'MEETINGS_VIEW_LOADED_ACTION'
 export const EDIT_VIEW_LOADED_ACTION = 'EDIT_VIEW_LOADED_ACTION'
+export const ITEMS_REQUESTED_BY_TYPE_ACTION = 'ITEMS_REQUESTED_BY_TYPE_ACTION'
+export const NEW_ITEM_FORM_LOAD_ACTION = 'NEW_ITEM_FORM_LOAD_ACTION'
 
 const SET_PREVIEW_FILE_URL_MUTATION = 'SET_PREVIEW_FILE_URL_MUTATION'
 const SET_PREVIEW_PANE_MUTATION = 'SET_PREVIEW_PANE_MUTATION'
@@ -17,6 +19,8 @@ const SET_LOADING_MUTATION = 'SET_LOADING_MUTATION'
 const SET_LOADING_MESSAGE_MUTATION = 'SET_LOADING_MESSAGE_MUTATION'
 const SET_CURRENT_MEETING_MUTATION = 'SET_CURRENT_MEETING_MUTATION'
 const SET_MEETINGS_MUTATION = 'SET_MEETINGS_MUTATION'
+const SET_LOADED_ITEMS_OF_TYPE_MUTATION = 'SET_LOADED_ITEMS_OF_TYPE_MUTATION'
+const SET_LOADED_FORM_TYPE_MUTATION = 'SET_LOADED_FORM_TYPE_MUTATION'
 
 export const state = () => ({
   loading: false,
@@ -25,12 +29,22 @@ export const state = () => ({
   previewFileUrl: null,
   currentMeeting: null,
   meetings: [],
+  loadedFormType: null,
+  loadedItemsOfType: [],
 })
 
-const apiPost = async (axios, url, payload) => (await axios.$post(url, payload))
-const apiGet = async (axios, url) => (await axios.$get(url))
+export const apiPost = async (axios, url, payload) => (await axios.$post(url, payload))
+export const apiGet = async (axios, url) => (await axios.$get(url))
 
 export const actions = {
+  [NEW_ITEM_FORM_LOAD_ACTION] ({ commit }, itemType) {
+    commit(SET_LOADED_FORM_TYPE_MUTATION, itemType)
+  },
+  async [ITEMS_REQUESTED_BY_TYPE_ACTION] ({ commit }, itemType) {
+    commit(SET_LOADED_FORM_TYPE_MUTATION, null)
+    const items = (await apiGet(this.$axios, `${API_PATH}/${itemType.value}`))
+    commit(SET_LOADED_ITEMS_OF_TYPE_MUTATION, items)
+  },
   async [SELECTED_CURRENT_MEETING_ACTION] ({ commit }, meetingId) {
     const meeting = (await apiGet(this.$axios, `${API_PATH}/meeting/${meetingId}`))
     commit(SET_CURRENT_MEETING_MUTATION, meeting)
@@ -85,6 +99,12 @@ export const actions = {
 }
 
 export const mutations = {
+  [SET_LOADED_FORM_TYPE_MUTATION] (state, itemType) {
+    Vue.set(state, 'loadedFormType', itemType)
+  },
+  [SET_LOADED_ITEMS_OF_TYPE_MUTATION] (state, items) {
+    Vue.set(state, 'loadedItemsOfType', items)
+  },
   [SET_MEETINGS_MUTATION] (state, meetings) {
     Vue.set(state, 'meetings', meetings)
   },

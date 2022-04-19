@@ -29,9 +29,12 @@
         v-for="itemType in AGENDA_ITEM_TYPES"
         v-slot="{ isExpanded }"
         :key="itemType.value"
-        @click.native="loadItemTypes(itemType)"
+        @click.native="loadItemsByType(itemType)"
       >
-        <c-accordion-header :class="{ 'dark-background-active': isExpanded }">
+        <c-accordion-header
+          :class="{ 'dark-background-active': isExpanded }"
+          class="accordion-header"
+        >
           <c-box
             flex="1"
             class="test"
@@ -43,12 +46,12 @@
               {{ itemType.display }}
             </c-box>
             <c-button
-              size="xs"
+              size="sm"
               right-icon="add"
               variant-color="blue"
               variant="outline"
               class="center-icon-in-button"
-              @click.stop="addItemType(itemType)"
+              @click.stop="loadForm(itemType)"
             />
           </c-box>
         </c-accordion-header>
@@ -61,6 +64,7 @@
 import { mapState } from 'vuex'
 import { AGENDA_ITEM_TYPES } from '~/constants'
 import MeetingSummaryCard from '~/components/MeetingSummaryCard'
+import { NEW_ITEM_FORM_LOAD_ACTION, ITEMS_REQUESTED_BY_TYPE_ACTION } from '~/store'
 
 export default {
   components: {
@@ -75,22 +79,23 @@ export default {
     ...mapState(['currentMeeting']),
   },
   methods: {
-    loadItemTypes (itemType) {
-      this.$emit('load-item-types-clicked', itemType)
+    loadItemsByType (itemType) {
+      this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, itemType)
     },
-    addItemType (itemType) {
-      this.$emit('item-type-clicked', itemType)
+    loadForm (itemType) {
+      this.$store.dispatch(NEW_ITEM_FORM_LOAD_ACTION, itemType)
     },
   },
 }
 </script>
 
 <style lang="scss">
+@import '../assets/css/main.scss';
+
 .center-icon-in-button {
   border: none;
 
   svg {
-    transition: all 200ms ease;
     margin: 0;
   }
 
@@ -98,9 +103,6 @@ export default {
     border: none;
 
     svg {
-      width: 1.25em;
-      height: 1.25em;
-
       path {
         fill: white;
       }
@@ -109,8 +111,52 @@ export default {
     &::before {
       content: 'Add ';
       color: white;
-      font-size: 1.25em;
       margin-right: 0.5rem;
+    }
+  }
+}
+
+.accordion-header {
+  &:hover {
+    background-color: $gray400;
+    color: black;
+
+    .center-icon-in-button {
+      color: black;
+
+      &:hover {
+        color: white;
+        background-color: $dark-background-color;
+
+        svg {
+          path {
+            fill: white;
+          }
+        }
+      }
+    }
+  }
+
+  &:focus {
+    color: white;
+
+    .center-icon-in-button {
+      color: white;
+
+      &:hover {
+        color: black;
+        background-color: white;
+
+        svg {
+          path {
+            fill: black;
+          }
+        }
+
+        &::before {
+          color: black;
+        }
+      }
     }
   }
 }

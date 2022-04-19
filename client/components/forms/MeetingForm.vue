@@ -64,7 +64,7 @@
         >
           <c-form-control :is-invalid="!!errors[0]">
             <c-form-label for="meetingPreviewUrl">
-              Meeting Notes PDF url
+              Preview File URL
             </c-form-label>
             <c-input
               id="meetingPreviewUrl"

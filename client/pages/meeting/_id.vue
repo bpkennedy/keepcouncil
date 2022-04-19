@@ -1,59 +1,56 @@
 <template>
   <c-dark-mode>
     <c-flex>
-      <agenda-sidebar
-        :item-type="selectedAgendaItemType"
-        class="default-border overflow-auto"
-        @item-type-clicked="selectAgendaItemType"
-        @load-item-types-clicked="loadItemsByType"
-      />
+      <agenda-sidebar class="default-border overflow-auto" />
       <c-box
-        :padding-top="4"
+        :padding-top="loadedFormType ? 0 : 4"
         :padding-left="4"
         :padding-right="4"
         :padding-bottom="0"
         overflow="auto"
         class="fill-width"
       >
-        <component
-          :is="selectedAgendaItemType.formComponentName"
-          v-if="selectedAgendaItemType"
-        />
+        <template v-if="loadedFormType">
+          <component :is="loadedFormType.formComponentName" />
+        </template>
+        <template v-else>
+          <c-simple-grid min-child-width="24rem" :spacing="4">
+            <generic-agenda-item-card
+              v-for="item of loadedItemsOfType"
+              :key="item.id"
+              :item="item"
+              class="flex-1"
+            />
+          </c-simple-grid>
+        </template>
       </c-box>
     </c-flex>
   </c-dark-mode>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AgendaSidebar from '~/components/AgendaSidebar.vue'
 import PersonForm from '~/components/forms/PersonForm.vue'
 import MeetingForm from '~/components/forms/MeetingForm.vue'
-import { AGENDA_ITEM_TYPES, API_PATH, EDIT_VIEW_NAME } from '~/constants'
+import { EDIT_VIEW_NAME } from '~/constants'
 import { VIEW_LOADED_ACTION } from '~/store'
+import MeetingSummaryCard from '~/components/MeetingSummaryCard'
+import GenericAgendaItemCard from '~/components/GenericAgendaItemCard'
 
 export default {
   components: {
+    GenericAgendaItemCard,
+    MeetingSummaryCard,
     AgendaSidebar,
     PersonForm,
     MeetingForm,
   },
-  data () {
-    return {
-      AGENDA_ITEM_TYPES,
-      selectedAgendaItemType: null,
-      loadedItemsOfType: [],
-    }
+  computed: {
+    ...mapState(['loadedItemsOfType', 'loadedFormType']),
   },
   created () {
     this.$store.dispatch(VIEW_LOADED_ACTION, { viewName: EDIT_VIEW_NAME })
-  },
-  methods: {
-    async loadItemsByType (itemType) {
-      this.loadedItemsOfType = (await this.$axios.get(`${API_PATH}/${itemType.value}`))
-    },
-    selectAgendaItemType (itemType) {
-      this.selectedAgendaItemType = itemType
-    },
   },
 }
 </script>

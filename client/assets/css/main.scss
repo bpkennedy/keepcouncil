@@ -37,6 +37,7 @@ $content-width: calc(#{$safe-area-width} - #{$maximum-content-width});
 $dark-background-color: #1a1f2c;
 $light-background-color: rgba(45, 55, 72, 1);
 $logo-blue-color: #403ffc;
+$gray400: #a0aec0;
 .dark-background { background-color: $dark-background-color; }
 .light-background { background-color: $light-background-color; }
 .stack-gap { gap: 1rem; }

@@ -150,8 +150,9 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { POSITIONS } from '~/constants'
+import { AGENDA_ITEM_TYPES, POSITIONS } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
+import { ITEMS_REQUESTED_BY_TYPE_ACTION } from '~/store'
 
 export default {
   components: {
@@ -183,7 +184,7 @@ export default {
       veeValidateResetMethod()
     },
     onCancel () {
-      // console.log('cancelled')
+      this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
     },
   },
 }
