@@ -1,20 +1,30 @@
 <template>
   <c-pseudo-box
     max-w="md"
-    border-width="1px"
+    :border-width="headerMode ? '0' : '1px'"
     rounded="sm"
     overflow="hidden"
     p="6"
+    pt="1rem"
     :_hover="{
-      borderColor: 'gray.200',
-      bg: 'gray.200',
-      color: 'gray.800',
-      cursor: 'pointer',
+      borderColor: headerMode ? 'none' : 'gray.800',
+      bg: headerMode ? 'inherit' : 'gray.700',
+      color: 'white',
+      cursor: headerMode ? 'initial' : 'pointer',
     }"
     as="nuxt-link"
-    :to="`/meetings/${meeting.id}`"
+    :to="`/meeting/${meeting.id}`"
   >
-    <c-box d="flex" align-items="baseline">
+    <c-box d="flex" align-items="center" justify-content="space-between">
+      <c-box
+        mr="1rem"
+        font-weight="semibold"
+        as="h4"
+        line-height="tight"
+        is-truncated
+      >
+        {{ meeting.name }}
+      </c-box>
       <c-box
         color="gray.500"
         font-weight="semibold"
@@ -22,17 +32,8 @@
         font-size="xs"
         text-transform="uppercase"
       >
-        Council Meeting Date: {{ Intl.DateTimeFormat("us-EN").format(new Date(meeting.date)) }}
+        {{ Intl.DateTimeFormat("us-EN").format(new Date(meeting.date)) }}
       </c-box>
-    </c-box>
-    <c-box
-      mt="1"
-      font-weight="semibold"
-      as="h4"
-      line-height="tight"
-      is-truncated
-    >
-      {{ meeting.name }}
     </c-box>
     <c-box
       v-if="meeting.previewUrl.length"
@@ -40,8 +41,9 @@
       font-size="sm"
     >
       <c-button
-        mt="0.5rem"
+        mt="1rem"
         size="sm"
+        width="100%"
         variant-color="blue"
         color="black"
         @click.prevent="togglePreview"
@@ -66,6 +68,10 @@ export default {
     meeting: {
       type: Object,
       required: true,
+    },
+    headerMode: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

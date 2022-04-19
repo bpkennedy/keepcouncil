@@ -4,7 +4,6 @@
     :on-close="close"
   >
     <c-modal-content ref="content">
-      <c-modal-header>Create New Meeting Minutes</c-modal-header>
       <c-modal-close-button />
       <c-modal-body>
         <meeting-form
@@ -19,7 +18,7 @@
 </template>
 
 <script>
-import MeetingForm from '~/components/MeetingForm'
+import MeetingForm from '~/components/forms/MeetingForm'
 import { DATA_DONE_LOADING_ACTION, DATA_IS_LOADING_ACTION, NEW_MEETING_CREATION_ACTION } from '~/store'
 
 export default {

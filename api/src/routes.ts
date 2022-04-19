@@ -6,10 +6,11 @@ import { pdfPreviewHandler, pdfValidation } from './controllers/pdfPreviewHandle
 import {
     meetingHandler,
     meetingValidation,
-    getMeetingsHandler,
     getOneMeetingHandler,
     oneMeetingValidation
 } from './controllers/meetingHandler'
+import { AGENDA_ITEM_TYPES } from './config/constants'
+import prisma from './prisma'
 
 export const routes = () => {
     const router = express.Router()
@@ -24,11 +25,17 @@ export const routes = () => {
     router.get('/preview', pdfValidation, asyncHandler(pdfPreviewHandler))
 
     // @ts-ignore
-    router.post('/meetings', meetingValidation, asyncHandler(meetingHandler))
-    // @ts-ignore
-    router.get('/meetings', asyncHandler(getMeetingsHandler))
+    router.post('/meeting', meetingValidation, asyncHandler(meetingHandler))
     // @ts-ignore
     router.get('/meeting/:meetingId', oneMeetingValidation, asyncHandler(getOneMeetingHandler))
+
+    for (const itemType of AGENDA_ITEM_TYPES) {
+        router.get(`/${itemType.value}`, asyncHandler(async (req: express.Request, res: express.Response) => {
+            // @ts-ignore
+            const resources = (await prisma[`${itemType.value}`].findMany())
+            res.send(resources).status(200)
+        }))
+    }
 
     router.use(errorHandler)
     return router

@@ -6,6 +6,13 @@
       @reset.prevent="onReset(reset)"
     >
       <c-stack class="fill-height stack-gap">
+        <c-text
+          as="h2"
+          font-size="2rem"
+          font-family="EuropaLight"
+        >
+          Add New Person
+        </c-text>
         <validation-provider
           v-slot="{ errors }"
           rules="required|alpha_spaces"

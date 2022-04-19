@@ -32,11 +32,11 @@ const apiGet = async (axios, url) => (await axios.$get(url))
 
 export const actions = {
   async [SELECTED_CURRENT_MEETING_ACTION] ({ commit }, meetingId) {
-    const meeting = (await apiGet(this.$axios, `${API_PATH}meeting/${meetingId}`))
+    const meeting = (await apiGet(this.$axios, `${API_PATH}/meeting/${meetingId}`))
     commit(SET_CURRENT_MEETING_MUTATION, meeting)
   },
   async [NEW_MEETING_CREATION_ACTION] ({ dispatch }, payload) {
-    const createdMeeting = (await apiPost(this.$axios, API_PATH + 'meetings', payload))
+    const createdMeeting = (await apiPost(this.$axios, `${API_PATH}/meeting`, payload))
     dispatch(MEETINGS_VIEW_LOADED_ACTION)
     dispatch(SELECTED_CURRENT_MEETING_ACTION, createdMeeting.id)
   },
@@ -55,11 +55,11 @@ export const actions = {
     commit(SET_PREVIEW_FILE_URL_MUTATION, url)
   },
   async [MEETINGS_VIEW_LOADED_ACTION] ({ commit }) {
-    const meetings = (await apiGet(this.$axios, API_PATH + 'meetings'))
+    const meetings = (await apiGet(this.$axios, `${API_PATH}/meeting`))
     commit(SET_MEETINGS_MUTATION, meetings)
   },
   async [EDIT_VIEW_LOADED_ACTION] ({ dispatch }) {
-    const loadedMeeting = (await apiGet(this.$axios, `${API_PATH}meeting/${this.$router.currentRoute.params.id}`))
+    const loadedMeeting = (await apiGet(this.$axios, `${API_PATH}/meeting/${this.$router.currentRoute.params.id}`))
     if (loadedMeeting) {
       dispatch(SELECTED_CURRENT_MEETING_ACTION, loadedMeeting.id)
     } else {

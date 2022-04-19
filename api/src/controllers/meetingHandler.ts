@@ -23,11 +23,6 @@ export const meetingHandler = async (req: express.Request, res: express.Response
     return res.send(response).status(201)
 }
 
-export const getMeetingsHandler = async (req: express.Request, res: express.Response) => {
-    const meetings = await prisma.meeting.findMany()
-    return res.send(meetings).status(200)
-}
-
 export const oneMeetingValidation = celebrate({
     [Segments.PARAMS]: {
         meetingId: Joi.number().required(),

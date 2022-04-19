@@ -5,6 +5,13 @@
       @submit.prevent="onSubmit"
     >
       <c-stack class="fill-height stack-gap">
+        <c-text
+          as="h2"
+          font-size="2rem"
+          font-family="EuropaLight"
+        >
+          Add New Meeting
+        </c-text>
         <validation-provider
           v-slot="{ errors }"
           rules="required"
@@ -125,7 +132,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/css/main.scss';
+@import '../../assets/css/main';
 
 .vdp-datepicker__calendar {
   background: rgb(45, 55, 72) !important;
