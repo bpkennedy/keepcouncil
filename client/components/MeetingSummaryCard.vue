@@ -1,8 +1,8 @@
 <template>
   <c-pseudo-box
-    max-w="sm"
+    max-w="md"
     border-width="1px"
-    rounded="lg"
+    rounded="sm"
     overflow="hidden"
     p="6"
     :_hover="{
@@ -11,7 +11,8 @@
       color: 'gray.800',
       cursor: 'pointer',
     }"
-    @click.prevent="$emit('meeting-selected', meeting.id)"
+    as="nuxt-link"
+    :to="`/meetings/${meeting.id}`"
   >
     <c-box d="flex" align-items="baseline">
       <c-box
@@ -38,22 +39,50 @@
       color="gray.600"
       font-size="sm"
     >
-      <c-link
-        :href="meeting.previewUrl"
-        is-external
+      <c-button
+        mt="0.5rem"
+        size="sm"
+        variant-color="blue"
+        color="black"
+        @click.prevent="togglePreview"
       >
-        View PDF
-      </c-link>
+        {{ showPreviewPane ? 'Close PDF' : 'Preview PDF' }}
+      </c-button>
     </c-box>
   </c-pseudo-box>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import {
+  DATA_DONE_LOADING_ACTION,
+  DATA_IS_LOADING_ACTION,
+  SUBMIT_PREVIEW_FILE_URL_ACTION,
+  TOGGLE_PREVIEW_PANE_ACTION,
+} from '~/store'
+
 export default {
   props: {
     meeting: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    ...mapState(['showPreviewPane']),
+  },
+  methods: {
+    async togglePreview () {
+      if (this.meeting.previewUrl.length) {
+        if (this.showPreviewPane) {
+          await this.$store.dispatch(TOGGLE_PREVIEW_PANE_ACTION)
+        } else {
+          await this.$store.dispatch(DATA_IS_LOADING_ACTION)
+          await this.$store.dispatch(TOGGLE_PREVIEW_PANE_ACTION)
+          await this.$store.dispatch(SUBMIT_PREVIEW_FILE_URL_ACTION, this.meeting.previewUrl)
+          await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
+        }
+      }
     },
   },
 }

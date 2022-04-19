@@ -29,37 +29,33 @@
       </c-text>
     </c-link>
 
+    <c-button ml="1rem">
+      <nav-link
+        display="Meetings"
+        route="/"
+        route-name="index"
+      />
+    </c-button>
+
     <spacer />
 
-    <c-button @click="openNewModal = true">
-      New
+    <c-button
+      left-icon="add"
+      variant-color="green"
+      @click="openNewModal = true"
+    >
+      New Meeting
     </c-button>
     <new-minutes-modal
       :is-open="openNewModal"
       @close="openNewModal = false"
     />
-
-    <c-button>
-      <nav-link
-        display="Create"
-        route="/create"
-        route-name="create"
-      />
-    </c-button>
-
-    <c-button
-      @click="$store.dispatch(TOGGLE_PREVIEW_PANE_ACTION)"
-    >
-      {{ showPreviewPane ? 'Unload PDF' : 'Preview PDF' }}
-    </c-button>
   </c-stack>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import NavLink from './NavLink.vue'
 import Spacer from './Spacer.vue'
-import { TOGGLE_PREVIEW_PANE_ACTION } from '~/store'
 import NewMinutesModal from '~/components/NewMinutesModal'
 
 export default {
@@ -70,18 +66,8 @@ export default {
   },
   data () {
     return {
-      TOGGLE_PREVIEW_PANE_ACTION,
       openNewModal: false,
     }
   },
-  computed: {
-    ...mapState(['showPreviewPane']),
-  },
 }
 </script>
-
-<style lang="scss">
-.offset-a-bit {
-  margin-right: 2rem;
-}
-</style>

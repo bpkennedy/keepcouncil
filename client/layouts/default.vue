@@ -28,12 +28,6 @@
                       :url="previewFileUrl"
                       class="fill-width fill-height"
                     />
-                    <c-box
-                      v-if="!previewFileUrl"
-                      class="fill-width fill-height"
-                    >
-                      <preview-loader />
-                    </c-box>
                   </c-flex>
                 </pane>
                 <pane>
@@ -69,7 +63,6 @@ import { mapState } from 'vuex'
 import Loader from '../components/Loader.vue'
 import NavBar from '../components/NavBar.vue'
 import PreviewPanel from '~/components/PreviewPanel.vue'
-import PreviewLoader from '~/components/PreviewLoader.vue'
 
 // const previewLink = 'https://www.florissantmo.com/egov/documents/1646328757_74811.pdf',
 
@@ -79,7 +72,6 @@ export default {
     NavBar,
     Loader,
     PreviewPanel,
-    PreviewLoader,
   },
   computed: {
     ...mapState(['showPreviewPane', 'previewFileUrl']),

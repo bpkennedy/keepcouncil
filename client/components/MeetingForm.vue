@@ -77,7 +77,7 @@
         <button-bar
           :invalid-form="invalid"
           :show-reset-button="false"
-          class="position-sticky bottom light-background"
+          class="position-sticky bottom"
           @cancel="onCancel"
         />
       </c-stack>

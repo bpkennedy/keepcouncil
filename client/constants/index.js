@@ -1,6 +1,6 @@
 export const HOME_VIEW_NAME = 'index'
-export const CREATE_VIEW_NAME = 'create'
-export const VIEW_NAMES = [HOME_VIEW_NAME, CREATE_VIEW_NAME]
+export const EDIT_VIEW_NAME = 'edit'
+export const VIEW_NAMES = [HOME_VIEW_NAME, EDIT_VIEW_NAME]
 
 export const API_PATH = 'http://localhost:3001/api/v1/'
 
