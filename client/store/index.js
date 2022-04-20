@@ -47,10 +47,10 @@ export const actions = {
   [NEW_ITEM_FORM_LOAD_ACTION] ({ commit }, itemType) {
     commit(SET_LOADED_FORM_TYPE_MUTATION, itemType)
   },
-  async [ITEMS_REQUESTED_BY_TYPE_ACTION] ({ commit }, itemType) {
+  async [ITEMS_REQUESTED_BY_TYPE_ACTION] ({ commit, state }, itemType) {
     commit(SET_LOADED_FORM_TYPE_MUTATION, null)
     commit(SET_LOADED_ITEM_TYPE_MUTATION, null)
-    const items = (await apiGet(this.$axios, `${API_PATH}/${itemType.value}`))
+    const items = (await apiGet(this.$axios, `${API_PATH}/${itemType.value}/meeting/${state.currentMeeting.id}`))
     commit(SET_LOADED_ITEMS_OF_TYPE_MUTATION, items)
     commit(SET_LOADED_ITEM_TYPE_MUTATION, itemType)
   },
@@ -101,6 +101,9 @@ export const actions = {
     if (!VIEW_NAMES.includes(viewName)) {
       throw new Error('Attempted to load an unknown view: ' + viewName)
     }
+    commit(SET_LOADED_FORM_TYPE_MUTATION, null)
+    commit(SET_LOADED_ITEMS_OF_TYPE_MUTATION, [])
+    commit(SET_LOADED_ITEM_TYPE_MUTATION, null)
     if (viewName === HOME_VIEW_NAME) {
       dispatch(MEETINGS_VIEW_LOADED_ACTION)
     }

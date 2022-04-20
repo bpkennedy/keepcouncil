@@ -19,15 +19,33 @@ export const routes = () => {
     // @ts-ignore
     router.post('/meeting', meetingValidation, asyncHandler(meetingHandler))
     // @ts-ignore
+    router.get('/meeting', asyncHandler(async (req: express.Request, res: express.Response) => {
+        // @ts-ignore
+        const resources = (await prisma.meeting.findMany())
+        res.send(resources).status(200)
+    }))
+
+    // @ts-ignore
     router.get('/meeting/:meetingId', oneMeetingValidation, asyncHandler(getOneMeetingHandler))
 
-    for (const itemType of AGENDA_ITEM_TYPES) {
-        router.get(`/${itemType.value}`, asyncHandler(async (req: express.Request, res: express.Response) => {
+    for (const itemType of AGENDA_ITEM_TYPES.filter(ai => !['person', 'meeting'].includes(ai.value))) {
+        router.get(`/${itemType.value}/meeting/:meetingId`, asyncHandler(async (req: express.Request, res: express.Response) => {
             // @ts-ignore
-            const resources = (await prisma[`${itemType.value}`].findMany())
+            const resources = (await prisma[`${itemType.value}`].findMany({
+                where: {
+                    meetingId: Number(req.params.meetingId)
+                }
+            }))
             res.send(resources).status(200)
         }))
     }
+
+    // router.get(`/person/meeting/:meetingId`, asyncHandler(async (req: express.Request, res: express.Response) => {
+    //     // @ts-ignore
+    //     const resources = (await prisma[`${itemType.value}`].findMany())
+    //     res.send(resources).status(200)
+    // }))
+
 
     router.use(errorHandler)
     return router

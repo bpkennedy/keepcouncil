@@ -26,7 +26,7 @@
         </c-accordion-header>
       </c-accordion-item>
       <c-accordion-item
-        v-for="itemType in AGENDA_ITEM_TYPES"
+        v-for="itemType in AGENDA_ITEM_TYPES.filter(ai => !['person', 'meeting'].includes(ai.value))"
         v-slot="{ isExpanded }"
         :key="itemType.value"
         @click.native="loadItemsByType(itemType)"
