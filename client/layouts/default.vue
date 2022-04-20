@@ -15,41 +15,43 @@
               justify="center"
               class="fill-height full-width"
             >
-              <splitpanes class="default-theme">
-                <pane v-if="showPreviewPane">
-                  <c-flex
-                    direction="column"
-                    align="center"
-                    justify="center"
-                    class="fill-width minimum-content-width full-height default-border border-top-none border-bottom-none"
-                  >
-                    <preview-panel
-                      v-if="previewFileUrl"
-                      :url="previewFileUrl"
-                      class="fill-width fill-height"
-                    />
-                  </c-flex>
-                </pane>
-                <pane>
-                  <c-flex
-                    direction="column"
-                    justify="flex-start"
-                    align="center"
-                    class="fill-width"
-                    :padding-left="['4']"
-                    :padding-right="['4']"
-                  >
+              <ClientOnly>
+                <splitpanes class="default-theme">
+                  <pane v-if="showPreviewPane">
                     <c-flex
-                      flex="1"
                       direction="column"
-                      class="fill-width maximum-content-width"
+                      align="center"
+                      justify="center"
+                      class="fill-width minimum-content-width full-height default-border border-top-none border-bottom-none"
                     >
-                      <nav-bar class="navbar-height" />
-                      <Nuxt class="content-height" />
+                      <preview-panel
+                        v-if="previewFileUrl"
+                        :url="previewFileUrl"
+                        class="fill-width fill-height"
+                      />
                     </c-flex>
-                  </c-flex>
-                </pane>
-              </splitpanes>
+                  </pane>
+                  <pane>
+                    <c-flex
+                      direction="column"
+                      justify="flex-start"
+                      align="center"
+                      class="fill-width"
+                      :padding-left="['4']"
+                      :padding-right="['4']"
+                    >
+                      <c-flex
+                        flex="1"
+                        direction="column"
+                        class="fill-width maximum-content-width"
+                      >
+                        <nav-bar class="navbar-height" />
+                        <Nuxt class="content-height" />
+                      </c-flex>
+                    </c-flex>
+                  </pane>
+                </splitpanes>
+              </ClientOnly>
             </c-flex>
           </c-box>
         </c-dark-mode>
