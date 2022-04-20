@@ -6,13 +6,7 @@
       @reset.prevent="onReset(reset)"
     >
       <c-stack class="fill-height stack-gap">
-        <c-text
-          as="h2"
-          font-size="2rem"
-          font-family="EuropaLight"
-        >
-          Add New Person
-        </c-text>
+        <content-header display="Add New Person" element="h2" font-size="2rem" />
         <validation-provider
           v-slot="{ errors }"
           rules="required|alpha_spaces"
@@ -152,10 +146,17 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { AGENDA_ITEM_TYPES, POSITIONS } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
-import { ITEMS_REQUESTED_BY_TYPE_ACTION } from '~/store'
+import {
+  DATA_DONE_LOADING_ACTION,
+  DATA_IS_LOADING_ACTION,
+  ITEMS_REQUESTED_BY_TYPE_ACTION,
+  NEW_GENERIC_RESOURCE_CREATION_ACTION,
+} from '~/store'
+import ContentHeader from '~/components/ContentHeader'
 
 export default {
   components: {
+    ContentHeader,
     ValidationObserver,
     ValidationProvider,
   },
@@ -172,8 +173,17 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
-      // console.log('submitted')
+    async onSubmit () {
+      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new person...')
+      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
+      await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
+      this.$toast({
+        title: 'Success.',
+        description: `We've created a new person for you.`,
+        status: 'success',
+        duration: 8000,
+      })
     },
     onReset (veeValidateResetMethod) {
       this.selectedWard = null
@@ -183,8 +193,8 @@ export default {
       this.phone = null
       veeValidateResetMethod()
     },
-    onCancel () {
-      this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
+    async onCancel () {
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
     },
   },
 }

@@ -37,7 +37,6 @@
         >
           <c-box
             flex="1"
-            class="test"
             display="flex"
             align-items="center"
             justify-content="space-between"

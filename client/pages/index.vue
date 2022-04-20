@@ -4,14 +4,7 @@
       direction="column"
       align="center"
     >
-      <c-text
-        as="h1"
-        font-size="2xl"
-        font-family="EuropaBold"
-        size="lg"
-      >
-        Meetings
-      </c-text>
+      <content-header display="Meetings" element="h1" font-size="2xl" />
       <c-simple-grid
         min-child-width="24rem"
         :spacing="10"
@@ -31,9 +24,13 @@ import { mapState } from 'vuex'
 import { VIEW_LOADED_ACTION } from '~/store'
 import { HOME_VIEW_NAME } from '~/constants'
 import MeetingSummaryCard from '~/components/MeetingSummaryCard'
+import ContentHeader from '~/components/ContentHeader'
 
 export default {
-  components: { MeetingSummaryCard },
+  components: {
+    ContentHeader,
+    MeetingSummaryCard,
+  },
   computed: {
     ...mapState(['meetings']),
   },

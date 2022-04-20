@@ -20,7 +20,6 @@
       <c-button
         v-if="showCancelButton"
         left-icon="close"
-        variant="ghost"
         variant-color="gray"
         :margin-right="['2']"
         @click="$emit('cancel')"

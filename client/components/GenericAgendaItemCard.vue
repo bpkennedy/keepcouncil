@@ -25,7 +25,7 @@
         font-size="xs"
         text-transform="uppercase"
       >
-        {{ Intl.DateTimeFormat("us-EN").format(new Date(item.date)) }}
+        {{ item.date ? Intl.DateTimeFormat("us-EN").format(new Date(item.date)) : '' }}
       </c-box>
     </c-box>
     <c-button

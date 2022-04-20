@@ -19,22 +19,16 @@
       to="/"
       class="undecorative-link"
     >
-      <c-text
-        as="h1"
-        font-size="2xl"
-        font-family="EuropaBold"
-        size="lg"
-      >
-        KeepCouncil
-      </c-text>
+      <content-header display="KeepCouncil" element="h1" font-size="2xl" font-family="EuropaBold" />
     </c-link>
 
-    <c-button ml="1rem">
-      <nav-link
-        display="Meetings"
-        route="/"
-        route-name="index"
-      />
+    <c-button
+      variant-color="gray"
+      ml="1rem"
+      as="nuxt-link"
+      to="/"
+    >
+      Meetings
     </c-button>
 
     <spacer />
@@ -54,14 +48,14 @@
 </template>
 
 <script>
-import NavLink from './NavLink.vue'
 import Spacer from './Spacer.vue'
 import NewMinutesModal from '~/components/NewMinutesModal'
+import ContentHeader from '~/components/ContentHeader'
 
 export default {
   components: {
+    ContentHeader,
     NewMinutesModal,
-    NavLink,
     Spacer,
   },
   data () {

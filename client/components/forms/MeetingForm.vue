@@ -5,13 +5,7 @@
       @submit.prevent="onSubmit"
     >
       <c-stack class="fill-height stack-gap">
-        <c-text
-          as="h2"
-          font-size="2rem"
-          font-family="EuropaLight"
-        >
-          Add New Meeting
-        </c-text>
+        <content-header display="Add New Meeting" element="h2" font-size="2rem" />
         <validation-provider
           v-slot="{ errors }"
           rules="required"
@@ -95,9 +89,11 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import ButtonBar from '~/components/ButtonBar.vue'
+import ContentHeader from '~/components/ContentHeader'
 
 export default {
   components: {
+    ContentHeader,
     ValidationObserver,
     ValidationProvider,
     ButtonBar,
