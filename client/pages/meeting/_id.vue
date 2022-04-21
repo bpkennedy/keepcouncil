@@ -82,9 +82,11 @@ import CommunicationCard from '~/components/cards/CommunicationCard'
 import PublicHearingCard from '~/components/cards/PublicHearingCard'
 import RequestCard from '~/components/cards/RequestCard'
 import AnnouncementCard from '~/components/cards/AnnouncementCard'
+import BillForm from '~/components/forms/BillForm'
 
 export default {
   components: {
+    BillForm,
     AnnouncementCard,
     RequestCard,
     PublicHearingCard,

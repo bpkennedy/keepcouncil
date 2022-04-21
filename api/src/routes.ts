@@ -10,6 +10,8 @@ import {
 } from './controllers/meetingHandler'
 import { AGENDA_ITEM_TYPES } from './config/constants'
 import prisma from './prisma'
+import { billCreate, billValidation } from './controllers/billHandler'
+import { allPersonsHandler } from './controllers/personHandler'
 
 export const routes = () => {
     const router = express.Router()
@@ -40,11 +42,11 @@ export const routes = () => {
         }))
     }
 
-    // router.get(`/person/meeting/:meetingId`, asyncHandler(async (req: express.Request, res: express.Response) => {
-    //     // @ts-ignore
-    //     const resources = (await prisma[`${itemType.value}`].findMany())
-    //     res.send(resources).status(200)
-    // }))
+    // @ts-ignore
+    router.post('/bill', billValidation, asyncHandler(billCreate))
+
+    // @ts-ignore
+    router.get('/person', asyncHandler(allPersonsHandler))
 
 
     router.use(errorHandler)

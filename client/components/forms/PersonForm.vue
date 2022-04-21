@@ -175,7 +175,17 @@ export default {
   methods: {
     async onSubmit () {
       await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new person...')
-      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
+      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
+        payload: {
+          selectedWard: this.selectedWard,
+          selectedPosition: this.selectedPosition,
+          wards: this.wards,
+          fullName: this.fullName,
+          email: this.email,
+          phone: this.phone,
+        },
+        itemType: 'person',
+      })
       await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
       await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
       this.$toast({

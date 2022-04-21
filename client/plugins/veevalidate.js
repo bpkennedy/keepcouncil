@@ -1,6 +1,6 @@
 import { extend } from 'vee-validate'
 // eslint-disable-next-line camelcase
-import { required, email, alpha_spaces } from 'vee-validate/dist/rules'
+import { required, email, alpha_spaces, numeric } from 'vee-validate/dist/rules'
 
 extend('url', {
   validate: (value) => {
@@ -26,6 +26,7 @@ extend('alpha_spaces', {
 })
 
 extend('digits', {
+  name: 'phone',
   params: ['limit'],
   validate: (value, { limit }) => {
     const stringLimit = parseInt(limit, 10)
@@ -38,4 +39,9 @@ extend('digits', {
     return false
   },
   message: 'Must be exactly {limit} numbers with no dashes or spaces',
+})
+
+extend('numeric', {
+  ...numeric,
+  message: 'Must be a number',
 })

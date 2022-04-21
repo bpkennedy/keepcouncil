@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { HOME_VIEW_NAME, EDIT_VIEW_NAME, VIEW_NAMES, API_PATH } from '../constants'
 
+export const PEOPLE_FOR_DISPLAY_NEEDED_ACTION = 'PEOPLE_FOR_DISPLAY_NEEDED_ACTION'
 export const VIEW_LOADED_ACTION = 'VIEW_LOADED_ACTION'
 export const DATA_IS_LOADING_ACTION = 'DATA_IS_LOADING_ACTION'
 export const DATA_DONE_LOADING_ACTION = 'DATA_DONE_LOADING_ACTION'
@@ -23,6 +24,7 @@ const SET_MEETINGS_MUTATION = 'SET_MEETINGS_MUTATION'
 const SET_LOADED_ITEMS_OF_TYPE_MUTATION = 'SET_LOADED_ITEMS_OF_TYPE_MUTATION'
 const SET_LOADED_FORM_TYPE_MUTATION = 'SET_LOADED_FORM_TYPE_MUTATION'
 const SET_LOADED_ITEM_TYPE_MUTATION = 'SET_LOADED_ITEM_TYPE_MUTATION'
+const SET_PEOPLE_FOR_DISPLAY_MUTATION = 'SET_PEOPLE_FOR_DISPLAY_MUTATION'
 
 export const state = () => ({
   loading: false,
@@ -31,6 +33,7 @@ export const state = () => ({
   previewFileUrl: null,
   currentMeeting: null,
   meetings: [],
+  people: [],
   loadedFormType: null,
   loadedItemsOfType: [],
   loadedItemType: null,
@@ -44,6 +47,10 @@ export const apiPost = async (axios, url, payload) => (await axios.$post(url, pa
 export const apiGet = async (axios, url) => (await axios.$get(url))
 
 export const actions = {
+  async [PEOPLE_FOR_DISPLAY_NEEDED_ACTION] ({ commit }) {
+    const persons = (await apiGet(this.$axios, `${API_PATH}/person`))
+    commit(SET_PEOPLE_FOR_DISPLAY_MUTATION, persons)
+  },
   [NEW_ITEM_FORM_LOAD_ACTION] ({ commit }, itemType) {
     commit(SET_LOADED_FORM_TYPE_MUTATION, itemType)
   },
@@ -63,8 +70,11 @@ export const actions = {
     dispatch(MEETINGS_VIEW_LOADED_ACTION)
     dispatch(SELECTED_CURRENT_MEETING_ACTION, createdMeeting.id)
   },
-  async [NEW_GENERIC_RESOURCE_CREATION_ACTION] ({ dispatch }, { payload, itemType }) {
-    (await apiPost(this.$axios, `${API_PATH}/${itemType}`, payload))
+  async [NEW_GENERIC_RESOURCE_CREATION_ACTION] ({ state, dispatch }, { payload, itemType }) {
+    (await apiPost(this.$axios, `${API_PATH}/${itemType}`, {
+      ...payload,
+      meetingId: state.currentMeeting.id,
+    }))
   },
   [DATA_IS_LOADING_ACTION] ({ commit }, message) {
     commit(SET_LOADING_MESSAGE_MUTATION, message)
@@ -104,6 +114,9 @@ export const actions = {
     commit(SET_LOADED_FORM_TYPE_MUTATION, null)
     commit(SET_LOADED_ITEMS_OF_TYPE_MUTATION, [])
     commit(SET_LOADED_ITEM_TYPE_MUTATION, null)
+    if (!state.people.length) {
+      dispatch(PEOPLE_FOR_DISPLAY_NEEDED_ACTION)
+    }
     if (viewName === HOME_VIEW_NAME) {
       dispatch(MEETINGS_VIEW_LOADED_ACTION)
     }
@@ -114,6 +127,9 @@ export const actions = {
 }
 
 export const mutations = {
+  [SET_PEOPLE_FOR_DISPLAY_MUTATION] (state, persons) {
+    Vue.set(state, 'people', persons)
+  },
   [SET_LOADED_ITEM_TYPE_MUTATION] (state, itemType) {
     Vue.set(state, 'loadedItemType', itemType)
   },
