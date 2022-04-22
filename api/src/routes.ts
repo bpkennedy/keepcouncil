@@ -17,6 +17,7 @@ import {proclamationCreate, proclamationValidation} from './controllers/proclama
 import {communicationCreate, communicationValidation} from './controllers/communicationHandler'
 import {publicHearingCreate, publicHearingValidation} from './controllers/publicHearingHandler'
 import {boardAppointmentCreate, boardAppointmentValidation} from './controllers/boardAppointmentHandler'
+import {announcementCreate, announcementValidation} from './controllers/announcementHandler'
 
 export const routes = () => {
     const router = express.Router()
@@ -59,6 +60,8 @@ export const routes = () => {
     router.post('/publicHearing', publicHearingValidation, asyncHandler(publicHearingCreate))
     // @ts-ignore
     router.post('/boardAppointment', boardAppointmentValidation, asyncHandler(boardAppointmentCreate))
+    // @ts-ignore
+    router.post('/announcement', announcementValidation, asyncHandler(announcementCreate))
 
     // @ts-ignore
     router.get('/person', asyncHandler(allPersonsHandler))

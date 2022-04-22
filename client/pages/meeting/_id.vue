@@ -88,9 +88,11 @@ import ProclamationForm from '~/components/forms/ProclamationForm'
 import CommunicationForm from '~/components/forms/CommunicationForm'
 import PublicHearingForm from '~/components/forms/PublicHearingForm'
 import BoardAppointmentForm from '~/components/forms/BoardAppointmentForm'
+import AnnouncementForm from '~/components/forms/AnnouncementForm'
 
 export default {
   components: {
+    AnnouncementForm,
     BoardAppointmentForm,
     PublicHearingForm,
     CommunicationForm,
