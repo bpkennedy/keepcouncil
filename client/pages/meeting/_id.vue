@@ -35,7 +35,7 @@
               <hearing-from-citizen-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
             </template>
             <template v-else-if="isOfType('proclamation')">
-              <proclomation-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
+              <proclamation-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
             </template>
             <template v-else-if="isOfType('resolution')">
               <resolution-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
@@ -76,7 +76,7 @@ import PersonCard from '~/components/cards/PersonCard'
 import BillCard from '~/components/cards/BillCard'
 import BoardAppointmentCard from '~/components/cards/BoardAppointmentCard'
 import HearingFromCitizenCard from '~/components/cards/HearingFromCitizenCard'
-import ProclomationCard from '~/components/cards/ProclomationCard'
+import ProclamationCard from '~/components/cards/ProclamationCard'
 import ResolutionCard from '~/components/cards/ResolutionCard'
 import CommunicationCard from '~/components/cards/CommunicationCard'
 import PublicHearingCard from '~/components/cards/PublicHearingCard'
@@ -84,9 +84,11 @@ import RequestCard from '~/components/cards/RequestCard'
 import AnnouncementCard from '~/components/cards/AnnouncementCard'
 import BillForm from '~/components/forms/BillForm'
 import HearingFromCitizenForm from '~/components/forms/HearingFromCitizenForm'
+import ProclamationForm from '~/components/forms/ProclamationForm'
 
 export default {
   components: {
+    ProclamationForm,
     HearingFromCitizenForm,
     BillForm,
     AnnouncementCard,
@@ -94,7 +96,7 @@ export default {
     PublicHearingCard,
     CommunicationCard,
     ResolutionCard,
-    ProclomationCard,
+    ProclamationCard,
     HearingFromCitizenCard,
     BoardAppointmentCard,
     BillCard,

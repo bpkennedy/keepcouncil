@@ -13,6 +13,7 @@ import prisma from './prisma'
 import { billCreate, billValidation } from './controllers/billHandler'
 import { allPersonsHandler } from './controllers/personHandler'
 import {hearingFromCitizenCreate, hearingFromCitizenValidation} from './controllers/hearingFromCitizenHandler'
+import {proclamationCreate, proclamationValidation} from './controllers/proclamationHandler'
 
 export const routes = () => {
     const router = express.Router()
@@ -48,6 +49,9 @@ export const routes = () => {
 
     // @ts-ignore
     router.post('/hearingFromCitizen', hearingFromCitizenValidation, asyncHandler(hearingFromCitizenCreate))
+
+    // @ts-ignore
+    router.post('/proclamation', proclamationValidation, asyncHandler(proclamationCreate))
 
     // @ts-ignore
     router.get('/person', asyncHandler(allPersonsHandler))
