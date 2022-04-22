@@ -4,7 +4,7 @@ import prisma from '../prisma'
 
 export const proclamationValidation = celebrate({
     [Segments.BODY]: {
-        presentedTo: Joi.string().required(),
+        presentedTo: Joi.string().default(''),
         meetingId: Joi.number().required(),
         content: Joi.string().default(''),
     },

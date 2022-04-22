@@ -99,21 +99,17 @@
           </c-form-control>
         </validation-provider>
 
-        <validation-provider
-          v-slot="{ errors }"
-          rules="numeric"
-        >
-          <c-form-control :is-invalid="!!errors[0]">
+        <validation-provider v-slot="{ errors }">
+          <c-form-control>
             <c-form-label for="ordinance">
-              Ordinance number
+              Ordinance
             </c-form-label>
             <c-input
               id="ordinance"
               v-model="ordinance"
-              type="number"
-              aria-describedby="ordinance-number-helper-text"
+              aria-describedby="ordinance-helper-text"
             />
-            <c-form-helper-text id="ordinance-number-helper-text">
+            <c-form-helper-text id="ordinance-helper-text">
               <c-text v-if="!!errors[0]" color="red.300">
                 {{ errors[0] }}
               </c-text>
