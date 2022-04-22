@@ -35,7 +35,7 @@
           font-size="xs"
           text-transform="uppercase"
         >
-          referred by {{ item.referredById }}
+          referred by {{ personNameFromId(item.referredById) }}
         </c-text>
       </c-flex>
     </c-box>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ContentHeader from '~/components/ContentHeader'
 export default {
   components: { ContentHeader },
@@ -51,6 +52,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(['personNameFromId']),
   },
 }
 </script>

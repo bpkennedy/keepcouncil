@@ -158,3 +158,10 @@ export const mutations = {
     Vue.set(state, 'showPreviewPane', !state.showPreviewPane)
   },
 }
+
+export const getters = {
+  personNameFromId: state => (personId) => {
+    const person = state.people.find(p => p.id === personId)
+    return person ? person.fullName : personId
+  },
+}

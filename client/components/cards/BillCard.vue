@@ -18,7 +18,7 @@
           font-size="xs"
           text-transform="uppercase"
         >
-          Introduced by {{ item.introducedById }}
+          Introduced by {{ personNameFromId(item.introducedById) }}
         </c-text>
         <c-text
           mt="1rem"
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ContentHeader from '~/components/ContentHeader'
 export default {
   components: { ContentHeader },
@@ -43,6 +44,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(['personNameFromId']),
   },
 }
 </script>

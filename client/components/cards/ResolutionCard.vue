@@ -18,7 +18,7 @@
           font-size="xs"
           text-transform="uppercase"
         >
-          Introduced on {{ Intl.DateTimeFormat("us-EN").format(new Date(item.introducedDate)) }}, by {{ item.introducedById }}
+          Introduced on {{ Intl.DateTimeFormat("us-EN").format(new Date(item.introducedDate)) }}, by {{ personNameFromId(item.introducedById) }}
         </c-text>
         <c-text
           mt="1rem"
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ContentHeader from '~/components/ContentHeader'
 export default {
   components: { ContentHeader },
@@ -53,6 +54,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(['personNameFromId']),
   },
 }
 </script>

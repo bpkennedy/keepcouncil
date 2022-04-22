@@ -19,7 +19,7 @@
         >
           announced by
         </c-text>
-        <content-header :display="`${item.announcerId}`" element="div" font-size="2xl" font-family="EuropaLight" />
+        <content-header :display="`${personNameFromId(item.announcerId)}`" element="div" font-size="2xl" font-family="EuropaLight" />
         <c-text
           mt="1rem"
           size="sm"
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ContentHeader from '~/components/ContentHeader'
 export default {
   components: { ContentHeader },
@@ -43,6 +44,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(['personNameFromId']),
   },
 }
 </script>

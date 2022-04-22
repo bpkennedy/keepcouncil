@@ -26,7 +26,7 @@
           :variant-color="item.accepted ? 'green' : 'red'"
           :icon="item.accepted ? 'check' : 'close'"
         >
-          {{ item.accepted ? `Accepted by ${item.acceptorId}` : 'Not Accepted' }}
+          {{ item.accepted ? `Accepted by ${personNameFromId(item.acceptorId)}` : 'Not Accepted' }}
         </c-tag>
         <c-text
           v-if="item.accepted"
@@ -37,7 +37,7 @@
           font-size="xs"
           text-transform="uppercase"
         >
-          Seconded by {{ item.secondedById }}
+          Seconded by {{ personNameFromId(item.secondedById) }}
         </c-text>
         <c-text
           mt="1rem"
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ContentHeader from '~/components/ContentHeader'
 export default {
   components: { ContentHeader },
@@ -62,6 +63,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(['personNameFromId']),
   },
 }
 </script>
