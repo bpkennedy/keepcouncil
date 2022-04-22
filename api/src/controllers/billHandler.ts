@@ -10,7 +10,7 @@ export const billValidation = celebrate({
         content: Joi.string().default(''),
         introducedDate: Joi.date().optional(),
         passDate: Joi.date().optional(),
-        ordinance: Joi.string().optional(),
+        ordinance: Joi.string().default(''),
     },
 })
 
@@ -25,7 +25,7 @@ export const billCreate = async (req: express.Request, res: express.Response) =>
             content,
             introducedDate: introducedDate || null,
             passDate: passDate || null,
-            ordinance: ordinance || null,
+            ordinance,
         },
     })
     return res.send(response).status(201)

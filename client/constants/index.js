@@ -4,6 +4,9 @@ export const VIEW_NAMES = [HOME_VIEW_NAME, EDIT_VIEW_NAME]
 
 export const API_PATH = 'http://localhost:3001/api/v1'
 
+export const EMAIL_ENUM = 'EMAIL'
+export const MAIL_ENUM = 'MAIL'
+
 export const POSITIONS = [{
   display: 'Council Member',
   value: 'COUNCIL_MEMEBER',

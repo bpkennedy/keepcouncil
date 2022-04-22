@@ -161,7 +161,7 @@ model Communication {
   createdAt                 DateTime                 @default(now())
   updatedAt                 DateTime                 @updatedAt
   dateReceived              DateTime?
-  from                      String                   @db.VarChar(255)
+  from                      String?                  @db.VarChar(255)
   content                   String?                  @db.Text
   communicationType         CommunicationType
   meetingId                 Int

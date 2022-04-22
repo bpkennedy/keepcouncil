@@ -157,6 +157,7 @@ import ContentHeader from '~/components/ContentHeader'
 export default {
   components: {
     ContentHeader,
+    ButtonBar,
     ValidationObserver,
     ValidationProvider,
   },
@@ -164,12 +165,11 @@ export default {
     return {
       selectedWard: null,
       selectedPosition: null,
-      POSITIONS,
-      ButtonBar,
       wards: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
       fullName: '',
       email: '',
       phone: null,
+      POSITIONS,
     }
   },
   methods: {

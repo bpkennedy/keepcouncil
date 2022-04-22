@@ -85,9 +85,11 @@ import AnnouncementCard from '~/components/cards/AnnouncementCard'
 import BillForm from '~/components/forms/BillForm'
 import HearingFromCitizenForm from '~/components/forms/HearingFromCitizenForm'
 import ProclamationForm from '~/components/forms/ProclamationForm'
+import CommunicationForm from '~/components/forms/CommunicationForm'
 
 export default {
   components: {
+    CommunicationForm,
     ProclamationForm,
     HearingFromCitizenForm,
     BillForm,

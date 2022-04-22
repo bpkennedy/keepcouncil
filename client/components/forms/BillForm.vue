@@ -144,6 +144,7 @@ import ContentHeader from '~/components/ContentHeader'
 export default {
   components: {
     ContentHeader,
+    ButtonBar,
     ValidationObserver,
     ValidationProvider,
   },
@@ -156,7 +157,6 @@ export default {
       passDate: null,
       ordinance: null,
       copiedPeople: [],
-      ButtonBar,
     }
   },
   computed: {

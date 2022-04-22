@@ -67,6 +67,7 @@ import ContentHeader from '~/components/ContentHeader'
 export default {
   components: {
     ContentHeader,
+    ButtonBar,
     ValidationObserver,
     ValidationProvider,
   },
@@ -74,7 +75,6 @@ export default {
     return {
       presentedTo: null,
       content: null,
-      ButtonBar,
     }
   },
   methods: {
