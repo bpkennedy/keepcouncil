@@ -83,9 +83,11 @@ import PublicHearingCard from '~/components/cards/PublicHearingCard'
 import RequestCard from '~/components/cards/RequestCard'
 import AnnouncementCard from '~/components/cards/AnnouncementCard'
 import BillForm from '~/components/forms/BillForm'
+import HearingFromCitizenForm from '~/components/forms/HearingFromCitizenForm'
 
 export default {
   components: {
+    HearingFromCitizenForm,
     BillForm,
     AnnouncementCard,
     RequestCard,

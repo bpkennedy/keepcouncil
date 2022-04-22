@@ -182,7 +182,6 @@ export default {
           billNumber: this.billNumber,
           content: this.content,
           introducedById: this.introducedById,
-          meetingId: this.meetingId,
           introducedDate: this.introducedDate,
           passDate: this.passDate,
           ordinance: this.ordinance,
@@ -202,7 +201,6 @@ export default {
       this.billNumber = null
       this.content = null
       this.introducedById = null
-      this.meetingId = null
       this.introducedDate = null
       this.passDate = null
       this.ordinance = null

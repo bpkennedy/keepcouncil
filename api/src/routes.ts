@@ -12,6 +12,7 @@ import { AGENDA_ITEM_TYPES } from './config/constants'
 import prisma from './prisma'
 import { billCreate, billValidation } from './controllers/billHandler'
 import { allPersonsHandler } from './controllers/personHandler'
+import {hearingFromCitizenCreate, hearingFromCitizenValidation} from './controllers/hearingFromCitizenHandler'
 
 export const routes = () => {
     const router = express.Router()
@@ -44,6 +45,9 @@ export const routes = () => {
 
     // @ts-ignore
     router.post('/bill', billValidation, asyncHandler(billCreate))
+
+    // @ts-ignore
+    router.post('/hearingFromCitizen', hearingFromCitizenValidation, asyncHandler(hearingFromCitizenCreate))
 
     // @ts-ignore
     router.get('/person', asyncHandler(allPersonsHandler))
