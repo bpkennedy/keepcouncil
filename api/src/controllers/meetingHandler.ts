@@ -34,7 +34,39 @@ export const getOneMeetingHandler = async (req: express.Request, res: express.Re
     const meeting = await prisma.meeting.findUnique({
         where: {
             id,
+        },
+        include: {
+            attendees: true,
+            motions: true,
+            hearingFromCitizens: true,
+            proclamations: true,
+            resolutions: true,
+            communications: true,
+            publicHearings: true,
+            bills: true,
+            boardAppointments: true,
+            requests: true,
+            announcements: true,
         }
     })
     return res.send(meeting).status(200)
+}
+
+export const getAllMeetings = async (req: express.Request, res: express.Response) => {
+    const resources = (await prisma.meeting.findMany({
+        include: {
+            attendees: true,
+            motions: true,
+            hearingFromCitizens: true,
+            proclamations: true,
+            resolutions: true,
+            communications: true,
+            publicHearings: true,
+            bills: true,
+            boardAppointments: true,
+            requests: true,
+            announcements: true,
+        },
+    }))
+    return res.send(resources).status(200)
 }

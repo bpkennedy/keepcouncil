@@ -26,3 +26,17 @@ export const boardAppointmentCreate = async (req: express.Request, res: express.
     })
     return res.send(response).status(201)
 }
+
+export const getMeetingBoardAppointments = async (req: express.Request, res: express.Response) => {
+    const resources = (await prisma.boardAppointment.findMany({
+        where: {
+            meetingId: Number(req.params.meetingId)
+        },
+        include: {
+            meeting: true,
+            referredBy: true,
+            fromMotion: true,
+        },
+    }))
+    return res.send(resources).status(200)
+}

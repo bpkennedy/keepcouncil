@@ -2,45 +2,45 @@ import * as express from 'express'
 import { celebrate, Joi, Segments } from 'celebrate'
 import prisma from '../prisma'
 
-export const billValidation = celebrate({
+export const resolutionValidation = celebrate({
     [Segments.BODY]: {
-        billNumber: Joi.number().required(),
-        meetingId: Joi.number().required(),
         introducedById: Joi.number().required(),
-        content: Joi.string().default(''),
+        resolutionNumber: Joi.number().required(),
+        resolutionTitle: Joi.string().required(),
+        meetingId: Joi.number().required(),
         introducedDate: Joi.date().optional(),
         passDate: Joi.date().optional(),
-        ordinance: Joi.string().default(''),
+        content: Joi.string().default(''),
     },
 })
 
-export const billCreate = async (req: express.Request, res: express.Response) => {
-    const { billNumber, content, meetingId, introducedById, introducedDate, passDate, ordinance } = req.body
-    const response = await prisma.bill.create({
+export const resolutionCreate = async (req: express.Request, res: express.Response) => {
+    const { introducedById, resolutionNumber, resolutionTitle, meetingId, introducedDate, passDate, content } = req.body
+    const response = await prisma.resolution.create({
         data: {
             // @ts-ignore
-            billNumber,
-            meetingId,
             introducedById,
-            content,
+            resolutionNumber,
+            resolutionTitle,
+            meetingId,
             introducedDate: introducedDate || null,
             passDate: passDate || null,
-            ordinance,
+            content,
         },
     })
     return res.send(response).status(201)
 }
 
-export const getMeetingBills = async (req: express.Request, res: express.Response) => {
-    const resources = (await prisma.bill.findMany({
+export const getMeetingResolutions = async (req: express.Request, res: express.Response) => {
+    const resources = (await prisma.resolution.findMany({
         where: {
             meetingId: Number(req.params.meetingId)
         },
         include: {
             meeting: true,
+            introducedBy: true,
             ayeVote: true,
             nayVote: true,
-            introducedBy: true,
             fromMotion: true,
         },
     }))
