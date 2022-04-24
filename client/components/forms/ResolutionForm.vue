@@ -6,22 +6,22 @@
       @reset.prevent="onReset(reset)"
     >
       <c-stack class="fill-height stack-gap">
-        <content-header display="Add New Bill" element="h2" font-size="2rem" />
+        <content-header display="Add New Resolution" element="h2" font-size="2rem" />
         <validation-provider
           v-slot="{ errors }"
-          rules="numeric"
+          rules="required|numeric"
         >
           <c-form-control :is-invalid="!!errors[0]">
-            <c-form-label for="billNumber">
-              Bill number
+            <c-form-label for="resolutionNumber">
+              Resolution number
             </c-form-label>
             <c-input
-              id="billNumber"
-              v-model="billNumber"
+              id="resolutionNumber"
+              v-model="resolutionNumber"
               type="number"
-              aria-describedby="bill-number-helper-text"
+              aria-describedby="resolution-number-helper-text"
             />
-            <c-form-helper-text id="bill-number-helper-text">
+            <c-form-helper-text id="resolution-number-helper-text">
               <c-text v-if="!!errors[0]" color="red.300">
                 {{ errors[0] }}
               </c-text>
@@ -29,8 +29,32 @@
           </c-form-control>
         </validation-provider>
 
-        <validation-provider>
-          <c-form-control>
+        <validation-provider
+          v-slot="{ errors }"
+          rules="required|alpha_spaces"
+        >
+          <c-form-control is-required :is-invalid="!!errors[0]">
+            <c-form-label for="resolutionTitle">
+              Resolution title
+            </c-form-label>
+            <c-input
+              id="resolutionTitle"
+              v-model="resolutionTitle"
+              aria-describedby="resolution-title-helper-text"
+            />
+            <c-form-helper-text id="resolution-title-helper-text">
+              <c-text v-if="!!errors[0]" color="red.300">
+                {{ errors[0] }}
+              </c-text>
+            </c-form-helper-text>
+          </c-form-control>
+        </validation-provider>
+
+        <validation-provider
+          v-slot="{ errors }"
+          rules="required"
+        >
+          <c-form-control is-required :is-invalid="!!errors[0]">
             <c-form-label for="content">
               Content
             </c-form-label>
@@ -38,7 +62,13 @@
               id="content"
               v-model="content"
               name="content"
+              aria-describedby="content-helper-text"
             />
+            <c-form-helper-text id="content-helper-text">
+              <c-text v-if="!!errors[0]" color="red.300">
+                {{ errors[0] }}
+              </c-text>
+            </c-form-helper-text>
           </c-form-control>
         </validation-provider>
 
@@ -53,7 +83,7 @@
             <c-select
               v-model="introducedById"
               placeholder="Select a Person"
-              aria-describedby="introduced-by-helper-text"
+              aria-describedby="introduced-by-id-helper-text"
             >
               <option
                 v-for="a in copiedPeople"
@@ -63,7 +93,7 @@
                 {{ a.fullName }}
               </option>
             </c-select>
-            <c-form-helper-text id="introduced-by-helper-text">
+            <c-form-helper-text id="introduced-by-id-helper-text">
               <c-text v-if="!!errors[0]" color="red.300">
                 {{ errors[0] }}
               </c-text>
@@ -96,24 +126,6 @@
               name="passDate"
               :open-date="new Date()"
             />
-          </c-form-control>
-        </validation-provider>
-
-        <validation-provider v-slot="{ errors }">
-          <c-form-control>
-            <c-form-label for="ordinance">
-              Ordinance
-            </c-form-label>
-            <c-input
-              id="ordinance"
-              v-model="ordinance"
-              aria-describedby="ordinance-helper-text"
-            />
-            <c-form-helper-text id="ordinance-helper-text">
-              <c-text v-if="!!errors[0]" color="red.300">
-                {{ errors[0] }}
-              </c-text>
-            </c-form-helper-text>
           </c-form-control>
         </validation-provider>
 
@@ -150,12 +162,12 @@ export default {
   },
   data () {
     return {
-      billNumber: null,
+      resolutionNumber: null,
+      resolutionTitle: null,
       content: null,
       introducedById: null,
       introducedDate: null,
       passDate: null,
-      ordinance: null,
       copiedPeople: [],
     }
   },
@@ -167,38 +179,38 @@ export default {
   },
   methods: {
     async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new bill...')
+      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Resolution...')
       await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
         payload: {
-          billNumber: this.billNumber,
+          resolutionNumber: this.resolutionNumber,
+          resolutionTitle: this.resolutionTitle,
           content: this.content,
           introducedById: this.introducedById,
           introducedDate: this.introducedDate,
           passDate: this.passDate,
-          ordinance: this.ordinance,
         },
-        itemType: 'bill',
+        itemType: 'resolution',
       })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'bill'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'resolution'))
       await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
       this.$toast({
         title: 'Success.',
-        description: `We've created a new bill for you.`,
+        description: `We've created a new Resolution for you.`,
         status: 'success',
         duration: 8000,
       })
     },
     onReset (veeValidateResetMethod) {
-      this.billNumber = null
+      this.resolutionNumber = null
+      this.resolutionTitle = null
       this.content = null
       this.introducedById = null
       this.introducedDate = null
       this.passDate = null
-      this.ordinance = null
       veeValidateResetMethod()
     },
     async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'bill'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'resolution'))
     },
   },
 }

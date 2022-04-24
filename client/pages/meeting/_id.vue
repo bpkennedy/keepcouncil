@@ -90,9 +90,11 @@ import PublicHearingForm from '~/components/forms/PublicHearingForm'
 import BoardAppointmentForm from '~/components/forms/BoardAppointmentForm'
 import AnnouncementForm from '~/components/forms/AnnouncementForm'
 import RequestForm from '~/components/forms/RequestForm'
+import ResolutionForm from '~/components/forms/ResolutionForm'
 
 export default {
   components: {
+    ResolutionForm,
     RequestForm,
     AnnouncementForm,
     BoardAppointmentForm,
