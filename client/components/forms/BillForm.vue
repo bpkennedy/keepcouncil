@@ -162,11 +162,6 @@ export default {
   computed: {
     ...mapState(['people']),
   },
-  watch: {
-    attendees (newVal) {
-      this.copiedPeople = [...newVal]
-    },
-  },
   created () {
     this.copiedPeople = [...this.people]
   },

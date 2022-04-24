@@ -21,12 +21,21 @@
           {{ item.petitioner }}
         </c-text>
         <c-tag
-          v-if="item.accepted"
           mt="1rem"
           :variant-color="item.accepted ? 'green' : 'red'"
-          :icon="item.accepted ? 'check' : 'close'"
         >
-          {{ item.accepted ? `Accepted by ${personNameFromId(item.acceptorId)}` : 'Not Accepted' }}
+          <template v-if="item.accepted">
+            <c-tag-icon icon="check" />
+            <c-tag-label>
+              {{ `Accepted by ${personNameFromId(item.acceptorId)}` }}
+            </c-tag-label>
+          </template>
+          <template v-else>
+            <c-tag-icon icon="close" />
+            <c-tag-label>
+              Not Accepted
+            </c-tag-label>
+          </template>
         </c-tag>
         <c-text
           v-if="item.accepted"
