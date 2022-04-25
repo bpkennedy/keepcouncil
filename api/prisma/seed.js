@@ -10,7 +10,7 @@ const {
   boardAppointments,
   requests,
   announcements,
-  // motions,
+  motions,
   meetings,
 } = require('./seedData')
 
@@ -50,9 +50,9 @@ async function main() {
   for (const data of announcements) {
     await prisma.announcement.create({data})
   }
-  // for (const data of motions) {
-  //   await prisma.motion.create({data})
-  // }
+  for (const data of motions) {
+    await prisma.motion.create({data})
+  }
 }
 
 main()

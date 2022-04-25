@@ -50,8 +50,8 @@ module.exports.announcements = [
 
 module.exports.motions = [
   { carried: true, action: 'FIRST_READ', initiatorId: 8, seconderId: 7, billId: 1, meetingId: 1 },
-  { carried: true, action: 'SECOND_READ', initiatorId: 8, seconderId: 9, billId: 1, meetingId: 1 },
-  { carried: true, action: 'THIRD_READ', initiatorId: 8, seconderId: 3, billId: 1, meetingId: 1 },
+  // { carried: true, action: 'SECOND_READ', initiatorId: 8, seconderId: 9, billId: 1, meetingId: 1 },
+  // { carried: true, action: 'THIRD_READ', initiatorId: 8, seconderId: 3, billId: 1, meetingId: 1 },
 ]
 
 module.exports.meetings = [{

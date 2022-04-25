@@ -64,6 +64,7 @@ CREATE TABLE "HearingFromCitizen" (
     "from" VARCHAR(255),
     "content" TEXT,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -76,6 +77,7 @@ CREATE TABLE "Proclamation" (
     "presentedTo" VARCHAR(255),
     "content" TEXT,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -92,6 +94,7 @@ CREATE TABLE "Resolution" (
     "content" TEXT,
     "introducedById" INTEGER NOT NULL,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -106,6 +109,7 @@ CREATE TABLE "Communication" (
     "content" TEXT,
     "communicationType" "CommunicationType" NOT NULL,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -120,6 +124,7 @@ CREATE TABLE "PublicHearing" (
     "content" TEXT,
     "from" VARCHAR(255) NOT NULL,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -136,6 +141,7 @@ CREATE TABLE "Bill" (
     "content" TEXT,
     "introducedById" INTEGER NOT NULL,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -150,6 +156,7 @@ CREATE TABLE "BoardAppointment" (
     "appointedTo" VARCHAR(255),
     "referredById" INTEGER,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -166,6 +173,7 @@ CREATE TABLE "Request" (
     "acceptorId" INTEGER,
     "secondedById" INTEGER,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -178,6 +186,7 @@ CREATE TABLE "Announcement" (
     "content" TEXT,
     "announcerId" INTEGER NOT NULL,
     "meetingId" INTEGER NOT NULL,
+    "motionId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -214,33 +223,6 @@ CREATE TABLE "_Bill_Nay" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Person.email_unique" ON "Person"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_hearingFromCitizenId_unique" ON "Motion"("hearingFromCitizenId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_proclamationId_unique" ON "Motion"("proclamationId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_resolutionId_unique" ON "Motion"("resolutionId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_communicationId_unique" ON "Motion"("communicationId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_publicHearingId_unique" ON "Motion"("publicHearingId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_billId_unique" ON "Motion"("billId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_boardAppointmentId_unique" ON "Motion"("boardAppointmentId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_requestId_unique" ON "Motion"("requestId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Motion_announcementId_unique" ON "Motion"("announcementId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_MeetingToPerson_AB_unique" ON "_MeetingToPerson"("A", "B");
@@ -312,7 +294,13 @@ ALTER TABLE "Motion" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON
 ALTER TABLE "HearingFromCitizen" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "HearingFromCitizen" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Proclamation" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Proclamation" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Resolution" ADD FOREIGN KEY ("introducedById") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -321,10 +309,19 @@ ALTER TABLE "Resolution" ADD FOREIGN KEY ("introducedById") REFERENCES "Person"(
 ALTER TABLE "Resolution" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Resolution" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Communication" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Communication" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "PublicHearing" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PublicHearing" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Bill" ADD FOREIGN KEY ("introducedById") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -333,10 +330,16 @@ ALTER TABLE "Bill" ADD FOREIGN KEY ("introducedById") REFERENCES "Person"("id") 
 ALTER TABLE "Bill" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Bill" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "BoardAppointment" ADD FOREIGN KEY ("referredById") REFERENCES "Person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "BoardAppointment" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "BoardAppointment" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Request" ADD FOREIGN KEY ("acceptorId") REFERENCES "Person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -348,10 +351,16 @@ ALTER TABLE "Request" ADD FOREIGN KEY ("secondedById") REFERENCES "Person"("id")
 ALTER TABLE "Request" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Request" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Announcement" ADD FOREIGN KEY ("announcerId") REFERENCES "Person"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Announcement" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Announcement" ADD FOREIGN KEY ("motionId") REFERENCES "Motion"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_MeetingToPerson" ADD FOREIGN KEY ("A") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;
