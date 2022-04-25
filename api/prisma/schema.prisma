@@ -21,7 +21,7 @@ model Person {
   id                        Int                 @id @default(autoincrement())
   createdAt                 DateTime            @default(now())
   updatedAt                 DateTime            @updatedAt
-  fullName                  String              @unique @db.VarChar(255)
+  fullName                  String              @db.VarChar(255)
   email                     String              @unique @db.VarChar(255)
   phoneNumber               Int?
   ward                      Int?
@@ -139,9 +139,9 @@ model Resolution {
   updatedAt                 DateTime                 @updatedAt
   introducedDate            DateTime?
   passDate                  DateTime?
-  resolutionNumber          Int                      @unique
+  resolutionNumber          Int
   resolutionTitle           String                   @db.VarChar(255)
-  content                   String                   @db.Text
+  content                   String?                  @db.Text
   introducedById            Int
   introducedBy              Person                   @relation("Resolution_IntroducedBy", fields: [introducedById], references: [id])
   ayeVote                   Person[]                 @relation("Resolution_Aye")
@@ -173,7 +173,7 @@ model PublicHearing {
   id                        Int                      @id @default(autoincrement())
   createdAt                 DateTime                 @default(now())
   updatedAt                 DateTime                 @updatedAt
-  title                     String                   @unique @db.VarChar(255)
+  title                     String                   @db.VarChar(255)
   topic                     String?                  @db.VarChar(255)
   content                   String?                  @db.Text
   from                      String                   @db.VarChar(255)
@@ -219,7 +219,7 @@ model Request {
   createdAt                 DateTime                 @default(now())
   updatedAt                 DateTime                 @updatedAt
   petitioner                String                   @db.VarChar(255)
-  title                     String                   @unique @db.VarChar(255)
+  title                     String                   @db.VarChar(255)
   content                   String?                  @db.Text
   accepted                  Boolean                  @default(false)
   acceptorId                Int?
@@ -235,7 +235,7 @@ model Announcement {
   id                        Int                      @id @default(autoincrement())
   createdAt                 DateTime                 @default(now())
   updatedAt                 DateTime                 @updatedAt
-  content                   String                   @db.Text
+  content                   String?                  @db.Text
   announcerId               Int
   announcer                 Person                   @relation("Announcement_Announcer", fields: [announcerId], references: [id])
   meetingId                 Int

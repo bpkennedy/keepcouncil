@@ -89,7 +89,7 @@ CREATE TABLE "Resolution" (
     "passDate" TIMESTAMP(3),
     "resolutionNumber" INTEGER NOT NULL,
     "resolutionTitle" VARCHAR(255) NOT NULL,
-    "content" TEXT NOT NULL,
+    "content" TEXT,
     "introducedById" INTEGER NOT NULL,
     "meetingId" INTEGER NOT NULL,
 
@@ -102,7 +102,7 @@ CREATE TABLE "Communication" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "dateReceived" TIMESTAMP(3),
-    "from" VARCHAR(255) NOT NULL,
+    "from" VARCHAR(255),
     "content" TEXT,
     "communicationType" "CommunicationType" NOT NULL,
     "meetingId" INTEGER NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE "Announcement" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "content" TEXT NOT NULL,
+    "content" TEXT,
     "announcerId" INTEGER NOT NULL,
     "meetingId" INTEGER NOT NULL,
 
@@ -213,9 +213,6 @@ CREATE TABLE "_Bill_Nay" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Person.fullName_unique" ON "Person"("fullName");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Person.email_unique" ON "Person"("email");
 
 -- CreateIndex
@@ -244,15 +241,6 @@ CREATE UNIQUE INDEX "Motion_requestId_unique" ON "Motion"("requestId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Motion_announcementId_unique" ON "Motion"("announcementId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Resolution.resolutionNumber_unique" ON "Resolution"("resolutionNumber");
-
--- CreateIndex
-CREATE UNIQUE INDEX "PublicHearing.title_unique" ON "PublicHearing"("title");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Request.title_unique" ON "Request"("title");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_MeetingToPerson_AB_unique" ON "_MeetingToPerson"("A", "B");
