@@ -6,9 +6,9 @@ export const boardAppointmentValidation = celebrate({
     [Segments.BODY]: {
         appointee: Joi.string().required(),
         meetingId: Joi.number().required(),
-        referredById: Joi.number().optional(),
-        appointedTo: Joi.string().default(''),
-        expiration: Joi.date().optional(),
+        referredById: Joi.number().optional().allow(null),
+        appointedTo: Joi.string().default('').allow(null),
+        expiration: Joi.date().optional().allow(null),
     },
 })
 
@@ -19,9 +19,9 @@ export const boardAppointmentCreate = async (req: express.Request, res: express.
             // @ts-ignore
             appointee,
             meetingId,
-            referredById: referredById || null,
+            referredById,
             appointedTo,
-            expiration: expiration || new Date(),
+            expiration,
         },
     })
     return res.send(response).status(201)
@@ -35,7 +35,7 @@ export const getMeetingBoardAppointments = async (req: express.Request, res: exp
         include: {
             meeting: true,
             referredBy: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

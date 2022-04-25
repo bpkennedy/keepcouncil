@@ -225,6 +225,33 @@ CREATE TABLE "_Bill_Nay" (
 CREATE UNIQUE INDEX "Person.email_unique" ON "Person"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "HearingFromCitizen_motionId_unique" ON "HearingFromCitizen"("motionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Proclamation_motionId_unique" ON "Proclamation"("motionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Resolution_motionId_unique" ON "Resolution"("motionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Communication_motionId_unique" ON "Communication"("motionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "PublicHearing_motionId_unique" ON "PublicHearing"("motionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Bill_motionId_unique" ON "Bill"("motionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "BoardAppointment_motionId_unique" ON "BoardAppointment"("motionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Request_motionId_unique" ON "Request"("motionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Announcement_motionId_unique" ON "Announcement"("motionId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_MeetingToPerson_AB_unique" ON "_MeetingToPerson"("A", "B");
 
 -- CreateIndex
@@ -259,33 +286,6 @@ ALTER TABLE "Motion" ADD FOREIGN KEY ("initiatorId") REFERENCES "Person"("id") O
 
 -- AddForeignKey
 ALTER TABLE "Motion" ADD FOREIGN KEY ("seconderId") REFERENCES "Person"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("hearingFromCitizenId") REFERENCES "HearingFromCitizen"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("proclamationId") REFERENCES "Proclamation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("resolutionId") REFERENCES "Resolution"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("communicationId") REFERENCES "Communication"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("publicHearingId") REFERENCES "PublicHearing"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("billId") REFERENCES "Bill"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("boardAppointmentId") REFERENCES "BoardAppointment"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("requestId") REFERENCES "Request"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Motion" ADD FOREIGN KEY ("announcementId") REFERENCES "Announcement"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Motion" ADD FOREIGN KEY ("meetingId") REFERENCES "Meeting"("id") ON DELETE CASCADE ON UPDATE CASCADE;

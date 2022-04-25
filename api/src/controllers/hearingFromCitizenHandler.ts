@@ -6,7 +6,7 @@ export const hearingFromCitizenValidation = celebrate({
     [Segments.BODY]: {
         from: Joi.string().default(''),
         meetingId: Joi.number().required(),
-        content: Joi.string().default(''),
+        content: Joi.string().default('').allow(null),
     },
 })
 
@@ -30,7 +30,7 @@ export const getMeetingHearingFromCitizens = async (req: express.Request, res: e
         },
         include: {
             meeting: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

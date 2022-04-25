@@ -8,9 +8,9 @@ export const requestValidation = celebrate({
         meetingId: Joi.number().required(),
         title: Joi.string().required(),
         accepted: Joi.bool().required().default(false),
-        content: Joi.string().default(''),
-        acceptorId: Joi.number().optional(),
-        secondedById: Joi.number().optional(),
+        content: Joi.string().default('').allow(null),
+        acceptorId: Joi.number().optional().allow(null),
+        secondedById: Joi.number().optional().allow(null),
     },
 })
 
@@ -24,8 +24,8 @@ export const requestCreate = async (req: express.Request, res: express.Response)
             title,
             content,
             accepted,
-            acceptorId: acceptorId || null,
-            secondedById: secondedById || null,
+            acceptorId,
+            secondedById,
         },
     })
     return res.send(response).status(201)
@@ -40,7 +40,7 @@ export const getMeetingRequests = async (req: express.Request, res: express.Resp
             meeting: true,
             acceptor: true,
             secondedBy: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

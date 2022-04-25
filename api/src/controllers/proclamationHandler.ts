@@ -4,9 +4,9 @@ import prisma from '../prisma'
 
 export const proclamationValidation = celebrate({
     [Segments.BODY]: {
-        presentedTo: Joi.string().default(''),
+        presentedTo: Joi.string().default('').allow(null),
         meetingId: Joi.number().required(),
-        content: Joi.string().default(''),
+        content: Joi.string().default('').allow(null),
     },
 })
 
@@ -30,7 +30,7 @@ export const getMeetingProclamations = async (req: express.Request, res: express
         },
         include: {
             meeting: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

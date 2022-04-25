@@ -6,7 +6,7 @@ export const meetingValidation = celebrate({
     [Segments.BODY]: {
         meetingName: Joi.string().required(),
         meetingDate: Joi.date().required(),
-        meetingPreviewUrl: Joi.string().optional().default('')
+        meetingPreviewUrl: Joi.string().default('').allow(null)
     }
 })
 

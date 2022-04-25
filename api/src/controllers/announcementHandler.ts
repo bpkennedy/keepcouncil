@@ -6,7 +6,7 @@ export const announcementValidation = celebrate({
     [Segments.BODY]: {
         announcerId: Joi.number().required(),
         meetingId: Joi.number().required(),
-        content: Joi.string().default(''),
+        content: Joi.string().default('').allow(null),
     },
 })
 
@@ -31,7 +31,7 @@ export const getMeetingAnnouncements = async (req: express.Request, res: express
         include: {
             announcer: true,
             meeting: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

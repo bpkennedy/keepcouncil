@@ -9,9 +9,9 @@ export const communicationValidation = celebrate({
     [Segments.BODY]: {
         communicationType: Joi.string().valid(EMAIL_ENUM, MAIL_ENUM),
         meetingId: Joi.number().required(),
-        from: Joi.string().default(''),
-        content: Joi.string().default(''),
-        dateReceived: Joi.date().optional()
+        from: Joi.string().default('').allow(null),
+        content: Joi.string().default('').allow(null),
+        dateReceived: Joi.date().optional().allow(null)
     },
 })
 
@@ -24,7 +24,7 @@ export const communicationCreate = async (req: express.Request, res: express.Res
             meetingId,
             from,
             content,
-            dateReceived: dateReceived || null,
+            dateReceived,
         },
     })
     return res.send(response).status(201)
@@ -37,7 +37,7 @@ export const getMeetingCommunications = async (req: express.Request, res: expres
         },
         include: {
             meeting: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

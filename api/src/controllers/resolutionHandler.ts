@@ -8,9 +8,9 @@ export const resolutionValidation = celebrate({
         resolutionNumber: Joi.number().required(),
         resolutionTitle: Joi.string().required(),
         meetingId: Joi.number().required(),
-        introducedDate: Joi.date().optional(),
-        passDate: Joi.date().optional(),
-        content: Joi.string().default(''),
+        introducedDate: Joi.date().optional().allow(null),
+        passDate: Joi.date().optional().allow(null),
+        content: Joi.string().default('').allow(null),
     },
 })
 
@@ -23,8 +23,8 @@ export const resolutionCreate = async (req: express.Request, res: express.Respon
             resolutionNumber,
             resolutionTitle,
             meetingId,
-            introducedDate: introducedDate || null,
-            passDate: passDate || null,
+            introducedDate,
+            passDate,
             content,
         },
     })
@@ -41,7 +41,7 @@ export const getMeetingResolutions = async (req: express.Request, res: express.R
             introducedBy: true,
             ayeVote: true,
             nayVote: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

@@ -7,8 +7,8 @@ export const publicHearingValidation = celebrate({
         from: Joi.string().required(),
         title: Joi.string().required(),
         meetingId: Joi.number().required(),
-        topic: Joi.string().default(''),
-        content: Joi.string().default(''),
+        topic: Joi.string().default('').allow(null),
+        content: Joi.string().default('').allow(null),
     },
 })
 
@@ -34,7 +34,7 @@ export const getMeetingPublicHearings = async (req: express.Request, res: expres
         },
         include: {
             meeting: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

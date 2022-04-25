@@ -7,10 +7,10 @@ export const billValidation = celebrate({
         billNumber: Joi.number().required(),
         meetingId: Joi.number().required(),
         introducedById: Joi.number().required(),
-        content: Joi.string().default(''),
-        introducedDate: Joi.date().optional(),
-        passDate: Joi.date().optional(),
-        ordinance: Joi.string().default(''),
+        content: Joi.string().default('').allow(null),
+        introducedDate: Joi.date().optional().allow(null),
+        passDate: Joi.date().optional().allow(null),
+        ordinance: Joi.string().default('').allow(null),
     },
 })
 
@@ -23,8 +23,8 @@ export const billCreate = async (req: express.Request, res: express.Response) =>
             meetingId,
             introducedById,
             content,
-            introducedDate: introducedDate || null,
-            passDate: passDate || null,
+            introducedDate,
+            passDate,
             ordinance,
         },
     })
@@ -41,7 +41,7 @@ export const getMeetingBills = async (req: express.Request, res: express.Respons
             ayeVote: true,
             nayVote: true,
             introducedBy: true,
-            fromMotion: true,
+            motion: true,
         },
     }))
     return res.send(resources).status(200)

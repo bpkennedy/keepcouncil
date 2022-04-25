@@ -79,57 +79,47 @@ enum Action {
 }
 
 model Motion {
-  id                   Int                  @id @default(autoincrement())
-  createdAt            DateTime             @default(now())
-  updatedAt            DateTime             @updatedAt
-  carried              Boolean              @default(false)
+  id                   Int                 @id @default(autoincrement())
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  carried              Boolean             @default(false)
   action               Action
   initiatorId          Int
-  initiator            Person               @relation("Motion_Initiator", fields: [initiatorId], references: [id])
+  initiator            Person              @relation("Motion_Initiator", fields: [initiatorId], references: [id])
   seconderId           Int?
-  seconder             Person?              @relation("Motion_Seconder", fields: [seconderId], references: [id])
+  seconder             Person?             @relation("Motion_Seconder", fields: [seconderId], references: [id])
   hearingFromCitizenId Int?
-  hearingFromCitizen   HearingFromCitizen?  @relation("Motion_HearingFromCitizen", fields: [hearingFromCitizenId], references: [id])
+  hearingFromCitizen   HearingFromCitizen? @relation("Motion_HearingFromCitizen")
   proclamationId       Int?
-  proclamation         Proclamation?        @relation("Motion_Proclamation", fields: [proclamationId], references: [id])
+  proclamation         Proclamation?       @relation("Motion_Proclamation")
   resolutionId         Int?
-  resolution           Resolution?          @relation("Motion_Resolution", fields: [resolutionId], references: [id])
+  resolution           Resolution?         @relation("Motion_Resolution")
   communicationId      Int?
-  communication        Communication?       @relation("Motion_Communication", fields: [communicationId], references: [id])
+  communication        Communication?      @relation("Motion_Communication")
   publicHearingId      Int?
-  publicHearing        PublicHearing?       @relation("Motion_PublicHearing", fields: [publicHearingId], references: [id])
+  publicHearing        PublicHearing?      @relation("Motion_PublicHearing")
   billId               Int?
-  bill                 Bill?                @relation("Motion_Bill", fields: [billId], references: [id])
+  bill                 Bill?               @relation("Motion_Bill")
   boardAppointmentId   Int?
-  boardAppointment     BoardAppointment?    @relation("Motion_BoardAppointment", fields: [boardAppointmentId], references: [id])
+  boardAppointment     BoardAppointment?   @relation("Motion_BoardAppointment")
   requestId            Int?
-  request              Request?             @relation("Motion_Request", fields: [requestId], references: [id])
+  request              Request?            @relation("Motion_Request")
   announcementId       Int?
-  announcement         Announcement?        @relation("Motion_Announcement", fields: [announcementId], references: [id])
+  announcement         Announcement?       @relation("Motion_Announcement")
   meetingId            Int
-  meeting              Meeting              @relation(fields: [meetingId], references: [id])
-  HearingFromCitizen   HearingFromCitizen[]
-  Proclamation         Proclamation[]
-  Resolution           Resolution[]
-  Communication        Communication[]
-  PublicHearing        PublicHearing[]
-  Bill                 Bill[]
-  BoardAppointment     BoardAppointment[]
-  Request              Request[]
-  Announcement         Announcement[]
+  meeting              Meeting             @relation(fields: [meetingId], references: [id])
 }
 
 model HearingFromCitizen {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  from       String?  @db.VarChar(255)
-  content    String?  @db.Text
-  meetingId  Int
-  meeting    Meeting  @relation(fields: [meetingId], references: [id])
-  fromMotion Motion?  @relation(fields: [motionId], references: [id])
-  Motion     Motion[] @relation("Motion_HearingFromCitizen")
-  motionId   Int?
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  from      String?  @db.VarChar(255)
+  content   String?  @db.Text
+  meetingId Int
+  meeting   Meeting  @relation(fields: [meetingId], references: [id])
+  motionId  Int?
+  motion    Motion?  @relation("Motion_HearingFromCitizen", fields: [motionId], references: [id])
 }
 
 model Proclamation {
@@ -140,9 +130,8 @@ model Proclamation {
   content     String?  @db.Text
   meetingId   Int
   meeting     Meeting  @relation(fields: [meetingId], references: [id])
-  fromMotion  Motion?  @relation(fields: [motionId], references: [id])
-  Motion      Motion[] @relation("Motion_Proclamation")
   motionId    Int?
+  motion      Motion?  @relation("Motion_Proclamation", fields: [motionId], references: [id])
 }
 
 model Resolution {
@@ -160,9 +149,8 @@ model Resolution {
   nayVote          Person[]  @relation("Resolution_Nay")
   meetingId        Int
   meeting          Meeting   @relation(fields: [meetingId], references: [id])
-  fromMotion       Motion?   @relation(fields: [motionId], references: [id])
-  Motion           Motion[]  @relation("Motion_Resolution")
   motionId         Int?
+  motion           Motion?   @relation("Motion_Resolution", fields: [motionId], references: [id])
 }
 
 enum CommunicationType {
@@ -180,24 +168,22 @@ model Communication {
   communicationType CommunicationType
   meetingId         Int
   meeting           Meeting           @relation(fields: [meetingId], references: [id])
-  fromMotion        Motion?           @relation(fields: [motionId], references: [id])
-  Motion            Motion[]          @relation("Motion_Communication")
   motionId          Int?
+  motion            Motion?           @relation("Motion_Communication", fields: [motionId], references: [id])
 }
 
 model PublicHearing {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  title      String   @db.VarChar(255)
-  topic      String?  @db.VarChar(255)
-  content    String?  @db.Text
-  from       String   @db.VarChar(255)
-  meetingId  Int
-  meeting    Meeting  @relation(fields: [meetingId], references: [id])
-  fromMotion Motion?  @relation(fields: [motionId], references: [id])
-  Motion     Motion[] @relation("Motion_PublicHearing")
-  motionId   Int?
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  topic     String?  @db.VarChar(255)
+  content   String?  @db.Text
+  from      String   @db.VarChar(255)
+  meetingId Int
+  meeting   Meeting  @relation(fields: [meetingId], references: [id])
+  motionId  Int?
+  motion    Motion?  @relation("Motion_PublicHearing", fields: [motionId], references: [id])
 }
 
 model Bill {
@@ -215,9 +201,8 @@ model Bill {
   introducedBy   Person    @relation("Bill_IntroducedBy", fields: [introducedById], references: [id])
   meetingId      Int
   meeting        Meeting   @relation(fields: [meetingId], references: [id])
-  fromMotion     Motion?   @relation(fields: [motionId], references: [id])
-  Motion         Motion[]  @relation("Motion_Bill")
   motionId       Int?
+  motion         Motion?   @relation("Motion_Bill", fields: [motionId], references: [id])
 }
 
 model BoardAppointment {
@@ -231,9 +216,8 @@ model BoardAppointment {
   referredBy   Person?   @relation("BoardAppointment_Referrer", fields: [referredById], references: [id])
   meetingId    Int
   meeting      Meeting   @relation(fields: [meetingId], references: [id])
-  fromMotion   Motion?   @relation(fields: [motionId], references: [id])
-  Motion       Motion[]  @relation("Motion_BoardAppointment")
   motionId     Int?
+  motion       Motion?   @relation("Motion_BoardAppointment", fields: [motionId], references: [id])
 }
 
 model Request {
@@ -250,9 +234,8 @@ model Request {
   secondedBy   Person?  @relation("Request_SecondedBy", fields: [secondedById], references: [id])
   meetingId    Int
   meeting      Meeting  @relation(fields: [meetingId], references: [id])
-  fromMotion   Motion?  @relation(fields: [motionId], references: [id])
-  Motion       Motion[] @relation("Motion_Request")
   motionId     Int?
+  motion       Motion?  @relation("Motion_Request", fields: [motionId], references: [id])
 }
 
 model Announcement {
@@ -264,7 +247,6 @@ model Announcement {
   announcer   Person   @relation("Announcement_Announcer", fields: [announcerId], references: [id])
   meetingId   Int
   meeting     Meeting  @relation(fields: [meetingId], references: [id])
-  fromMotion  Motion?  @relation(fields: [motionId], references: [id])
-  Motion      Motion[] @relation("Motion_Announcement")
   motionId    Int?
+  motion      Motion?  @relation("Motion_Announcement", fields: [motionId], references: [id])
 }
