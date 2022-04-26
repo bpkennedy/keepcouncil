@@ -26,7 +26,7 @@
         </c-accordion-header>
       </c-accordion-item>
       <c-accordion-item
-        v-for="itemType in AGENDA_ITEM_TYPES.filter(ai => !['person', 'meeting'].includes(ai.value))"
+        v-for="itemType in AGENDA_ITEM_TYPES.filter(ai => ![PERSON_TYPE, MEETING_TYPE].includes(ai.value))"
         v-slot="{ isExpanded }"
         :key="itemType.value"
         @click.native="loadItemsByType(itemType)"
@@ -61,7 +61,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { AGENDA_ITEM_TYPES } from '~/constants'
+import { AGENDA_ITEM_TYPES, PERSON_TYPE, MEETING_TYPE } from '~/constants'
 import MeetingSummaryCard from '~/components/MeetingSummaryCard'
 import { NEW_ITEM_FORM_LOAD_ACTION, ITEMS_REQUESTED_BY_TYPE_ACTION } from '~/store'
 
@@ -72,6 +72,8 @@ export default {
   data () {
     return {
       AGENDA_ITEM_TYPES,
+      PERSON_TYPE,
+      MEETING_TYPE,
     }
   },
   computed: {

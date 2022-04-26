@@ -80,11 +80,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-.pdf-app {
-  #thumbnailView {
-    overflow-x: hidden;
-  }
-}
-</style>

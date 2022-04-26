@@ -127,7 +127,7 @@
 <script>
 import { mapState } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES, ACTIONS } from '~/constants'
+import { AGENDA_ITEM_TYPES, ACTIONS, MOTION_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
 import {
   DATA_DONE_LOADING_ACTION,
@@ -178,9 +178,9 @@ export default {
           initiatorId: this.initiatorId,
           seconderId: this.seconderId,
         },
-        itemType: 'motion',
+        itemType: MOTION_TYPE,
       })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'motion'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === MOTION_TYPE))
       await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
       this.$toast({
         title: 'Success.',
@@ -197,7 +197,7 @@ export default {
       veeValidateResetMethod()
     },
     async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'motion'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === MOTION_TYPE))
     },
   },
 }

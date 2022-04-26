@@ -137,7 +137,6 @@ export const mutations = {
     Vue.set(state, 'loadedFormType', itemType)
   },
   [SET_LOADED_ITEMS_OF_TYPE_MUTATION] (state, items) {
-    console.log(items)
     Vue.set(state, 'loadedItemsOfType', items)
   },
   [SET_MEETINGS_MUTATION] (state, meetings) {

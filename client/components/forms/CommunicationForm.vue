@@ -96,7 +96,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES, MAIL_ENUM, EMAIL_ENUM } from '~/constants'
+import { AGENDA_ITEM_TYPES, MAIL_ENUM, EMAIL_ENUM, COMMUNICATION_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
 import {
   DATA_DONE_LOADING_ACTION,
@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new communication...')
+      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Communication...')
       await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
         payload: {
           from: this.from,
@@ -133,13 +133,13 @@ export default {
           communicationType: this.communicationType,
           dateReceived: this.dateReceived,
         },
-        itemType: 'communication',
+        itemType: COMMUNICATION_TYPE,
       })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'communication'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === COMMUNICATION_TYPE))
       await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
       this.$toast({
         title: 'Success.',
-        description: `We've created a new communication for you.`,
+        description: `We've created a new Communication for you.`,
         status: 'success',
         duration: 8000,
       })
@@ -152,7 +152,7 @@ export default {
       veeValidateResetMethod()
     },
     async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'communication'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === COMMUNICATION_TYPE))
     },
   },
 }

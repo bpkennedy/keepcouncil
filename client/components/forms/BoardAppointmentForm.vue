@@ -103,7 +103,7 @@
 <script>
 import { mapState } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES } from '~/constants'
+import { AGENDA_ITEM_TYPES, BOARD_APPOINTMENT_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
 import {
   DATA_DONE_LOADING_ACTION,
@@ -137,7 +137,7 @@ export default {
   },
   methods: {
     async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new board appointment...')
+      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Board Appointment...')
       await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
         payload: {
           appointee: this.appointee,
@@ -145,9 +145,9 @@ export default {
           referredById: this.referredById,
           expiration: this.expiration,
         },
-        itemType: 'boardAppointment',
+        itemType: BOARD_APPOINTMENT_TYPE,
       })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'boardAppointment'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === BOARD_APPOINTMENT_TYPE))
       await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
       this.$toast({
         title: 'Success.',
@@ -164,7 +164,7 @@ export default {
       veeValidateResetMethod()
     },
     async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'boardAppointment'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === BOARD_APPOINTMENT_TYPE))
     },
   },
 }

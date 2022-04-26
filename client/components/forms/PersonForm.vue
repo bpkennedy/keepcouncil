@@ -144,7 +144,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES, POSITIONS } from '~/constants'
+import { AGENDA_ITEM_TYPES, POSITIONS, PERSON_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
 import {
   DATA_DONE_LOADING_ACTION,
@@ -174,7 +174,7 @@ export default {
   },
   methods: {
     async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new person...')
+      await this.$store.dispatch(DATA_IS_LOADING_ACTION, `Creating new Person...`)
       await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
         payload: {
           selectedWard: this.selectedWard,
@@ -184,13 +184,13 @@ export default {
           email: this.email,
           phone: this.phone,
         },
-        itemType: 'person',
+        itemType: PERSON_TYPE,
       })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === PERSON_TYPE))
       await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
       this.$toast({
         title: 'Success.',
-        description: `We've created a new person for you.`,
+        description: `We've created a new Person for you.`,
         status: 'success',
         duration: 8000,
       })
@@ -204,7 +204,7 @@ export default {
       veeValidateResetMethod()
     },
     async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'person'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === PERSON_TYPE))
     },
   },
 }

@@ -53,52 +53,65 @@ export const POSITIONS = [{
   value: 'CITY_ATTORNEY',
 }]
 
+export const PERSON_TYPE = 'person'
+export const MEETING_TYPE = 'meeting'
+export const MOTION_TYPE = 'motion'
+export const BILL_TYPE = 'bill'
+export const HEARING_FROM_CITIZEN_TYPE = 'hearingFromCitizen'
+export const PROCLAMATION_TYPE = 'proclamation'
+export const RESOLUTION_TYPE = 'resolution'
+export const COMMUNICATION_TYPE = 'communication'
+export const PUBLIC_HEARING_TYPE = 'publicHearing'
+export const BOARD_APPOINTMENT_TYPE = 'boardAppointment'
+export const REQUEST_TYPE = 'request'
+export const ANNOUNCEMENT_TYPE = 'announcement'
+
 export const AGENDA_ITEM_TYPES = [{
   display: 'Person',
-  value: 'person',
+  value: PERSON_TYPE,
   formComponentName: 'person-form',
 }, {
   display: 'Meeting',
-  value: 'meeting',
+  value: MEETING_TYPE,
   formComponentName: 'meeting-form',
 }, {
   display: 'Motion',
-  value: 'motion',
+  value: MOTION_TYPE,
   formComponentName: 'motion-form',
 }, {
   display: 'Bill',
-  value: 'bill',
+  value: BILL_TYPE,
   formComponentName: 'bill-form',
 }, {
   display: 'Hearing From Citizen',
-  value: 'hearingFromCitizen',
+  value: HEARING_FROM_CITIZEN_TYPE,
   formComponentName: 'hearing-from-citizen-form',
 }, {
   display: 'Proclamation',
-  value: 'proclamation',
+  value: PROCLAMATION_TYPE,
   formComponentName: 'proclamation-form',
 }, {
   display: 'Resolution',
-  value: 'resolution',
+  value: RESOLUTION_TYPE,
   formComponentName: 'resolution-form',
 }, {
   display: 'Communication',
-  value: 'communication',
+  value: COMMUNICATION_TYPE,
   formComponentName: 'communication-form',
 }, {
   display: 'Public Hearing',
-  value: 'publicHearing',
+  value: PUBLIC_HEARING_TYPE,
   formComponentName: 'public-hearing-form',
 }, {
   display: 'Board Appointment',
-  value: 'boardAppointment',
+  value: BOARD_APPOINTMENT_TYPE,
   formComponentName: 'board-appointment-form',
 }, {
   display: 'Request',
-  value: 'request',
+  value: REQUEST_TYPE,
   formComponentName: 'request-form',
 }, {
   display: 'Announcement',
-  value: 'announcement',
+  value: ANNOUNCEMENT_TYPE,
   formComponentName: 'announcement-form',
 }]

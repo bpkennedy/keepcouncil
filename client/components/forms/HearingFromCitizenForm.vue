@@ -54,7 +54,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES } from '~/constants'
+import { AGENDA_ITEM_TYPES, HEARING_FROM_CITIZEN_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
 import {
   DATA_DONE_LOADING_ACTION,
@@ -79,15 +79,15 @@ export default {
   },
   methods: {
     async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new hearing from citizen...')
+      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Hearing from Citizen...')
       await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
         payload: {
           from: this.from,
           content: this.content,
         },
-        itemType: 'hearingFromCitizen',
+        itemType: HEARING_FROM_CITIZEN_TYPE,
       })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'hearingFromCitizen'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === HEARING_FROM_CITIZEN_TYPE))
       await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
       this.$toast({
         title: 'Success.',
@@ -102,7 +102,7 @@ export default {
       veeValidateResetMethod()
     },
     async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'hearingFromCitizen'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === HEARING_FROM_CITIZEN_TYPE))
     },
   },
 }

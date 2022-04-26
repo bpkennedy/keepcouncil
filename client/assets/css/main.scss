@@ -90,3 +90,27 @@ $gray400: #a0aec0;
     }
   }
 }
+
+.vdp-datepicker__calendar {
+  background: rgb(45, 55, 72) !important;
+
+  .prev,
+  .next {
+    color: white !important;
+  }
+}
+
+.vdp-datepicker {
+  input {
+    width: 100%;
+    font-size: 1rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    height: 2.5rem !important;
+    line-height: 2.5rem !important;
+    border-radius: 0.25rem !important;
+    border-width: 1px !important;
+    border-color: rgba(255, 255, 255, 0.04) !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
+  }
+}

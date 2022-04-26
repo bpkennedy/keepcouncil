@@ -131,7 +131,7 @@
 <script>
 import { mapState } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES } from '~/constants'
+import { AGENDA_ITEM_TYPES, BILL_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
 import {
   DATA_DONE_LOADING_ACTION,
@@ -167,7 +167,7 @@ export default {
   },
   methods: {
     async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new bill...')
+      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Bill...')
       await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
         payload: {
           billNumber: this.billNumber,
@@ -177,13 +177,13 @@ export default {
           passDate: this.passDate,
           ordinance: this.ordinance,
         },
-        itemType: 'bill',
+        itemType: BILL_TYPE,
       })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'bill'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === BILL_TYPE))
       await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
       this.$toast({
         title: 'Success.',
-        description: `We've created a new bill for you.`,
+        description: `We've created a new Bill for you.`,
         status: 'success',
         duration: 8000,
       })
@@ -198,7 +198,7 @@ export default {
       veeValidateResetMethod()
     },
     async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === 'bill'))
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === BILL_TYPE))
     },
   },
 }

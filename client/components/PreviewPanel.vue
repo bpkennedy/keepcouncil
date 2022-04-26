@@ -37,16 +37,10 @@ export default {
   data () {
     return {
       API_PATH,
-      config: {},
+      config: {
+        sidebar: false,
+      },
     }
   },
 }
 </script>
-
-<style lang="scss">
-  #sidebarToggle {
-    &::after {
-      display: none;
-    }
-  }
-</style>

@@ -19,41 +19,13 @@
             wrap="wrap"
             class="stack-gap"
           >
-            <template v-if="isOfType('person')">
-              <person-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('meeting')">
-              <generic-agenda-item-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('motion')">
-              <motion-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('bill')">
-              <bill-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('hearingFromCitizen')">
-              <hearing-from-citizen-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('proclamation')">
-              <proclamation-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('resolution')">
-              <resolution-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('communication')">
-              <communication-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('publicHearing')">
-              <public-hearing-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('boardAppointment')">
-              <board-appointment-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('request')">
-              <request-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
-            </template>
-            <template v-else-if="isOfType('announcement')">
-              <announcement-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
+            <template v-if="loadedItemsOfType">
+              <component
+                :is="`${loadedItemType.value}-card`"
+                v-for="item of loadedItemsOfType"
+                :key="item.id"
+                :item="item"
+              />
             </template>
           </c-flex>
         </template>
@@ -67,7 +39,7 @@ import { mapState } from 'vuex'
 import AgendaSidebar from '~/components/AgendaSidebar.vue'
 import PersonForm from '~/components/forms/PersonForm.vue'
 import MeetingForm from '~/components/forms/MeetingForm.vue'
-import { AGENDA_ITEM_TYPES, EDIT_VIEW_NAME } from '~/constants'
+import { EDIT_VIEW_NAME } from '~/constants'
 import { VIEW_LOADED_ACTION, pluralize } from '~/store'
 import MeetingSummaryCard from '~/components/MeetingSummaryCard'
 import GenericAgendaItemCard from '~/components/GenericAgendaItemCard'
@@ -127,7 +99,6 @@ export default {
   data () {
     return {
       pluralize,
-      AGENDA_ITEM_TYPES,
     }
   },
   computed: {
@@ -135,11 +106,6 @@ export default {
   },
   created () {
     this.$store.dispatch(VIEW_LOADED_ACTION, { viewName: EDIT_VIEW_NAME })
-  },
-  methods: {
-    isOfType (itemType) {
-      return this.loadedItemType.value === AGENDA_ITEM_TYPES.find(t => t.value === itemType).value
-    },
   },
 }
 </script>
