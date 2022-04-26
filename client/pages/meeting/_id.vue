@@ -92,9 +92,11 @@ import AnnouncementForm from '~/components/forms/AnnouncementForm'
 import RequestForm from '~/components/forms/RequestForm'
 import ResolutionForm from '~/components/forms/ResolutionForm'
 import MotionCard from '~/components/cards/MotionCard'
+import MotionForm from '~/components/forms/MotionForm'
 
 export default {
   components: {
+    MotionForm,
     MotionCard,
     ResolutionForm,
     RequestForm,

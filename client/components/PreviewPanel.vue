@@ -37,9 +37,7 @@ export default {
   data () {
     return {
       API_PATH,
-      config: {
-        toolbar: false,
-      },
+      config: {},
     }
   },
 }
