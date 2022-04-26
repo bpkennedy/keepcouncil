@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { HOME_VIEW_NAME, EDIT_VIEW_NAME, VIEW_NAMES, API_PATH } from '../constants'
+import { HOME_VIEW_NAME, EDIT_VIEW_NAME, VIEW_NAMES, API_PATH, ACTIONS } from '../constants'
 
 export const PEOPLE_FOR_DISPLAY_NEEDED_ACTION = 'PEOPLE_FOR_DISPLAY_NEEDED_ACTION'
 export const VIEW_LOADED_ACTION = 'VIEW_LOADED_ACTION'
@@ -137,6 +137,7 @@ export const mutations = {
     Vue.set(state, 'loadedFormType', itemType)
   },
   [SET_LOADED_ITEMS_OF_TYPE_MUTATION] (state, items) {
+    console.log(items)
     Vue.set(state, 'loadedItemsOfType', items)
   },
   [SET_MEETINGS_MUTATION] (state, meetings) {
@@ -163,5 +164,9 @@ export const getters = {
   personNameFromId: state => (personId) => {
     const person = state.people.find(p => p.id === personId)
     return person ? person.fullName : personId
+  },
+  motionActionDisplayNameFromValue: () => (actionValue) => {
+    const action = ACTIONS.find(a => a.value === actionValue)
+    return action ? action.display : actionValue
   },
 }

@@ -34,6 +34,7 @@ import {
 import {announcementCreate, announcementValidation, getMeetingAnnouncements} from './controllers/announcementHandler'
 import {getMeetingResolutions, resolutionCreate, resolutionValidation} from './controllers/resolutionHandler'
 import {getMeetingRequests, requestCreate, requestValidation} from './controllers/requestHandler'
+import {getMeetingMotions, motionHandler, motionValidation} from './controllers/motionHandler'
 
 export const routes = () => {
     const router = express.Router()
@@ -60,6 +61,15 @@ export const routes = () => {
 
     // @ts-ignore
     router.get('/person', asyncHandler(allPersonsHandler))
+
+    //
+    // MOTIONS
+    //
+
+    // @ts-ignore
+    router.post('/motion', motionValidation, asyncHandler(motionHandler))
+    // @ts-ignore
+    router.get('/motion/meeting/:meetingId', oneMeetingValidation, asyncHandler(getMeetingMotions))
 
     //
     // GENERIC RESOURCES

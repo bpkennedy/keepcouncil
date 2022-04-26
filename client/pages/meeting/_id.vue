@@ -26,7 +26,7 @@
               <generic-agenda-item-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
             </template>
             <template v-else-if="isOfType('motion')">
-              <generic-agenda-item-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
+              <motion-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
             </template>
             <template v-else-if="isOfType('bill')">
               <bill-card v-for="item of loadedItemsOfType" :key="item.id" :item="item" />
@@ -91,9 +91,11 @@ import BoardAppointmentForm from '~/components/forms/BoardAppointmentForm'
 import AnnouncementForm from '~/components/forms/AnnouncementForm'
 import RequestForm from '~/components/forms/RequestForm'
 import ResolutionForm from '~/components/forms/ResolutionForm'
+import MotionCard from '~/components/cards/MotionCard'
 
 export default {
   components: {
+    MotionCard,
     ResolutionForm,
     RequestForm,
     AnnouncementForm,
