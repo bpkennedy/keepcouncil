@@ -177,6 +177,7 @@ export default {
           action: this.action,
           initiatorId: this.initiatorId,
           seconderId: this.seconderId,
+          agendaItemType: this.agendaItemType,
         },
         itemType: MOTION_TYPE,
       })
@@ -194,6 +195,7 @@ export default {
       this.action = null
       this.initiatorId = null
       this.seconderId = null
+      this.agendaItemType = null
       veeValidateResetMethod()
     },
     async onCancel () {
