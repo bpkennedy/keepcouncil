@@ -9,7 +9,7 @@
         <meeting-form
           @cancel="close"
           @close="close"
-          @submit="newMeeting"
+          @submit="submit"
         />
       </c-modal-body>
     </c-modal-content>
@@ -19,7 +19,7 @@
 
 <script>
 import MeetingForm from '~/components/forms/MeetingForm'
-import { DATA_DONE_LOADING_ACTION, DATA_IS_LOADING_ACTION, NEW_MEETING_CREATION_ACTION } from '~/store'
+import { MEETING_TYPE } from '~/constants'
 
 export default {
   components: {
@@ -33,18 +33,10 @@ export default {
   },
   methods: {
     close () {
-      this.$emit('close')
+      this.$emit('close', MEETING_TYPE)
     },
-    async newMeeting (payload) {
-      this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new meeting...')
-      await this.$store.dispatch(NEW_MEETING_CREATION_ACTION, payload)
-      this.$store.dispatch(DATA_DONE_LOADING_ACTION)
-      this.$toast({
-        title: 'Success.',
-        description: `We've created a new meeting for you.`,
-        status: 'success',
-        duration: 4000,
-      })
+    submit (meetingResource) {
+      this.$emit('submit', meetingResource)
     },
   },
 }

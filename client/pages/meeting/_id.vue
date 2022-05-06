@@ -11,7 +11,12 @@
         class="fill-width"
       >
         <template v-if="loadedFormType">
-          <component :is="loadedFormType.formComponentName" />
+          <component
+            :is="loadedFormType.formComponentName"
+            @cancel="cancel"
+            @close="close"
+            @submit="submit"
+          />
         </template>
         <template v-else-if="loadedItemType">
           <content-header :display="pluralize(loadedItemType.display)" element="h2" font-size="2rem" />
@@ -40,9 +45,13 @@ import AgendaSidebar from '~/components/AgendaSidebar.vue'
 import PersonForm from '~/components/forms/PersonForm.vue'
 import MeetingForm from '~/components/forms/MeetingForm.vue'
 import { EDIT_VIEW_NAME } from '~/constants'
-import { VIEW_LOADED_ACTION, pluralize } from '~/store'
+import {
+  VIEW_LOADED_ACTION,
+  pluralize,
+  NEW_GENERIC_RESOURCE_CREATION_ACTION,
+  ITEMS_REQUESTED_BY_ITEM_TYPE_VALUE_ACTION,
+} from '~/store'
 import MeetingSummaryCard from '~/components/MeetingSummaryCard'
-import GenericAgendaItemCard from '~/components/GenericAgendaItemCard'
 import ContentHeader from '~/components/ContentHeader'
 import PersonCard from '~/components/cards/PersonCard'
 import BillCard from '~/components/cards/BillCard'
@@ -90,7 +99,6 @@ export default {
     BillCard,
     PersonCard,
     ContentHeader,
-    GenericAgendaItemCard,
     MeetingSummaryCard,
     AgendaSidebar,
     PersonForm,
@@ -106,6 +114,17 @@ export default {
   },
   created () {
     this.$store.dispatch(VIEW_LOADED_ACTION, { viewName: EDIT_VIEW_NAME })
+  },
+  methods: {
+    async close (itemTypeValue) {
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_ITEM_TYPE_VALUE_ACTION, itemTypeValue)
+    },
+    async cancel (itemTypeValue) {
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_ITEM_TYPE_VALUE_ACTION, itemTypeValue)
+    },
+    async submit (genericResource) {
+      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, genericResource)
+    },
   },
 }
 </script>

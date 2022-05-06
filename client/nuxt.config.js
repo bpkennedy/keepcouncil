@@ -35,6 +35,7 @@ export default {
     { src: '@/plugins/pdf.js', mode: 'client' },
     { src: '@/plugins/splitpanes.js', mode: 'client' },
     { src: '@/plugins/datepicker.js', mode: 'client' },
+    { src: '@/plugins/vueMultiselect.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -115,3 +115,5 @@ export const AGENDA_ITEM_TYPES = [{
   value: ANNOUNCEMENT_TYPE,
   formComponentName: 'announcement-form',
 }]
+
+export const itemTypeFromValue = value => AGENDA_ITEM_TYPES.find(ai => ai.value === value)

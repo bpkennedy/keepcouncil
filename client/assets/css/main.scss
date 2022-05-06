@@ -36,6 +36,14 @@ $content-width: calc(#{$safe-area-width} - #{$maximum-content-width});
 
 $dark-background-color: #1a1f2c;
 $light-background-color: rgba(45, 55, 72, 1);
+$border-color: rgba(255, 255, 255, 0.16);
+
+$input-font-color: #fffc;
+$input-background-color: #272d38;
+$input-border-default: #ffffff0a;
+$input-border-hover: #ffffff14;
+$input-border-radius: 0.25rem;
+
 $logo-blue-color: #403ffc;
 $gray400: #a0aec0;
 .dark-background { background-color: $dark-background-color; }
@@ -56,7 +64,7 @@ $gray400: #a0aec0;
 .default-border {
   border-width: 1px;
   border-style: solid;
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: $border-color;
 }
 
 .border-none { border: 0; }

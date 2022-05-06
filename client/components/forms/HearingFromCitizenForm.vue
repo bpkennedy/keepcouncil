@@ -54,14 +54,8 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES, HEARING_FROM_CITIZEN_TYPE } from '~/constants'
+import { HEARING_FROM_CITIZEN_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
-import {
-  DATA_DONE_LOADING_ACTION,
-  DATA_IS_LOADING_ACTION,
-  ITEMS_REQUESTED_BY_TYPE_ACTION,
-  NEW_GENERIC_RESOURCE_CREATION_ACTION,
-} from '~/store'
 import ContentHeader from '~/components/ContentHeader'
 
 export default {
@@ -78,31 +72,24 @@ export default {
     }
   },
   methods: {
-    async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Hearing from Citizen...')
-      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
+    onSubmit () {
+      const genericResource = {
         payload: {
           from: this.from,
           content: this.content,
         },
-        itemType: HEARING_FROM_CITIZEN_TYPE,
-      })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === HEARING_FROM_CITIZEN_TYPE))
-      await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
-      this.$toast({
-        title: 'Success.',
-        description: `We've created a new Hearing for Citizen for you.`,
-        status: 'success',
-        duration: 8000,
-      })
+        itemTypeValue: HEARING_FROM_CITIZEN_TYPE,
+      }
+      this.$emit('submit', genericResource)
+      this.$emit('close', HEARING_FROM_CITIZEN_TYPE)
     },
     onReset (veeValidateResetMethod) {
       this.from = null
       this.content = null
       veeValidateResetMethod()
     },
-    async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === HEARING_FROM_CITIZEN_TYPE))
+    onCancel () {
+      this.$emit('cancel', HEARING_FROM_CITIZEN_TYPE)
     },
   },
 }

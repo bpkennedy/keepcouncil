@@ -63,7 +63,7 @@
 import { mapState } from 'vuex'
 import { AGENDA_ITEM_TYPES, PERSON_TYPE, MEETING_TYPE } from '~/constants'
 import MeetingSummaryCard from '~/components/MeetingSummaryCard'
-import { NEW_ITEM_FORM_LOAD_ACTION, ITEMS_REQUESTED_BY_TYPE_ACTION } from '~/store'
+import { NEW_ITEM_FORM_LOAD_ACTION, ITEMS_REQUESTED_BY_ITEM_TYPE_VALUE_ACTION } from '~/store'
 
 export default {
   components: {
@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     loadItemsByType (itemType) {
-      this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, itemType)
+      this.$store.dispatch(ITEMS_REQUESTED_BY_ITEM_TYPE_VALUE_ACTION, itemType.value)
     },
     loadForm (itemType) {
       this.$store.dispatch(NEW_ITEM_FORM_LOAD_ACTION, itemType)

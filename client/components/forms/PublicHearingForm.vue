@@ -96,14 +96,8 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES, PUBLIC_HEARING_TYPE } from '~/constants'
+import { PUBLIC_HEARING_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
-import {
-  DATA_DONE_LOADING_ACTION,
-  DATA_IS_LOADING_ACTION,
-  ITEMS_REQUESTED_BY_TYPE_ACTION,
-  NEW_GENERIC_RESOURCE_CREATION_ACTION,
-} from '~/store'
 import ContentHeader from '~/components/ContentHeader'
 
 export default {
@@ -122,25 +116,18 @@ export default {
     }
   },
   methods: {
-    async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Public Hearing...')
-      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
+    onSubmit () {
+      const genericResource = {
         payload: {
           from: this.from,
           content: this.content,
           title: this.title,
           topic: this.topic,
         },
-        itemType: PUBLIC_HEARING_TYPE,
-      })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === PUBLIC_HEARING_TYPE))
-      await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
-      this.$toast({
-        title: 'Success.',
-        description: `We've created a new Public Hearing for you.`,
-        status: 'success',
-        duration: 8000,
-      })
+        itemTypeValue: PUBLIC_HEARING_TYPE,
+      }
+      this.$emit('submit', genericResource)
+      this.$emit('close', PUBLIC_HEARING_TYPE)
     },
     onReset (veeValidateResetMethod) {
       this.from = null
@@ -149,8 +136,8 @@ export default {
       this.topic = null
       veeValidateResetMethod()
     },
-    async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === PUBLIC_HEARING_TYPE))
+    onCancel () {
+      this.$emit('close', PUBLIC_HEARING_TYPE)
     },
   },
 }

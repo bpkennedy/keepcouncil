@@ -113,6 +113,95 @@
           </c-form-control>
         </validation-provider>
 
+        <validation-provider>
+          <c-form-control>
+            <c-form-label for="agendaItemTypeValue">
+              Agenda Item Type
+            </c-form-label>
+            <c-select
+              v-model="agendaItemTypeValue"
+              placeholder="Select an Agenda Item Type"
+            >
+              <option
+                v-for="itemType in AGENDA_ITEM_TYPES.filter(ai => ![PERSON_TYPE, MEETING_TYPE, MOTION_TYPE].includes(ai.value))"
+                :key="itemType.value"
+                :value="itemType.value"
+              >
+                {{ itemType.display }}
+              </option>
+            </c-select>
+          </c-form-control>
+        </validation-provider>
+
+        <c-box
+          v-if="agendaItemType"
+          class="inset-input"
+        >
+          <c-box
+            v-if="!pickExisting && !pickNew"
+            class="multi-element"
+          >
+            <c-button
+              variant-color="green"
+              variant="ghost"
+              @click="pickExisting = true"
+            >
+              Pick Existing {{ agendaItemType.display }}
+            </c-button>
+            <c-text
+              color="gray.500"
+              font-weight="semibold"
+              font-size="sm"
+              letter-spacing="wide"
+            >
+              OR
+            </c-text>
+            <c-button
+              variant-color="green"
+              variant="ghost"
+              @click="pickNew = true"
+            >
+              Create New {{ agendaItemType.display }}
+            </c-button>
+          </c-box>
+
+          <validation-provider v-if="pickExisting">
+            <c-form-control>
+              <c-form-label
+                for="agendaItem"
+              >
+                Select a {{ agendaItemType.display }}
+              </c-form-label>
+              <multiselect
+                v-model="existingOrNewAgendaItem"
+                track-by="id"
+                :searchable="false"
+                :allow-empty="false"
+                :placeholder="`Pick one`"
+                :options="agendaItems"
+                :limit="6"
+                :limit-text="() => 'Scroll for more results'"
+                :show-no-results="true"
+                class="third-party-select"
+              >
+                <template #singleLabel="{ option }">
+                  id: {{ option.id }}
+                </template>
+                <template #noResult>
+                  <span>No {{ agendaItemType.display }} of this type found.</span>
+                </template>
+              </multiselect>
+            </c-form-control>
+          </validation-provider>
+
+          <new-agenda-item-modal
+            :is-open="pickNew"
+            :item="itemTypeFromValue(agendaItemTypeValue)"
+            @close="pickNew = false"
+            @submit="createNewAgendaItem"
+          />
+        </c-box>
+
         <spacer />
         <button-bar
           :invalid-form="invalid"
@@ -127,18 +216,24 @@
 <script>
 import { mapState } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES, ACTIONS, MOTION_TYPE } from '~/constants'
+import {
+  AGENDA_ITEM_TYPES,
+  ACTIONS,
+  MOTION_TYPE,
+  MEETING_TYPE,
+  PERSON_TYPE,
+  itemTypeFromValue,
+} from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
 import {
-  DATA_DONE_LOADING_ACTION,
-  DATA_IS_LOADING_ACTION,
-  ITEMS_REQUESTED_BY_TYPE_ACTION,
   NEW_GENERIC_RESOURCE_CREATION_ACTION,
 } from '~/store'
 import ContentHeader from '~/components/ContentHeader'
+import NewAgendaItemModal from '~/components/NewAgendaItemModal'
 
 export default {
   components: {
+    NewAgendaItemModal,
     ContentHeader,
     ButtonBar,
     ValidationObserver,
@@ -150,9 +245,19 @@ export default {
       action: null,
       initiatorId: null,
       seconderId: null,
+      agendaItemTypeValue: null,
+      agendaItems: [],
+      existingOrNewAgendaItem: null,
+      pickNew: false,
+      pickExisting: false,
       copiedPeople: [],
       copiedPeopleSecondedBy: [],
       ACTIONS,
+      AGENDA_ITEM_TYPES,
+      MOTION_TYPE,
+      MEETING_TYPE,
+      PERSON_TYPE,
+      itemTypeFromValue,
     }
   },
   computed: {
@@ -163,44 +268,90 @@ export default {
       }
       return this.copiedPeopleSecondedBy
     },
+    agendaItemType () {
+      return itemTypeFromValue(this.agendaItemTypeValue)
+    },
   },
   created () {
     this.copiedPeople = [...this.people]
     this.copiedPeopleSecondedBy = [...this.people]
   },
   methods: {
-    async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Motion...')
-      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
+    async createNewAgendaItem (genericResource) {
+      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, genericResource)
+    },
+    onSubmit () {
+      const genericResource = {
         payload: {
           carried: this.carried,
           action: this.action,
           initiatorId: this.initiatorId,
           seconderId: this.seconderId,
           agendaItemType: this.agendaItemType,
+          agendaItem: this.agendaItem,
         },
-        itemType: MOTION_TYPE,
-      })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === MOTION_TYPE))
-      await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
-      this.$toast({
-        title: 'Success.',
-        description: `We've created a new Motion for you.`,
-        status: 'success',
-        duration: 8000,
-      })
+        itemTypeValue: MOTION_TYPE,
+      }
+      this.$emit('submit', genericResource)
+      this.$emit('close', MOTION_TYPE)
     },
     onReset (veeValidateResetMethod) {
       this.carried = null
       this.action = null
       this.initiatorId = null
       this.seconderId = null
-      this.agendaItemType = null
+      this.agendaItem = null
+      this.agendaItems = []
+      this.existingOrNewAgendaItem = null
+      this.pickNew = false
+      this.pickExisting = false
       veeValidateResetMethod()
     },
-    async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === MOTION_TYPE))
+    onCancel () {
+      this.$emit('cancel', MOTION_TYPE)
     },
   },
 }
 </script>
+
+<style lang="scss">
+@import '../../assets/css/main.scss';
+
+.inset-input {
+  padding: 2rem;
+  background-color: $light-background-color;
+  border-radius: $input-border-radius;
+}
+
+.multi-element {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.third-party-select {
+  .multiselect__content-wrapper {
+    background: $input-background-color;
+    border-color: $input-border-default;
+  }
+
+  .multiselect__tags {
+    background: $input-background-color;
+    border-color: $input-border-default;
+  }
+
+  .multiselect__placeholder {
+    color: $input-font-color;
+    font-family: inherit;
+    font-size: 1rem;
+  }
+
+  .multiselect__option {
+    background: $input-background-color;
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+  }
+}
+</style>

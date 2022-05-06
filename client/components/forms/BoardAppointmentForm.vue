@@ -103,14 +103,8 @@
 <script>
 import { mapState } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AGENDA_ITEM_TYPES, BOARD_APPOINTMENT_TYPE } from '~/constants'
+import { BOARD_APPOINTMENT_TYPE } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
-import {
-  DATA_DONE_LOADING_ACTION,
-  DATA_IS_LOADING_ACTION,
-  ITEMS_REQUESTED_BY_TYPE_ACTION,
-  NEW_GENERIC_RESOURCE_CREATION_ACTION,
-} from '~/store'
 import ContentHeader from '~/components/ContentHeader'
 
 export default {
@@ -136,25 +130,18 @@ export default {
     this.copiedPeople = [...this.people]
   },
   methods: {
-    async onSubmit () {
-      await this.$store.dispatch(DATA_IS_LOADING_ACTION, 'Creating new Board Appointment...')
-      await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, {
+    onSubmit () {
+      const genericResource = {
         payload: {
           appointee: this.appointee,
           appointedTo: this.appointedTo,
           referredById: this.referredById,
           expiration: this.expiration,
         },
-        itemType: BOARD_APPOINTMENT_TYPE,
-      })
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === BOARD_APPOINTMENT_TYPE))
-      await this.$store.dispatch(DATA_DONE_LOADING_ACTION)
-      this.$toast({
-        title: 'Success.',
-        description: `We've created a new Board Appointment for you.`,
-        status: 'success',
-        duration: 8000,
-      })
+        itemTypeValue: BOARD_APPOINTMENT_TYPE,
+      }
+      this.$emit('submit', genericResource)
+      this.$emit('close', BOARD_APPOINTMENT_TYPE)
     },
     onReset (veeValidateResetMethod) {
       this.appointee = null
@@ -163,8 +150,8 @@ export default {
       this.expiration = null
       veeValidateResetMethod()
     },
-    async onCancel () {
-      await this.$store.dispatch(ITEMS_REQUESTED_BY_TYPE_ACTION, AGENDA_ITEM_TYPES.find(t => t.value === BOARD_APPOINTMENT_TYPE))
+    onCancel () {
+      this.$emit('cancel', BOARD_APPOINTMENT_TYPE)
     },
   },
 }

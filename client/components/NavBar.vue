@@ -43,6 +43,7 @@
     <new-minutes-modal
       :is-open="openNewModal"
       @close="openNewModal = false"
+      @submit="newMeeting"
     />
   </c-stack>
 </template>
@@ -51,6 +52,7 @@
 import Spacer from './Spacer.vue'
 import NewMinutesModal from '~/components/NewMinutesModal'
 import ContentHeader from '~/components/ContentHeader'
+import { NEW_MEETING_CREATION_ACTION } from '~/store'
 
 export default {
   components: {
@@ -62,6 +64,11 @@ export default {
     return {
       openNewModal: false,
     }
+  },
+  methods: {
+    async newMeeting (meetingResource) {
+      await this.$store.dispatch(NEW_MEETING_CREATION_ACTION, meetingResource)
+    },
   },
 }
 </script>

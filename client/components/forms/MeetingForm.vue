@@ -90,6 +90,7 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import ButtonBar from '~/components/ButtonBar.vue'
 import ContentHeader from '~/components/ContentHeader'
+import { MEETING_TYPE } from '~/constants'
 
 export default {
   components: {
@@ -107,21 +108,22 @@ export default {
   },
   methods: {
     onSubmit () {
-      this.$emit('submit', {
+      const meetingResource = {
         meetingName: this.meetingName,
         meetingDate: this.meetingDate,
         meetingPreviewUrl: this.meetingPreviewUrl,
-      })
-      this.$emit('close')
+      }
+      this.$emit('submit', meetingResource)
+      this.$emit('close', MEETING_TYPE)
     },
     close () {
-      this.$emit('close')
+      this.$emit('close', MEETING_TYPE)
     },
     onCancel () {
       this.meetingName = null
       this.meetingDate = null
       this.meetingPreviewUrl = null
-      this.$emit('cancel')
+      this.$emit('cancel', MEETING_TYPE)
     },
   },
 }
