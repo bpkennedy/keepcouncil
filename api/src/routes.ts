@@ -8,7 +8,7 @@ import {
     getOneMeetingHandler,
     oneMeetingValidation, getAllMeetings
 } from './controllers/meetingHandler'
-import {billCreate, billValidation, getMeetingBills} from './controllers/billHandler'
+import {billCreate, billValidation, getAllBills, getMeetingBills} from './controllers/billHandler'
 import { allPersonsHandler } from './controllers/personHandler'
 import {
     getMeetingHearingFromCitizens,
@@ -79,6 +79,8 @@ export const routes = () => {
     router.post('/bill', billValidation, asyncHandler(billCreate))
     // @ts-ignore
     router.get('/bill/meeting/:meetingId', oneMeetingValidation, asyncHandler(getMeetingBills))
+    // @ts-ignore
+    router.get('/bill', asyncHandler(getAllBills))
 
     // @ts-ignore
     router.post('/hearingFromCitizen', hearingFromCitizenValidation, asyncHandler(hearingFromCitizenCreate))

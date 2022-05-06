@@ -82,6 +82,10 @@ export const AGENDA_ITEM_TYPES = [{
   display: 'Bill',
   value: BILL_TYPE,
   formComponentName: 'bill-form',
+  primaryPropDisplay: 'Bill No.',
+  primaryProp: 'billNumber',
+  secondaryPropDisplay: '',
+  secondaryProp: 'content',
 }, {
   display: 'Hearing From Citizen',
   value: HEARING_FROM_CITIZEN_TYPE,

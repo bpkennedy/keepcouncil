@@ -46,3 +46,16 @@ export const getMeetingBills = async (req: express.Request, res: express.Respons
     }))
     return res.send(resources).status(200)
 }
+
+export const getAllBills = async (req: express.Request, res: express.Response) => {
+    const resources = (await prisma.bill.findMany({
+        include: {
+            meeting: true,
+            ayeVote: true,
+            nayVote: true,
+            introducedBy: true,
+            motion: true,
+        },
+    }))
+    return res.send(resources).status(200)
+}

@@ -138,7 +138,7 @@
           class="inset-input"
         >
           <c-box
-            v-if="!pickExisting && !pickNew"
+            v-if="!pickExisting && !pickNew && !newAgendaResource"
             class="multi-element"
           >
             <c-button
@@ -168,24 +168,31 @@
           <validation-provider v-if="pickExisting">
             <c-form-control>
               <c-form-label
-                for="agendaItem"
+                for="existingAgendaItem"
               >
                 Select a {{ agendaItemType.display }}
               </c-form-label>
               <multiselect
-                v-model="existingOrNewAgendaItem"
+                id="existingAgendaItem"
+                v-model="existingAgendaItem"
                 track-by="id"
+                label="name"
                 :searchable="false"
                 :allow-empty="false"
                 :placeholder="`Pick one`"
                 :options="agendaItems"
+                :option-height="40"
                 :limit="6"
                 :limit-text="() => 'Scroll for more results'"
                 :show-no-results="true"
+                :show-labels="false"
                 class="third-party-select"
               >
                 <template #singleLabel="{ option }">
-                  id: {{ option.id }}
+                  {{ agendaItemType.primaryPropDisplay }} {{ option[agendaItemType.primaryProp] }}, {{ agendaItemType.secondaryPropDisplay }} {{ option[agendaItemType.secondaryProp] }}
+                </template>
+                <template #option="{ option }">
+                  {{ agendaItemType.primaryPropDisplay }} {{ option[agendaItemType.primaryProp] }}, {{ agendaItemType.secondaryPropDisplay }} {{ option[agendaItemType.secondaryProp] }}
                 </template>
                 <template #noResult>
                   <span>No {{ agendaItemType.display }} of this type found.</span>
@@ -194,11 +201,23 @@
             </c-form-control>
           </validation-provider>
 
+          <c-stack v-if="newAgendaResource">
+            <content-header
+              :display="`New ${agendaItemType.display}`"
+              element="h5"
+              font-size="1.75rem"
+            />
+            <component
+              :is="`${agendaItemType.value}-card`"
+              :item="newAgendaResource.payload"
+            />
+          </c-stack>
+
           <new-agenda-item-modal
             :is-open="pickNew"
             :item="itemTypeFromValue(agendaItemTypeValue)"
             @close="pickNew = false"
-            @submit="createNewAgendaItem"
+            @submit="newAgendaItemToCreate"
           />
         </c-box>
 
@@ -223,13 +242,27 @@ import {
   MEETING_TYPE,
   PERSON_TYPE,
   itemTypeFromValue,
+  API_PATH,
 } from '~/constants'
 import ButtonBar from '~/components/ButtonBar.vue'
 import {
+  apiGet,
   NEW_GENERIC_RESOURCE_CREATION_ACTION,
 } from '~/store'
 import ContentHeader from '~/components/ContentHeader'
 import NewAgendaItemModal from '~/components/NewAgendaItemModal'
+import MeetingSummaryCard from '~/components/MeetingSummaryCard'
+import PersonCard from '~/components/cards/PersonCard'
+import BillCard from '~/components/cards/BillCard'
+import BoardAppointmentCard from '~/components/cards/BoardAppointmentCard'
+import HearingFromCitizenCard from '~/components/cards/HearingFromCitizenCard'
+import ProclamationCard from '~/components/cards/ProclamationCard'
+import ResolutionCard from '~/components/cards/ResolutionCard'
+import CommunicationCard from '~/components/cards/CommunicationCard'
+import PublicHearingCard from '~/components/cards/PublicHearingCard'
+import RequestCard from '~/components/cards/RequestCard'
+import AnnouncementCard from '~/components/cards/AnnouncementCard'
+import MotionCard from '~/components/cards/MotionCard'
 
 export default {
   components: {
@@ -238,6 +271,18 @@ export default {
     ButtonBar,
     ValidationObserver,
     ValidationProvider,
+    MeetingSummaryCard,
+    PersonCard,
+    BillCard,
+    BoardAppointmentCard,
+    HearingFromCitizenCard,
+    ProclamationCard,
+    ResolutionCard,
+    CommunicationCard,
+    PublicHearingCard,
+    RequestCard,
+    AnnouncementCard,
+    MotionCard,
   },
   data () {
     return {
@@ -247,7 +292,8 @@ export default {
       seconderId: null,
       agendaItemTypeValue: null,
       agendaItems: [],
-      existingOrNewAgendaItem: null,
+      existingAgendaItem: null,
+      newAgendaResource: null,
       pickNew: false,
       pickExisting: false,
       copiedPeople: [],
@@ -272,13 +318,19 @@ export default {
       return itemTypeFromValue(this.agendaItemTypeValue)
     },
   },
+  watch: {
+    async pickExisting (_) {
+      this.agendaItems = (await apiGet(this.$axios, `${API_PATH}/${this.agendaItemType.value}`))
+    },
+  },
   created () {
     this.copiedPeople = [...this.people]
     this.copiedPeopleSecondedBy = [...this.people]
   },
   methods: {
-    async createNewAgendaItem (genericResource) {
+    async newAgendaItemToCreate (genericResource) {
       await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, genericResource)
+      this.newAgendaResource = genericResource
     },
     onSubmit () {
       const genericResource = {
@@ -287,10 +339,20 @@ export default {
           action: this.action,
           initiatorId: this.initiatorId,
           seconderId: this.seconderId,
-          agendaItemType: this.agendaItemType,
-          agendaItem: this.agendaItem,
         },
         itemTypeValue: MOTION_TYPE,
+      }
+      console.log(this.existingAgendaItem)
+      if (this.existingAgendaItem) {
+        genericResource.payload = {
+          ...genericResource.payload,
+          [`${this.agendaItemType.value}Id`]: this.existingAgendaItem.id,
+        }
+      } else if (this.newAgendaResource) {
+        genericResource.payload = {
+          ...genericResource.payload,
+          [`${this.agendaItemType.value}Id`]: this.newAgendaResource.id,
+        }
       }
       this.$emit('submit', genericResource)
       this.$emit('close', MOTION_TYPE)
@@ -300,9 +362,10 @@ export default {
       this.action = null
       this.initiatorId = null
       this.seconderId = null
-      this.agendaItem = null
+      this.agendaItemTypeValue = null
       this.agendaItems = []
-      this.existingOrNewAgendaItem = null
+      this.existingAgendaItem = null
+      this.newAgendaResource = null
       this.pickNew = false
       this.pickExisting = false
       veeValidateResetMethod()
@@ -352,6 +415,11 @@ export default {
     color: white;
     font-family: inherit;
     font-size: 1rem;
+  }
+
+  .multiselect__single {
+    background: $input-background-color;
+    color: $input-font-color;
   }
 }
 </style>

@@ -89,7 +89,7 @@ export const actions = {
   async [NEW_GENERIC_RESOURCE_CREATION_ACTION] ({ state, dispatch }, { payload, itemTypeValue }) {
     const itemType = itemTypeFromValue(itemTypeValue)
     await dispatch(DATA_IS_LOADING_ACTION, `Creating new ${itemType.display}...`)
-    await apiPost(this.$axios, `${API_PATH}/${itemType.value}`, {
+    const newItem = await apiPost(this.$axios, `${API_PATH}/${itemType.value}`, {
       ...payload,
       meetingId: state.currentMeeting.id,
     })
@@ -100,6 +100,10 @@ export const actions = {
       status: 'success',
       duration: 8000,
     })
+    return {
+      payload: newItem,
+      itemTypeValue,
+    }
   },
   [DATA_IS_LOADING_ACTION] ({ commit }, message) {
     commit(SET_LOADING_MESSAGE_MUTATION, message)
