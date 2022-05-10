@@ -1,4 +1,4 @@
-import { ApiError } from './ApiError'
+import {ApiError} from './ApiError'
 
 function formatLogString(...args: any) {
     let log = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()

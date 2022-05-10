@@ -320,7 +320,14 @@ export default {
   },
   watch: {
     async pickExisting (_) {
-      this.agendaItems = (await apiGet(this.$axios, `${API_PATH}/${this.agendaItemType.value}`))
+      if (this.agendaItemType) {
+        this.agendaItems = (await apiGet(this.$axios, `${API_PATH}/${this.agendaItemType.value}`))
+      }
+    },
+    async agendaItemTypeValue (_) {
+      if (this.pickExisting && this.agendaItemType) {
+        this.agendaItems = (await apiGet(this.$axios, `${API_PATH}/${this.agendaItemType.value}`))
+      }
     },
   },
   created () {
@@ -342,7 +349,6 @@ export default {
         },
         itemTypeValue: MOTION_TYPE,
       }
-      console.log(this.existingAgendaItem)
       if (this.existingAgendaItem) {
         genericResource.payload = {
           ...genericResource.payload,

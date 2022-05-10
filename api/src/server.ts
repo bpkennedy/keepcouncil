@@ -1,12 +1,12 @@
-import { apiLogger } from './services/logger'
+import {apiLogger} from './services/logger'
 import express from 'express'
 import http from 'http'
 import {createHttpTerminator} from 'http-terminator'
 import compression from 'compression'
 import * as bodyParser from 'body-parser'
 import cors from 'cors'
-import { errors } from 'celebrate'
-import { routes } from './routes'
+import {errors} from 'celebrate'
+import {routes} from './routes'
 
 let httpTerminator: any
 

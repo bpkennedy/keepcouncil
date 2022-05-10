@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { celebrate, Joi, Segments } from 'celebrate'
+import {celebrate, Joi, Segments} from 'celebrate'
 import prisma from '../prisma'
 
 export const resolutionValidation = celebrate({
@@ -36,6 +36,19 @@ export const getMeetingResolutions = async (req: express.Request, res: express.R
         where: {
             meetingId: Number(req.params.meetingId)
         },
+        include: {
+            meeting: true,
+            introducedBy: true,
+            ayeVote: true,
+            nayVote: true,
+            motion: true,
+        },
+    }))
+    return res.send(resources).status(200)
+}
+
+export const getAllResolutions = async (req: express.Request, res: express.Response) => {
+    const resources = (await prisma.resolution.findMany({
         include: {
             meeting: true,
             introducedBy: true,

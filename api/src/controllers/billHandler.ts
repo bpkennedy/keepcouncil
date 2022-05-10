@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { celebrate, Joi, Segments } from 'celebrate'
+import {celebrate, Joi, Segments} from 'celebrate'
 import prisma from '../prisma'
 
 export const billValidation = celebrate({

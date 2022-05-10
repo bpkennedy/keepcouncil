@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { celebrate, Joi, Segments } from 'celebrate'
+import {celebrate, Joi, Segments} from 'celebrate'
 import prisma from '../prisma'
 
 export const publicHearingValidation = celebrate({
@@ -32,6 +32,16 @@ export const getMeetingPublicHearings = async (req: express.Request, res: expres
         where: {
             meetingId: Number(req.params.meetingId)
         },
+        include: {
+            meeting: true,
+            motion: true,
+        },
+    }))
+    return res.send(resources).status(200)
+}
+
+export const getAllPublicHearings = async (req: express.Request, res: express.Response) => {
+    const resources = (await prisma.publicHearing.findMany({
         include: {
             meeting: true,
             motion: true,

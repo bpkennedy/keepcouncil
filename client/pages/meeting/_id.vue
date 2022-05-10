@@ -124,6 +124,7 @@ export default {
     },
     async submit (genericResource) {
       await this.$store.dispatch(NEW_GENERIC_RESOURCE_CREATION_ACTION, genericResource)
+      await this.$store.dispatch(ITEMS_REQUESTED_BY_ITEM_TYPE_VALUE_ACTION, genericResource.itemTypeValue)
     },
   },
 }

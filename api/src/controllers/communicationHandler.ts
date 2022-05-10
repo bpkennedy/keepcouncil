@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { celebrate, Joi, Segments } from 'celebrate'
+import {celebrate, Joi, Segments} from 'celebrate'
 import prisma from '../prisma'
 
 const EMAIL_ENUM = 'EMAIL'
@@ -42,3 +42,14 @@ export const getMeetingCommunications = async (req: express.Request, res: expres
     }))
     return res.send(resources).status(200)
 }
+
+export const getAllCommunications = async (req: express.Request, res: express.Response) => {
+    const resources = (await prisma.communication.findMany({
+        include: {
+            meeting: true,
+            motion: true,
+        },
+    }))
+    return res.send(resources).status(200)
+}
+

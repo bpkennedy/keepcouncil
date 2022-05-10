@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { celebrate, Joi, Segments } from 'celebrate'
+import {celebrate, Joi, Segments} from 'celebrate'
 import prisma from '../prisma'
 
 const APPROVE_MINUTES_ENUM = 'APPROVE_MINUTES'
@@ -112,3 +112,24 @@ export const getMeetingMotions = async (req: express.Request, res: express.Respo
     }))
     return res.send(resources).status(200)
 }
+
+export const getAllMotions = async (req: express.Request, res: express.Response) => {
+    const resources = (await prisma.motion.findMany({
+        include: {
+            meeting: true,
+            initiator: true,
+            seconder: true,
+            hearingFromCitizen: true,
+            proclamation: true,
+            resolution: true,
+            communication: true,
+            publicHearing: true,
+            bill: true,
+            boardAppointment: true,
+            request: true,
+            announcement: true,
+        },
+    }))
+    return res.send(resources).status(200)
+}
+

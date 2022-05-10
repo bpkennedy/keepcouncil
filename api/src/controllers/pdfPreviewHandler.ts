@@ -1,7 +1,7 @@
 import * as express from 'express'
-import { celebrate, Joi, Segments } from 'celebrate'
+import {celebrate, Joi, Segments} from 'celebrate'
 import Axios from 'axios'
-import { createWriteStream } from 'fs'
+import {createWriteStream} from 'fs'
 // import prisma from '../prisma'
 
 const downloadsDirectory = `${process.cwd()}/tempfiles`
